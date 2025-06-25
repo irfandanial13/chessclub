@@ -1,0 +1,295 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #2c3e50;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+}
+
+.navbar .logo {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding-left: 0;
+    margin: 0;
+}
+
+.navbar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.navbar ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Main Container for Auth, Dashboard, Membership */
+.auth-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* Form Elements */
+.auth-container form input,
+.auth-container form select,
+.auth-container form button {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.auth-container form button {
+    background-color: #2c3e50;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.auth-container form button:hover {
+    background-color: #1a252f;
+}
+
+/* Flash Messages */
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    color: green;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Logo Styling */
+.chess-logo {
+    display: block;
+    margin: 0 auto 20px;
+    height: 60px;
+}
+
+/* Membership Cards Section */
+.membership-options {
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.membership-options .card {
+    background-color: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    flex: 1;
+    min-width: 220px;
+    max-width: 280px;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.membership-options .card h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.membership-options .card p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.membership-options .card button {
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.membership-options .card button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.card.bronze {
+    border: 2px solid #cd7f32;
+}
+
+.card.silver {
+    border: 2px solid #c0c0c0;
+}
+
+.card.gold {
+    border: 2px solid #ffd700;
+}
+
+.auth-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.auth-container li {
+    margin-bottom: 15px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-left: 4px solid #2c3e50;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: left;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.hero {
+    background: url('/chess-club-site/asset/images/hero-bg.jpg') center center / cover no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: white;
+    text-align: center;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.glow-button {
+    color: #fff;
+    border: 2px solid #fff;
+    background: transparent;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.glow-button:hover {
+    background: #ffc107;
+    color: black;
+    box-shadow: 0 0 15px #ffc107;
+}
+
+/* Carousel card styling */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+}
+
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+}
+
+.card-body {
+    min-height: 160px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.hero {
+ background: url('../images/hero-bg.jpg') center/cover no-repeat;
+    padding: 80px 20px;
+    color: white;
+    text-align: center;
+}
+
+.glow-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+    transition: 0.3s ease-in-out;
+}
+
+.glow-button:hover {
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.8);
+}
