@@ -7,7 +7,7 @@
 <body>
     <div class="auth-container">
         <img src="<?= base_url('images/chess-logo.png') ?>" class="chess-logo" alt="Chess Club Logo">
-        <h2>Member Login</h2>
+        <h2> Login</h2>
 
         <?php if (session()->getFlashdata('error')): ?>
             <div class="error-message"><?= session()->getFlashdata('error') ?></div>

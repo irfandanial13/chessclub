@@ -19,6 +19,17 @@ $routes->get('leaderboard', 'LeaderboardController::index');
 $routes->get('/', 'Home::index');
 
 
+$routes->get('admin/users', 'AdminController::manageUsers');
+$routes->get('admin/users/edit/(:num)', 'AdminController::editUser/$1');
+$routes->post('admin/users/update/(:num)', 'AdminController::updateUser/$1');
+$routes->get('admin/users/delete/(:num)', 'AdminController::deleteUser/$1');
+$routes->get('admin/dashboard', 'AdminController::dashboard');
+$routes->get('admin/manage-users', 'AdminController::manageUsers');
+$routes->get('admin/edit-user/(:num)', 'AdminController::editUser/$1');
+$routes->post('admin/update-user/(:num)', 'AdminController::updateUser/$1');
+$routes->get('admin/delete-user/(:num)', 'AdminController::deleteUser/$1');
+
+
 
 /**
  * @var RouteCollection $routes

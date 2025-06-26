@@ -21,7 +21,7 @@ class AuthController extends BaseController
 
         $user = $model->where('email', $email)->first();
 
-        if ($user && $user['password'] === $password) { // Replace with hash in real app
+        if ($user && $user['password'] === $password) {
             if ($user['status'] !== 'Active') {
                 return redirect()->back()->with('error', 'Account inactive.');
             }
@@ -34,11 +34,17 @@ class AuthController extends BaseController
                 'membership_level' => $user['membership_level'],
             ]);
 
-            return redirect()->to('/dashboard');
+            // 🔁 Redirect based on membership level
+            if ($user['membership_level'] === 'Admin') {
+                return redirect()->to('/admin/dashboard');
+            } else {
+                return redirect()->to('/dashboard');
+            }
         }
 
         return redirect()->back()->with('error', 'Wrong email or password.');
     }
+
 
     public function register()
     {
@@ -52,18 +58,19 @@ class AuthController extends BaseController
         $data = [
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
-            'password' => $this->request->getPost('password'), // Plain text for now
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'membership_level' => $this->request->getPost('membership_level'),
             'status' => 'Active',
         ];
 
         $model->save($data);
+
         return redirect()->to('/login')->with('success', 'Registered successfully!');
     }
 
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/login');
+        return redirect()->to('/login')->with('success', 'You have logged out.');
     }
 }
