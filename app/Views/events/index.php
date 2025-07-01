@@ -27,8 +27,8 @@
     <div class="events-container">
         <div class="events-header">
             <div class="header-content">
-                <h1 class="events-title">🏆 Elite Chess Events 🥇</h1>
-                <p class="events-subtitle">Discover tournaments and master classes</p>
+                <h1 class="events-title">Chess Club Events</h1>
+                <p class="events-subtitle">Sign up for a tournament or class below. All your info is filled in for you!</p>
             </div>
             <div class="view-toggle">
                 <button class="toggle-btn active" onclick="showCalendar()">
@@ -95,7 +95,7 @@
                         <div class="event-actions">
                             <a href="<?= base_url('events/register/' . $event['id']) ?>" class="join-btn">
                                 <i class="fas fa-sign-in-alt"></i>
-                                Join Event
+                                Join Now
                             </a>
                         </div>
                     </div>

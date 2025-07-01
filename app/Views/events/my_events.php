@@ -23,7 +23,7 @@
     <div class="elite-login" style="max-width: 900px;">
         <div class="section-header" style="text-align:center;">
             <h2 class="events-title">My Registered Events</h2>
-            <p class="events-subtitle">See your tournaments and classes on the calendar</p>
+            <p class="events-subtitle">Your tournaments and classes are shown on the calendar below. Click a date to see details!</p>
         </div>
         <div class="calendar-section" id="calendar-section">
             <div class="calendar-header">

@@ -3,9 +3,11 @@
         <span style="font-size: 1.5em; margin-right: 8px; vertical-align: middle;">&#9812;</span> Chess Club
     </div>
     <ul>
-        <li><a href="<?= base_url('/') ?>">Home</a></li>
+
+        <li><a href="<?= base_url('dashboard') ?>">Dashboard</a></li>
         <li><a href="<?= base_url('events') ?>">Events</a></li>
         <li><a href="<?= base_url('my-events') ?>">My Events</a></li>
+        <li><a href="<?= base_url('membership') ?>">Membership</a></li>
         <li><a href="<?= base_url('leaderboard') ?>">Leaderboard</a></li>
         <li><a href="<?= base_url('contact') ?>">Contact</a></li>
     </ul>

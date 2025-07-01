@@ -9,7 +9,8 @@
 <body class="elite-chess-theme">
     <?= view('partials/navbar') ?>
     <div class="elite-login" style="max-width: 600px;">
-        <h2>Registration Confirmed!</h2>
+        <h2>You're Registered!</h2>
+        <p style="margin-bottom: 18px; color: #e8c547;">You have successfully joined this tournament or class. See your details below.</p>
         <div style="margin-bottom: 24px;">
             <h3>Your Information</h3>
             <ul style="list-style:none; padding:0;">
@@ -28,7 +29,7 @@
                 <li><strong>Description:</strong> <?= esc($event['description']) ?></li>
             </ul>
         </div>
-        <a href="<?= base_url('my-events') ?>" class="join-btn small">View My Events</a>
+        <a href="<?= base_url('my-events') ?>" class="join-btn small">See My Events</a>
         <a href="<?= base_url('events') ?>" class="join-btn small" style="margin-left: 10px;">Back to Events</a>
     </div>
 </body>

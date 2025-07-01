@@ -3243,7 +3243,7 @@ table tr:nth-child(even) {
     justify-content: space-between;
     align-items: center;
     padding: 24px 24px 0 24px;
-    border-bottom: 1px solid rgba(205, 133, 63, 0.3);
+    border-bottom: 1px solid #cd853f4d;
     margin-bottom: 20px;
 }
 
