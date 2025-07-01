@@ -14,6 +14,7 @@ class LeaderboardController extends BaseController
         $membershipLevel = $this->request->getGet('membership_level');
         $month = $this->request->getGet('month');
         $search = $this->request->getGet('search');
+        $limit = $this->request->getGet('limit') ?? 10;
 
         $query = $userModel->where('status', 'Active');
         if ($membershipLevel && $membershipLevel !== 'All') {
@@ -22,7 +23,7 @@ class LeaderboardController extends BaseController
         if ($search) {
             $query = $query->like('name', $search);
         }
-        $allUsers = $query->orderBy('points', 'DESC')->findAll();
+        $allUsers = $query->orderBy('points', 'DESC')->findAll($limit);
 
         // If month filter is set, filter users who participated in events in that month
         $userEventModel = new UserEventModel();
@@ -73,6 +74,7 @@ class LeaderboardController extends BaseController
             'users' => $allUsers,
             'currentUser' => $currentUser,
             'months' => $months,
+            'limit' => $limit
         ]);
     }
 
@@ -90,5 +92,32 @@ class LeaderboardController extends BaseController
             }
         }
         return $this->response->setJSON($events);
+    }
+
+    public function profileModal($id)
+    {
+        $userModel = new UserModel();
+        $userEventModel = new UserEventModel();
+        $eventModel = new EventModel();
+        $user = $userModel->find($id);
+        if (!$user) return $this->response->setStatusCode(404)->setJSON(['error' => 'User not found']);
+        $events = [];
+        $userEvents = $userEventModel->where('user_id', $id)->orderBy('id', 'DESC')->findAll(5);
+        foreach ($userEvents as $ue) {
+            $event = $eventModel->find($ue['event_id']);
+            if ($event) {
+                $events[] = [
+                    'title' => $event['title'],
+                    'type' => $event['type'],
+                    'date' => $event['event_date'],
+                ];
+            }
+        }
+        return $this->response->setJSON([
+            'name' => $user['name'],
+            'membership_level' => $user['membership_level'],
+            'points' => $user['points'],
+            'events' => $events
+        ]);
     }
 }

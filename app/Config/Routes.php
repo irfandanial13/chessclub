@@ -41,6 +41,8 @@ $routes->get('admin/users/delete/(:num)', 'AdminController::deleteUser/$1');
 $routes->get('admin/users/create', 'AdminController::createUser');
 $routes->post('admin/users/store', 'AdminController::storeUser');
 
+$routes->get('leaderboard/profileModal/(:num)', 'LeaderboardController::profileModal/$1');
+
 
 
 
