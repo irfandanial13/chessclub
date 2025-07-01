@@ -45,7 +45,6 @@ class AuthController extends BaseController
         return redirect()->back()->with('error', 'Wrong email or password.');
     }
 
-
     public function register()
     {
         return view('auth/register');
@@ -58,7 +57,7 @@ class AuthController extends BaseController
         $data = [
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'password' => $this->request->getPost('password'),
             'membership_level' => $this->request->getPost('membership_level'),
             'status' => 'Active',
         ];

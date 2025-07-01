@@ -293,3 +293,2506 @@ table tr:nth-child(even) {
 .glow-button:hover {
     box-shadow: 0 0 15px rgba(0, 123, 255, 0.8);
 }
+
+.glow-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Modern Chess Theme Styles */
+.modern-chess-theme {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.chess-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.chess-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+.chess-pieces-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.floating-piece {
+    position: absolute;
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.1);
+    animation: chessFloat 8s ease-in-out infinite;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.floating-piece.king {
+    top: 15%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.floating-piece.queen {
+    top: 25%;
+    right: 15%;
+    animation-delay: 2s;
+}
+
+.floating-piece.rook {
+    bottom: 30%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+.floating-piece.bishop {
+    bottom: 20%;
+    right: 10%;
+    animation-delay: 6s;
+}
+
+@keyframes chessFloat {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1); 
+        opacity: 0.1;
+    }
+    50% { 
+        transform: translateY(-30px) rotate(5deg) scale(1.1); 
+        opacity: 0.2;
+    }
+}
+
+.modern-chess-login {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    max-width: 480px;
+    margin: 40px auto;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-chess-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #e8c547, #d4af37, #b8860b, #e8c547);
+    background-size: 200% 100%;
+    animation: goldShimmer 3s ease-in-out infinite;
+}
+
+@keyframes goldShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.chess-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.chess-logo {
+    height: 50px;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+}
+
+.chess-brand {
+    text-align: left;
+}
+
+.brand-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #e8c547, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.brand-line {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #e8c547, #d4af37);
+    margin-top: 4px;
+}
+
+.welcome-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: #ffffff;
+}
+
+.welcome-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.chess-error {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #f8d7da;
+    font-size: 14px;
+}
+
+.chess-error i {
+    color: #dc3545;
+    font-size: 16px;
+}
+
+.chess-form {
+    margin-bottom: 32px;
+}
+
+.input-field {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 18px;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+
+.chess-input {
+    width: 100%;
+    padding: 16px 16px 16px 48px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.chess-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.chess-input:focus {
+    outline: none;
+    border-color: #e8c547;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 4px rgba(232, 197, 71, 0.1);
+}
+
+.chess-input:focus + .input-icon {
+    color: #e8c547;
+}
+
+.input-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #e8c547, #d4af37);
+    transition: width 0.3s ease;
+}
+
+.chess-input:focus ~ .input-highlight {
+    width: 100%;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    font-size: 14px;
+}
+
+.chess-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.chess-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.chess-checkbox input[type="checkbox"]:checked + .checkmark {
+    background: linear-gradient(135deg, #e8c547, #d4af37);
+    border-color: transparent;
+}
+
+.chess-checkbox input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #1a1a2e;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.forgot-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+    color: #e8c547;
+}
+
+.chess-button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #e8c547, #d4af37);
+    border: none;
+    border-radius: 12px;
+    color: #1a1a2e;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.chess-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(232, 197, 71, 0.3);
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+}
+
+.chess-button:active {
+    transform: translateY(0);
+}
+
+.button-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.button-ripple {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    transform: scale(0);
+    transition: transform 0.6s ease;
+}
+
+.chess-button:hover .button-ripple {
+    transform: scale(1);
+}
+
+.chess-divider {
+    display: flex;
+    align-items: center;
+    margin: 32px 0;
+    gap: 16px;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.divider-text {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.social-login {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.social-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.social-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.social-button.google:hover {
+    border-color: #ea4335;
+}
+
+.social-button.facebook:hover {
+    border-color: #1877f2;
+}
+
+.social-button i {
+    font-size: 16px;
+}
+
+.signup-section {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.signup-text {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.signup-link {
+    color: #e8c547;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+    color: #d4af37;
+    text-decoration: underline;
+}
+
+.chess-footer {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chess-motto {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    margin: 0;
+}
+
+/* Responsive Design for Modern Chess Theme */
+@media (max-width: 768px) {
+    .modern-chess-login {
+        margin: 20px;
+        padding: 32px 24px;
+        border-radius: 20px;
+    }
+    
+    .welcome-title {
+        font-size: 28px;
+    }
+    
+    .logo-section {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .chess-brand {
+        text-align: center;
+    }
+    
+    .form-options {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .social-login {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .floating-piece {
+        font-size: 3rem;
+    }
+}
+
+/* Additional styles for register page */
+.chess-success {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #d4edda;
+    font-size: 14px;
+}
+
+.chess-success i {
+    color: #28a745;
+    font-size: 16px;
+}
+
+.chess-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23e8c547' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.chess-select:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23e8c547' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+}
+
+.terms-link {
+    color: #e8c547;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.terms-link:hover {
+    color: #d4af37;
+    text-decoration: underline;
+}
+
+/* Additional floating pieces for register page */
+.floating-piece.knight {
+    top: 45%;
+    left: 5%;
+    animation-delay: 1s;
+}
+
+.floating-piece.pawn {
+    top: 70%;
+    right: 25%;
+    animation-delay: 3s;
+}
+
+/* Enhanced form options for register page */
+.form-options .chess-checkbox {
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.form-options .chess-checkbox a {
+    color: #e8c547;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.form-options .chess-checkbox a:hover {
+    color: #d4af37;
+    text-decoration: underline;
+}
+
+/* Membership Page Styles */
+.membership-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.membership-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.membership-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #e8c547, #d4af37, #b8860b, #e8c547);
+    background-size: 200% 100%;
+    animation: goldShimmer 3s ease-in-out infinite;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.membership-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #e8c547, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.membership-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    font-style: italic;
+}
+
+.current-status {
+    text-align: right;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-badge.bronze {
+    background: linear-gradient(135deg, #cd7f32, #b8860b);
+    color: white;
+    box-shadow: 0 4px 15px rgba(205, 127, 50, 0.3);
+}
+
+.status-badge.silver {
+    background: linear-gradient(135deg, #c0c0c0, #a8a8a8);
+    color: white;
+    box-shadow: 0 4px 15px rgba(192, 192, 192, 0.3);
+}
+
+.status-badge.gold {
+    background: linear-gradient(135deg, #ffd700, #ffb347);
+    color: #1a1a2e;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.membership-info {
+    margin-bottom: 40px;
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.info-item i {
+    font-size: 24px;
+    color: #e8c547;
+    width: 40px;
+    text-align: center;
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-content label {
+    display: block;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.info-content span {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+}
+
+.status-active {
+    color: #28a745 !important;
+}
+
+.status-inactive {
+    color: #dc3545 !important;
+}
+
+.upgrade-section {
+    margin-bottom: 40px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: white;
+}
+
+.section-header p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.membership-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.membership-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.membership-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #cd7f32, #b8860b);
+    transition: all 0.3s ease;
+}
+
+.membership-card.silver::before {
+    background: linear-gradient(90deg, #c0c0c0, #a8a8a8);
+}
+
+.membership-card.gold::before {
+    background: linear-gradient(90deg, #ffd700, #ffb347);
+}
+
+.membership-card.current {
+    border-color: #e8c547;
+    box-shadow: 0 8px 32px rgba(232, 197, 71, 0.2);
+    transform: translateY(-4px);
+}
+
+.membership-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.card-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #e8c547;
+}
+
+.card-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    color: white;
+}
+
+.card-price {
+    font-size: 32px;
+    font-weight: 700;
+    color: #e8c547;
+}
+
+.card-price span {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
+}
+
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background: linear-gradient(135deg, #ffd700, #ffb347);
+    color: #1a1a2e;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-features {
+    margin-bottom: 32px;
+}
+
+.card-features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card-features li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+}
+
+.card-features i {
+    color: #28a745;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.card-action {
+    text-align: center;
+}
+
+.upgrade-btn, .current-btn {
+    width: 100%;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.upgrade-btn {
+    background: linear-gradient(135deg, #e8c547, #d4af37);
+    color: #1a1a2e;
+}
+
+.upgrade-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(232, 197, 71, 0.3);
+}
+
+.upgrade-btn:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.current-btn {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    cursor: not-allowed;
+}
+
+.membership-footer {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.chess-motto {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+    margin: 0;
+}
+
+.support-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+}
+
+.support-info i {
+    color: #e8c547;
+}
+
+/* Responsive Design for Membership */
+@media (max-width: 768px) {
+    .membership-container {
+        margin: 20px auto;
+        padding: 0 16px;
+    }
+    
+    .membership-header {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+        padding: 24px;
+    }
+    
+    .membership-title {
+        font-size: 28px;
+    }
+    
+    .info-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px;
+    }
+    
+    .membership-cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .membership-card {
+        padding: 24px;
+    }
+    
+    .card-icon {
+        font-size: 36px;
+    }
+    
+    .card-header h3 {
+        font-size: 20px;
+    }
+    
+    .card-price {
+        font-size: 28px;
+    }
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #e8c547, #d4af37, #b8860b, #e8c547);
+    background-size: 200% 100%;
+    animation: goldShimmer 3s ease-in-out infinite;
+}
+
+.welcome-section {
+    flex: 1;
+}
+
+.dashboard-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #e8c547, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dashboard-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    font-style: italic;
+}
+
+.membership-badge {
+    text-align: right;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.badge.bronze {
+    background: linear-gradient(135deg, #cd7f32, #b8860b);
+    color: white;
+    box-shadow: 0 4px 15px rgba(205, 127, 50, 0.3);
+}
+
+.badge.silver {
+    background: linear-gradient(135deg, #c0c0c0, #a8a8a8);
+    color: white;
+    box-shadow: 0 4px 15px rgba(192, 192, 192, 0.3);
+}
+
+.badge.gold {
+    background: linear-gradient(135deg, #ffd700, #ffb347);
+    color: #1a1a2e;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-color: rgba(232, 197, 71, 0.3);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #e8c547, #d4af37);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #1a1a2e;
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.quick-actions {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 24px 0;
+    color: white;
+    text-align: center;
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.action-btn {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-color: rgba(232, 197, 71, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.action-btn i {
+    font-size: 20px;
+    color: #e8c547;
+    width: 24px;
+    text-align: center;
+}
+
+.action-btn span {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.dashboard-footer {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+}
+
+/* Responsive Design for Dashboard */
+@media (max-width: 768px) {
+    .dashboard-container {
+        margin: 20px auto;
+        padding: 0 16px;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+        padding: 24px;
+    }
+    
+    .dashboard-title {
+        font-size: 28px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .stat-card {
+        padding: 20px;
+    }
+    
+    .stat-value {
+        font-size: 28px;
+    }
+    
+    .action-buttons {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .action-btn {
+        padding: 16px;
+    }
+}
+
+/* Royal Chess Tournament Theme Styles */
+.royal-chess-theme {
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.royal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.chess-board-pattern {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(45deg, rgba(139, 69, 19, 0.1) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(139, 69, 19, 0.1) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(139, 69, 19, 0.1) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(139, 69, 19, 0.1) 75%);
+    background-size: 80px 80px;
+    background-position: 0 0, 0 40px, 40px -40px, -40px 0px;
+    animation: royalFloat 25s ease-in-out infinite;
+}
+
+@keyframes royalFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+.royal-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+.tournament-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.crown-element, .trophy-element {
+    position: absolute;
+    font-size: 3rem;
+    color: rgba(255, 215, 0, 0.2);
+    animation: royalGlow 6s ease-in-out infinite;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.crown-element {
+    top: 10%;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.trophy-element {
+    top: 20%;
+    right: 20%;
+    animation-delay: 3s;
+}
+
+@keyframes royalGlow {
+    0%, 100% { 
+        transform: translateY(0px) scale(1); 
+        opacity: 0.2;
+    }
+    50% { 
+        transform: translateY(-20px) scale(1.1); 
+        opacity: 0.4;
+    }
+}
+
+.chess-piece {
+    position: absolute;
+    font-size: 3.5rem;
+    color: rgba(255, 255, 255, 0.15);
+    animation: pieceFloat 8s ease-in-out infinite;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.chess-piece.king {
+    top: 30%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.chess-piece.queen {
+    top: 40%;
+    right: 15%;
+    animation-delay: 1.5s;
+}
+
+.chess-piece.rook {
+    bottom: 25%;
+    left: 20%;
+    animation-delay: 3s;
+}
+
+.chess-piece.bishop {
+    bottom: 35%;
+    right: 10%;
+    animation-delay: 4.5s;
+}
+
+.chess-piece.knight {
+    top: 60%;
+    left: 5%;
+    animation-delay: 6s;
+}
+
+.chess-piece.pawn {
+    top: 70%;
+    right: 25%;
+    animation-delay: 7.5s;
+}
+
+@keyframes pieceFloat {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1); 
+        opacity: 0.15;
+    }
+    50% { 
+        transform: translateY(-25px) rotate(3deg) scale(1.05); 
+        opacity: 0.25;
+    }
+}
+
+.royal-login {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 24px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 215, 0, 0.1);
+    max-width: 480px;
+    margin: 40px auto;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.royal-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #8b0000, #ffd700, #cd853f, #8b0000);
+    background-size: 200% 100%;
+    animation: royalShimmer 4s ease-in-out infinite;
+}
+
+@keyframes royalShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.royal-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tournament-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.crown-logo {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+.brand-section {
+    text-align: left;
+}
+
+.royal-title {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 900;
+    margin: 0;
+    background: linear-gradient(135deg, #ffd700, #cd853f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.tournament-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 4px;
+    font-style: italic;
+    font-weight: 300;
+}
+
+.welcome-title {
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #ffffff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.welcome-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    font-style: italic;
+}
+
+.royal-error {
+    background: rgba(139, 0, 0, 0.2);
+    border: 1px solid rgba(139, 0, 0, 0.4);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ff6b6b;
+    font-size: 14px;
+}
+
+.royal-error i {
+    color: #ff4444;
+    font-size: 16px;
+}
+
+.royal-success {
+    background: rgba(40, 167, 69, 0.2);
+    border: 1px solid rgba(40, 167, 69, 0.4);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #90ee90;
+    font-size: 14px;
+}
+
+.royal-success i {
+    color: #28a745;
+    font-size: 16px;
+}
+
+.royal-form {
+    margin-bottom: 32px;
+}
+
+.royal-input {
+    width: 100%;
+    padding: 16px 16px 16px 48px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.royal-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.royal-input:focus {
+    outline: none;
+    border-color: #ffd700;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.1);
+}
+
+.royal-input:focus + .input-icon {
+    color: #ffd700;
+}
+
+.royal-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffd700' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.input-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ffd700, #cd853f);
+    transition: width 0.3s ease;
+}
+
+.royal-input:focus ~ .input-highlight {
+    width: 100%;
+}
+
+.royal-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.royal-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.royal-checkbox input[type="checkbox"]:checked + .checkmark {
+    background: linear-gradient(135deg, #ffd700, #cd853f);
+    border-color: transparent;
+}
+
+.royal-checkbox input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #0a0a1a;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.forgot-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+    color: #ffd700;
+}
+
+.royal-button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #8b4513, #a0522d);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.royal-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(139, 69, 19, 0.4);
+    background: linear-gradient(135deg, #a0522d, #cd853f);
+}
+
+.royal-button:active {
+    transform: translateY(0);
+}
+
+.button-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.button-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+    transform: scale(0);
+    transition: transform 0.6s ease;
+}
+
+.royal-button:hover .button-glow {
+    transform: scale(1);
+}
+
+.royal-divider {
+    display: flex;
+    align-items: center;
+    margin: 32px 0;
+    gap: 16px;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+}
+
+.divider-text {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.social-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 12px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.social-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+.social-button.google:hover {
+    border-color: #ea4335;
+}
+
+.social-button.facebook:hover {
+    border-color: #1877f2;
+}
+
+.social-button i {
+    font-size: 16px;
+}
+
+.signup-text {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.signup-link {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+    color: #cd853f;
+    text-decoration: underline;
+}
+
+.royal-footer {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.tournament-motto {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    margin: 0;
+}
+
+/* Update existing membership and dashboard styles to use royal theme */
+.membership-container, .dashboard-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.membership-header, .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.membership-header::before, .dashboard-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #8b4513, #daa520, #cd853f, #8b4513);
+    background-size: 200% 100%;
+    animation: royalShimmer 5s ease-in-out infinite;
+}
+
+.membership-title, .dashboard-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #daa520, #cd853f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(218, 165, 32, 0.4);
+}
+
+.membership-subtitle, .dashboard-subtitle {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-style: italic;
+}
+
+.status-badge, .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-badge.bronze, .badge.bronze {
+    background: linear-gradient(135deg, #cd7f32, #b8860b);
+    color: white;
+    box-shadow: 0 4px 15px rgba(205, 127, 50, 0.3);
+}
+
+.status-badge.silver, .badge.silver {
+    background: linear-gradient(135deg, #c0c0c0, #a8a8a8);
+    color: white;
+    box-shadow: 0 4px 15px rgba(192, 192, 192, 0.3);
+}
+
+.status-badge.gold, .badge.gold {
+    background: linear-gradient(135deg, #ffd700, #ffb347);
+    color: #0a0a1a;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+/* Responsive Design for Royal Theme */
+@media (max-width: 768px) {
+    .royal-login {
+        margin: 20px;
+        padding: 32px 24px;
+        border-radius: 20px;
+    }
+    
+    .royal-title {
+        font-size: 24px;
+    }
+    
+    .welcome-title {
+        font-size: 28px;
+    }
+    
+    .tournament-logo {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .brand-section {
+        text-align: center;
+    }
+    
+    .form-options {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .social-login {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .crown-element, .trophy-element {
+        font-size: 2.5rem;
+    }
+    
+    .chess-piece {
+        font-size: 3rem;
+    }
+}
+
+/* Elite Chess Club Theme Styles */
+.elite-chess-theme {
+    background: linear-gradient(135deg, #2c1810 0%, #3d2b1f 50%, #4a3728 100%);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #f5f5dc;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.elite-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.wood-pattern {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(45deg, rgba(139, 69, 19, 0.15) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(139, 69, 19, 0.15) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(139, 69, 19, 0.15) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(139, 69, 19, 0.15) 75%);
+    background-size: 60px 60px;
+    background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+    animation: woodFloat 30s ease-in-out infinite;
+}
+
+@keyframes woodFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+.elite-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(160, 82, 45, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.club-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.trophy-element, .medal-element {
+    position: absolute;
+    font-size: 3rem;
+    color: rgba(255, 215, 0, 0.25);
+    animation: eliteGlow 8s ease-in-out infinite;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.trophy-element {
+    top: 15%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.medal-element {
+    top: 25%;
+    right: 15%;
+    animation-delay: 4s;
+}
+
+@keyframes eliteGlow {
+    0%, 100% { 
+        transform: translateY(0px) scale(1); 
+        opacity: 0.25;
+    }
+    50% { 
+        transform: translateY(-15px) scale(1.05); 
+        opacity: 0.45;
+    }
+}
+
+.chess-piece {
+    position: absolute;
+    font-size: 3.5rem;
+    color: rgba(245, 245, 220, 0.2);
+    animation: pieceFloat 10s ease-in-out infinite;
+    text-shadow: 0 0 15px rgba(245, 245, 220, 0.3);
+}
+
+.chess-piece.king {
+    top: 35%;
+    left: 8%;
+    animation-delay: 0s;
+}
+
+.chess-piece.queen {
+    top: 45%;
+    right: 12%;
+    animation-delay: 1.5s;
+}
+
+.chess-piece.rook {
+    bottom: 30%;
+    left: 15%;
+    animation-delay: 3s;
+}
+
+.chess-piece.bishop {
+    bottom: 40%;
+    right: 8%;
+    animation-delay: 4.5s;
+}
+
+.chess-piece.knight {
+    top: 65%;
+    left: 3%;
+    animation-delay: 6s;
+}
+
+.chess-piece.pawn {
+    top: 75%;
+    right: 20%;
+    animation-delay: 7.5s;
+}
+
+@keyframes pieceFloat {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1); 
+        opacity: 0.2;
+    }
+    50% { 
+        transform: translateY(-20px) rotate(2deg) scale(1.03); 
+        opacity: 0.3;
+    }
+}
+
+.elite-login {
+    background: rgba(245, 245, 220, 0.08);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(205, 133, 63, 0.3);
+    border-radius: 20px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(205, 133, 63, 0.1);
+    max-width: 480px;
+    margin: 40px auto;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.elite-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #cd853f, #daa520, #b8860b, #cd853f);
+    background-size: 200% 100%;
+    animation: eliteShimmer 5s ease-in-out infinite;
+}
+
+@keyframes eliteShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.elite-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.club-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.trophy-logo {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+}
+
+.brand-section {
+    text-align: left;
+}
+
+.elite-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    margin: 0;
+    background: linear-gradient(135deg, #daa520, #cd853f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(218, 165, 32, 0.4);
+}
+
+.club-subtitle {
+    font-size: 14px;
+    color: rgba(245, 245, 220, 0.8);
+    margin-top: 4px;
+    font-style: italic;
+    font-weight: 300;
+}
+
+.welcome-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #f5f5dc;
+    text-shadow: 0 0 15px rgba(245, 245, 220, 0.4);
+}
+
+.welcome-subtitle {
+    font-size: 16px;
+    color: rgba(245, 245, 220, 0.8);
+    margin: 0;
+    font-style: italic;
+}
+
+.elite-error {
+    background: rgba(139, 0, 0, 0.2);
+    border: 1px solid rgba(139, 0, 0, 0.4);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ff6b6b;
+    font-size: 14px;
+}
+
+.elite-error i {
+    color: #ff4444;
+    font-size: 16px;
+}
+
+.elite-success {
+    background: rgba(40, 167, 69, 0.2);
+    border: 1px solid rgba(40, 167, 69, 0.4);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #90ee90;
+    font-size: 14px;
+}
+
+.elite-success i {
+    color: #28a745;
+    font-size: 16px;
+}
+
+.elite-form {
+    margin-bottom: 32px;
+}
+
+.elite-input {
+    width: 100%;
+    padding: 16px 16px 16px 48px;
+    background: rgba(245, 245, 220, 0.05);
+    border: 1px solid rgba(205, 133, 63, 0.3);
+    border-radius: 12px;
+    color: #f5f5dc;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.elite-input::placeholder {
+    color: rgba(245, 245, 220, 0.5);
+}
+
+.elite-input:focus {
+    outline: none;
+    border-color: #daa520;
+    background: rgba(245, 245, 220, 0.08);
+    box-shadow: 0 0 0 4px rgba(218, 165, 32, 0.1);
+}
+
+.elite-input:focus + .input-icon {
+    color: #daa520;
+}
+
+.elite-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23daa520' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.input-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #daa520, #cd853f);
+    transition: width 0.3s ease;
+}
+
+.elite-input:focus ~ .input-highlight {
+    width: 100%;
+}
+
+.elite-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: rgba(245, 245, 220, 0.8);
+}
+
+.elite-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(218, 165, 32, 0.5);
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.elite-checkbox input[type="checkbox"]:checked + .checkmark {
+    background: linear-gradient(135deg, #daa520, #cd853f);
+    border-color: transparent;
+}
+
+.elite-checkbox input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #2c1810;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.forgot-link {
+    color: rgba(245, 245, 220, 0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+    color: #daa520;
+}
+
+.elite-button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #8b4513, #a0522d);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.elite-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(139, 69, 19, 0.4);
+    background: linear-gradient(135deg, #a0522d, #cd853f);
+}
+
+.elite-button:active {
+    transform: translateY(0);
+}
+
+.button-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.button-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(218, 165, 32, 0.3) 0%, transparent 70%);
+    transform: scale(0);
+    transition: transform 0.6s ease;
+}
+
+.elite-button:hover .button-glow {
+    transform: scale(1);
+}
+
+.elite-divider {
+    display: flex;
+    align-items: center;
+    margin: 32px 0;
+    gap: 16px;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.4), transparent);
+}
+
+.divider-text {
+    color: rgba(245, 245, 220, 0.7);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.social-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    background: rgba(245, 245, 220, 0.05);
+    border: 1px solid rgba(205, 133, 63, 0.3);
+    border-radius: 12px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.social-button:hover {
+    background: rgba(245, 245, 220, 0.1);
+    transform: translateY(-1px);
+    border-color: rgba(205, 133, 63, 0.5);
+}
+
+.social-button.google:hover {
+    border-color: #ea4335;
+}
+
+.social-button.facebook:hover {
+    border-color: #1877f2;
+}
+
+.social-button i {
+    font-size: 16px;
+}
+
+.signup-text {
+    font-size: 14px;
+    color: rgba(245, 245, 220, 0.8);
+    margin: 0;
+}
+
+.signup-link {
+    color: #daa520;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+    color: #cd853f;
+    text-decoration: underline;
+}
+
+.elite-footer {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid rgba(205, 133, 63, 0.3);
+}
+
+.club-motto {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: rgba(245, 245, 220, 0.7);
+    font-style: italic;
+    margin: 0;
+}
+
+/* Update existing membership and dashboard styles to use elite theme */
+.membership-container, .dashboard-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.membership-header, .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    background: rgba(245, 245, 220, 0.08);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(205, 133, 63, 0.3);
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.membership-header::before, .dashboard-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #8b4513, #daa520, #cd853f, #8b4513);
+    background-size: 200% 100%;
+    animation: eliteShimmer 5s ease-in-out infinite;
+}
+
+.membership-title, .dashboard-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #daa520, #cd853f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 20px rgba(218, 165, 32, 0.4);
+}
+
+.membership-subtitle, .dashboard-subtitle {
+    font-size: 16px;
+    color: rgba(245, 245, 220, 0.8);
+    margin: 0;
+    font-style: italic;
+}
+
+.status-badge, .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-badge.bronze, .badge.bronze {
+    background: linear-gradient(135deg, #cd7f32, #b8860b);
+    color: white;
+    box-shadow: 0 4px 15px rgba(205, 127, 50, 0.3);
+}
+
+.status-badge.silver, .badge.silver {
+    background: linear-gradient(135deg, #c0c0c0, #a8a8a8);
+    color: white;
+    box-shadow: 0 4px 15px rgba(192, 192, 192, 0.3);
+}
+
+.status-badge.gold, .badge.gold {
+    background: linear-gradient(135deg, #ffd700, #ffb347);
+    color: #0a0a1a;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+/* Responsive Design for Elite Theme */
+@media (max-width: 768px) {
+    .elite-login {
+        margin: 20px;
+        padding: 32px 24px;
+        border-radius: 20px;
+    }
+    
+    .elite-title {
+        font-size: 24px;
+    }
+    
+    .welcome-title {
+        font-size: 28px;
+    }
+    
+    .club-logo {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .brand-section {
+        text-align: center;
+    }
+    
+    .form-options {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .social-login {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .trophy-element, .medal-element {
+        font-size: 2.5rem;
+    }
+    
+    .chess-piece {
+        font-size: 3rem;
+    }
+}

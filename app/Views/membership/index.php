@@ -1,38 +1,191 @@
-<link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
-
-<?= view('partials/navbar') ?>
-
-<div class="auth-container">
-    <h2>My Membership</h2>
-
-    <p><strong>Current Level:</strong> <?= esc($level) ?> </p>
-    <p><strong>Status:</strong> <?= esc($status) ?></p>
-    <p><strong>Expiry Date:</strong> <?= esc($expiry_date) ?></p>
-
-    <hr>
-
-    <h4>Upgrade Membership</h4>
-    <div class="membership-options">
-        <div class="card bronze">
-            <h3>Bronze</h3>
-            <p>Free membership with basic access.</p>
-            <button disabled>Current</button>
-        </div>
-        <div class="card silver">
-            <h3>Silver</h3>
-            <p>Access events & chess classes</p>
-            <form method="post" action="<?= base_url('membership/upgrade') ?>">
-                <input type="hidden" name="level" value="Silver">
-                <button type="submit">Upgrade to Silver</button>
-            </form>
-        </div>
-        <div class="card gold">
-            <h3>Gold</h3>
-            <p>Full access, leaderboard, priority support</p>
-            <form method="post" action="<?= base_url('membership/upgrade') ?>">
-                <input type="hidden" name="level" value="Gold">
-                <button type="submit">Upgrade to Gold</button>
-            </form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Membership - Elite Chess Club</title>
+    <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="elite-chess-theme">
+    <div class="elite-background">
+        <div class="wood-pattern"></div>
+        <div class="elite-overlay"></div>
+        <div class="club-elements">
+            <div class="trophy-element">🏆</div>
+            <div class="medal-element">🥇</div>
+            <div class="chess-piece king">♔</div>
+            <div class="chess-piece queen">♕</div>
+            <div class="chess-piece rook">♖</div>
+            <div class="chess-piece bishop">♗</div>
+            <div class="chess-piece knight">♘</div>
+            <div class="chess-piece pawn">♙</div>
         </div>
     </div>
-</div>
+
+    <?= view('partials/navbar') ?>
+
+    <div class="membership-container">
+        <div class="membership-header">
+            <div class="header-content">
+                <h1 class="membership-title">🏆 Elite Membership Status 🥇</h1>
+                <p class="membership-subtitle">Your exclusive chess journey</p>
+            </div>
+            <div class="current-status">
+                <div class="status-badge <?= strtolower($level) ?>">
+                    <i class="fas fa-medal"></i>
+                    <span><?= esc($level) ?> Member</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="membership-info">
+            <div class="info-card">
+                <div class="info-item">
+                    <i class="fas fa-medal"></i>
+                    <div class="info-content">
+                        <label>Current Level</label>
+                        <span><?= esc($level) ?></span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="info-content">
+                        <label>Status</label>
+                        <span class="status-<?= strtolower($status) ?>"><?= esc($status) ?></span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div class="info-content">
+                        <label>Expiry Date</label>
+                        <span><?= esc($expiry_date) ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="upgrade-section">
+            <div class="section-header">
+                <h2>♔ Upgrade Your Membership ♕</h2>
+                <p>Choose your path to chess excellence</p>
+            </div>
+
+            <div class="membership-cards">
+                <div class="membership-card bronze <?= strtolower($level) === 'bronze' ? 'current' : '' ?>">
+                    <div class="card-header">
+                        <div class="card-icon">♔</div>
+                        <h3>Bronze Member</h3>
+                        <div class="card-price">Free</div>
+                    </div>
+                    <div class="card-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Basic club access</li>
+                            <li><i class="fas fa-check"></i> View events</li>
+                            <li><i class="fas fa-check"></i> Basic leaderboard</li>
+                            <li><i class="fas fa-check"></i> Community forum</li>
+                        </ul>
+                    </div>
+                    <div class="card-action">
+                        <?php if (strtolower($level) === 'bronze'): ?>
+                            <button class="current-btn" disabled>
+                                <i class="fas fa-check-circle"></i>
+                                Current Plan
+                            </button>
+                        <?php else: ?>
+                            <button class="upgrade-btn" disabled>
+                                <i class="fas fa-arrow-down"></i>
+                                Downgrade
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="membership-card silver <?= strtolower($level) === 'silver' ? 'current' : '' ?>">
+                    <div class="card-header">
+                        <div class="card-icon">♕</div>
+                        <h3>Silver Member</h3>
+                        <div class="card-price">$19.99<span>/month</span></div>
+                    </div>
+                    <div class="card-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> All Bronze features</li>
+                            <li><i class="fas fa-check"></i> Join events & tournaments</li>
+                            <li><i class="fas fa-check"></i> Chess classes access</li>
+                            <li><i class="fas fa-check"></i> Advanced analytics</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                        </ul>
+                    </div>
+                    <div class="card-action">
+                        <?php if (strtolower($level) === 'silver'): ?>
+                            <button class="current-btn" disabled>
+                                <i class="fas fa-check-circle"></i>
+                                Current Plan
+                            </button>
+                        <?php elseif (strtolower($level) === 'gold'): ?>
+                            <button class="upgrade-btn" disabled>
+                                <i class="fas fa-arrow-down"></i>
+                                Downgrade
+                            </button>
+                        <?php else: ?>
+                            <form method="post" action="<?= base_url('membership/upgrade') ?>">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="level" value="Silver">
+                                <button type="submit" class="upgrade-btn">
+                                    <i class="fas fa-arrow-up"></i>
+                                    Upgrade to Silver
+                                </button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="membership-card gold <?= strtolower($level) === 'gold' ? 'current' : '' ?>">
+                    <div class="card-header">
+                        <div class="card-icon">♖</div>
+                        <h3>Gold Member</h3>
+                        <div class="card-price">$39.99<span>/month</span></div>
+                        <div class="popular-badge">Most Popular</div>
+                    </div>
+                    <div class="card-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> All Silver features</li>
+                            <li><i class="fas fa-check"></i> Exclusive tournaments</li>
+                            <li><i class="fas fa-check"></i> Personal chess coach</li>
+                            <li><i class="fas fa-check"></i> Advanced leaderboard</li>
+                            <li><i class="fas fa-check"></i> VIP support</li>
+                            <li><i class="fas fa-check"></i> Custom profile badge</li>
+                        </ul>
+                    </div>
+                    <div class="card-action">
+                        <?php if (strtolower($level) === 'gold'): ?>
+                            <button class="current-btn" disabled>
+                                <i class="fas fa-check-circle"></i>
+                                Current Plan
+                            </button>
+                        <?php else: ?>
+                            <form method="post" action="<?= base_url('membership/upgrade') ?>">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="level" value="Gold">
+                                <button type="submit" class="upgrade-btn">
+                                    <i class="fas fa-arrow-up"></i>
+                                    Upgrade to Gold
+                                </button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="membership-footer">
+            <div class="footer-content">
+                <div class="chess-motto">"Excellence in every move, prestige in every game"</div>
+                <div class="support-info">
+                    <i class="fas fa-headset"></i>
+                    <span>Need help? Contact our support team</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
