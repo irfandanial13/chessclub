@@ -13,9 +13,30 @@
         .merch-card form { margin: 0; }
         .merch-card button { background: #e8c547; color: #23272f; border: none; border-radius: 6px; padding: 8px 18px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
         .merch-card button:hover { background: #fffbe6; }
-        .cart-link { margin-left: 18px; font-size: 1.08em; }
-        .cart-link a { color: #e8c547; font-weight: bold; text-decoration: none; }
-        .cart-link a:hover { text-decoration: underline; }
+        .cart-link-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #e8c547;
+            color: #23272f !important;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 8px 22px;
+            box-shadow: 0 2px 8px #0001;
+            text-decoration: none;
+            font-size: 1.08em;
+            transition: background 0.18s, box-shadow 0.18s;
+        }
+        .cart-link-btn:hover {
+            background: #fffbe6;
+            box-shadow: 0 4px 16px #0002;
+        }
+        .cart-icon {
+            font-size: 1.18em;
+        }
+        .cart-text {
+            font-size: 1.08em;
+        }
         .toast-success {
             position: fixed;
             top: 32px;
@@ -52,7 +73,9 @@
 <div class="elite-login" style="max-width: 1100px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
         <h2 style="margin: 0;">Chess Club Merchandise</h2>
-        <a href="<?= base_url('merchandise/cart') ?>" class="cart-link">🛒 View Cart</a>
+        <a href="<?= base_url('merchandise/cart') ?>" class="cart-link-btn">
+            <span class="cart-icon">🛒</span> <span class="cart-text">View Cart</span>
+        </a>
     </div>
     <div class="merch-grid">
         <?php foreach ($items as $item): ?>
