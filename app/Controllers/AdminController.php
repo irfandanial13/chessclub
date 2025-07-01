@@ -82,4 +82,70 @@ class AdminController extends BaseController
         $userModel->insert($data);
         return redirect()->to(base_url('admin/users'))->with('success', 'User created successfully');
     }
+
+    public function manageEvents()
+    {
+        $eventModel = new \App\Models\EventModel();
+        $data = [
+            'title' => 'Manage Events',
+            'events' => $eventModel->findAll()
+        ];
+        return view('admin/manage_events', $data);
+    }
+
+    public function createEvent()
+    {
+        return view('admin/create_event', [
+            'title' => 'Create Event'
+        ]);
+    }
+
+    public function storeEvent()
+    {
+        $eventModel = new \App\Models\EventModel();
+        $data = [
+            'title' => $this->request->getPost('title'),
+            'date' => $this->request->getPost('date'),
+            'location' => $this->request->getPost('location'),
+            'description' => $this->request->getPost('description'),
+        ];
+        $eventModel->insert($data);
+        return redirect()->to(base_url('admin/event'))->with('success', 'Event created successfully');
+    }
+
+    public function editEvent($event_id = null)
+    {
+        if (!$event_id || !is_numeric($event_id)) {
+            return redirect()->to(base_url('admin/event'))->with('error', 'Invalid event ID');
+        }
+        $eventModel = new \App\Models\EventModel();
+        $event = $eventModel->find($event_id);
+        if (!$event) {
+            return redirect()->to(base_url('admin/event'))->with('error', 'Event not found');
+        }
+        return view('admin/edit_event', [
+            'title' => 'Edit Event',
+            'event' => $event
+        ]);
+    }
+
+    public function updateEvent($event_id)
+    {
+        $eventModel = new \App\Models\EventModel();
+        $data = [
+            'title' => $this->request->getPost('title'),
+            'date' => $this->request->getPost('date'),
+            'location' => $this->request->getPost('location'),
+            'description' => $this->request->getPost('description'),
+        ];
+        $eventModel->update($event_id, $data);
+        return redirect()->to(base_url('admin/event'))->with('success', 'Event updated successfully');
+    }
+
+    public function deleteEvent($event_id)
+    {
+        $eventModel = new \App\Models\EventModel();
+        $eventModel->delete($event_id);
+        return redirect()->to(base_url('admin/event'))->with('success', 'Event deleted successfully');
+    }
 }

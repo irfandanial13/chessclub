@@ -37,28 +37,24 @@
             <thead style="background:#f5e9d7;">
                 <tr>
                     <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">ID</th>
-                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Name</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Title</th>
                     <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Date</th>
                     <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Location</th>
-                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Status</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Description</th>
                     <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($events as $i => $event): ?>
                 <tr style="text-align:center; background:<?= $i%2==0 ? '#fff' : '#f7f1ea' ?>; transition:background 0.2s;" onmouseover="this.style.background='#fbeedc'" onmouseout="this.style.background='<?= $i%2==0 ? '#fff' : '#f7f1ea' ?>'">
-                    <td style="padding:12px 8px;"><?= $event['id'] ?></td>
-                    <td style="padding:12px 8px;"><?= esc($event['name']) ?></td>
+                    <td style="padding:12px 8px;"><?= $event['event_id'] ?></td>
+                    <td style="padding:12px 8px;"><?= esc($event['title']) ?></td>
                     <td style="padding:12px 8px;"><?= esc($event['date']) ?></td>
                     <td style="padding:12px 8px;"><?= esc($event['location']) ?></td>
+                    <td style="padding:12px 8px;"><?= esc($event['description']) ?></td>
                     <td style="padding:12px 8px;">
-                        <span class="status-<?= strtolower($event['status']) ?>">
-                            <?= esc($event['status']) ?>
-                        </span>
-                    </td>
-                    <td style="padding:12px 8px;">
-                        <a href="<?= base_url('admin/events/edit/'.$event['id']) ?>" class="elite-button" style="padding:4px 10px;font-size:0.95em; background:#2c3e50; color:#fff;"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="<?= base_url('admin/events/delete/'.$event['id']) ?>" class="elite-button" style="background:#c0392b;padding:4px 10px;font-size:0.95em; color:#fff;" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</a>
+                        <a href="<?= base_url('admin/events/edit/'.$event['event_id']) ?>" class="elite-button" style="padding:4px 10px;font-size:0.95em; background:#2c3e50; color:#fff;"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="<?= base_url('admin/events/delete/'.$event['event_id']) ?>" class="elite-button" style="background:#c0392b;padding:4px 10px;font-size:0.95em; color:#fff;" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

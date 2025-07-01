@@ -40,6 +40,12 @@ $routes->post('admin/users/update/(:num)', 'AdminController::updateUser/$1');
 $routes->get('admin/users/delete/(:num)', 'AdminController::deleteUser/$1');
 $routes->get('admin/users/create', 'AdminController::createUser');
 $routes->post('admin/users/store', 'AdminController::storeUser');
+$routes->get('admin/event', 'AdminController::manageEvents');
+$routes->get('admin/events/create', 'AdminController::createEvent');
+$routes->post('admin/events/store', 'AdminController::storeEvent');
+$routes->get('admin/events/edit/(:num)', 'AdminController::editEvent/$1');
+$routes->post('admin/events/update/(:num)', 'AdminController::updateEvent/$1');
+$routes->get('admin/events/delete/(:num)', 'AdminController::deleteEvent/$1');
 
 $routes->get('leaderboard/profileModal/(:num)', 'LeaderboardController::profileModal/$1');
 $routes->get('leaderboard/ajaxLeaderboard', 'LeaderboardController::ajaxLeaderboard');
