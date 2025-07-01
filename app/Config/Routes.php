@@ -20,8 +20,10 @@ $routes->get('membership', 'MembershipController::index');
 $routes->post('membership/upgrade', 'MembershipController::upgrade');
 $routes->get('events', 'EventController::index');
 $routes->get('events/join/(:num)', 'EventController::join/$1');
+$routes->get('events/confirm-join/(:num)', 'EventController::confirmJoin/$1');
 $routes->get('my-events', 'EventController::myEvents');
 $routes->get('leaderboard', 'LeaderboardController::index');
+$routes->get('book', 'EventController::book');
 
 // Admin Routes
 $routes->get('admin/dashboard', 'AdminController::dashboard');

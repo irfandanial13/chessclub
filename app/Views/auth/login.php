@@ -47,7 +47,7 @@
             
             <div class="input-field">
                 <div class="input-icon">
-                    <i class="fas fa-envelope"></i>
+                    <!-- <i class="fas fa-envelope"></i> -->
                 </div>
                 <input type="email" name="email" placeholder="Your Email Address" required class="elite-input">
                 <div class="input-highlight"></div>
@@ -55,7 +55,7 @@
             
             <div class="input-field">
                 <div class="input-icon">
-                    <i class="fas fa-lock"></i>
+                    <!-- <i class="fas fa-lock"></i> -->
                 </div>
                 <input type="password" name="password" placeholder="Your Password" required class="elite-input">
                 <div class="input-highlight"></div>
