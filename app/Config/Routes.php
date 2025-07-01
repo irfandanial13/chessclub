@@ -26,6 +26,11 @@ $routes->get('leaderboard', 'LeaderboardController::index');
 $routes->get('book', 'EventController::book');
 $routes->get('events/register/(:num)', 'EventController::register/$1');
 $routes->post('events/register/(:num)', 'EventController::registerPost/$1');
+$routes->get('merchandise', 'MerchandiseController::index');
+$routes->post('merchandise/addToCart/(:num)', 'MerchandiseController::addToCart/$1');
+$routes->get('merchandise/cart', 'MerchandiseController::cart');
+$routes->post('merchandise/removeFromCart/(:num)', 'MerchandiseController::removeFromCart/$1');
+$routes->post('merchandise/checkout', 'MerchandiseController::checkout');
 
 // Admin Routes
 $routes->get('admin/dashboard', 'AdminController::dashboard');

@@ -9,6 +9,7 @@
         <li><a href="<?= base_url('my-events') ?>">My Events</a></li>
         <li><a href="<?= base_url('membership') ?>">Membership</a></li>
         <li><a href="<?= base_url('leaderboard') ?>">Leaderboard</a></li>
+        <li><a href="<?= base_url('merchandise') ?>">Shop</a></li>
         <li><a href="<?= base_url('contact') ?>">Contact</a></li>
     </ul>
     <div style="display: flex; align-items: center; gap: 10px;">
