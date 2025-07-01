@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         <div class="event-actions">
-                            <a href="<?= base_url('events/join/' . $event['id']) ?>" class="join-btn">
+                            <a href="<?= base_url('events/register/' . $event['id']) ?>" class="join-btn">
                                 <i class="fas fa-sign-in-alt"></i>
                                 Join Event
                             </a>

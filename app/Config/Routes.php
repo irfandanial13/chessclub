@@ -24,6 +24,8 @@ $routes->get('events/confirm-join/(:num)', 'EventController::confirmJoin/$1');
 $routes->get('my-events', 'EventController::myEvents');
 $routes->get('leaderboard', 'LeaderboardController::index');
 $routes->get('book', 'EventController::book');
+$routes->get('events/register/(:num)', 'EventController::register/$1');
+$routes->post('events/register/(:num)', 'EventController::registerPost/$1');
 
 // Admin Routes
 $routes->get('admin/dashboard', 'AdminController::dashboard');

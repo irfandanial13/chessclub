@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Registration Confirmed - Chess Club</title>
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
 </head>
+
 <body class="elite-chess-theme">
     <?= view('partials/navbar') ?>
-    <div class="auth-container" style="max-width: 600px;">
+    <div class="elite-login" style="max-width: 600px;">
         <h2>Registration Confirmed!</h2>
         <div style="margin-bottom: 24px;">
             <h3>Your Information</h3>
@@ -21,7 +23,8 @@
             <ul style="list-style:none; padding:0;">
                 <li><strong>Title:</strong> <?= esc($event['title']) ?></li>
                 <li><strong>Type:</strong> <?= esc($event['type']) ?></li>
-                <li><strong>Date:</strong> <?= date('M j, Y', strtotime($event['event_date'])) ?> at <?= date('g:i A', strtotime($event['event_date'])) ?></li>
+                <li><strong>Date:</strong> <?= date('M j, Y', strtotime($event['event_date'])) ?> at
+                    <?= date('g:i A', strtotime($event['event_date'])) ?></li>
                 <li><strong>Description:</strong> <?= esc($event['description']) ?></li>
             </ul>
         </div>
@@ -29,4 +32,5 @@
         <a href="<?= base_url('events') ?>" class="join-btn small" style="margin-left: 10px;">Back to Events</a>
     </div>
 </body>
-</html> 
+
+</html>

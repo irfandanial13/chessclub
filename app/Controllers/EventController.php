@@ -67,4 +67,28 @@ class EventController extends BaseController
             'classes' => $classes
         ]);
     }
+
+    public function register($event_id)
+    {
+        $user_id = session()->get('user_id');
+        $eventModel = new EventModel();
+        $userModel = new \App\Models\UserModel();
+        $event = $eventModel->find($event_id);
+        $user = $userModel->find($user_id);
+        return view('events/register', [
+            'event' => $event,
+            'user' => $user
+        ]);
+    }
+
+    public function registerPost($event_id)
+    {
+        $user_id = session()->get('user_id');
+        $model = new UserEventModel();
+        $model->insert([
+            'user_id' => $user_id,
+            'event_id' => $event_id
+        ]);
+        return redirect()->to('/events/confirm-join/' . $event_id);
+    }
 }

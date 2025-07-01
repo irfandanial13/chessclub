@@ -1,49 +1,72 @@
-<?= view('partials/navbar') ?>
-  <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
-<div class="auth-container">
-    <h2>My Registered Events (Calendar View)</h2>
-    <div class="calendar-section" id="calendar-section">
-        <div class="calendar-header">
-            <button class="calendar-nav" onclick="previousMonth()">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <h2 class="current-month" id="current-month">Month Year</h2>
-            <button class="calendar-nav" onclick="nextMonth()">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-        <div class="calendar-grid">
-            <div class="calendar-weekdays">
-                <div class="weekday">Sun</div>
-                <div class="weekday">Mon</div>
-                <div class="weekday">Tue</div>
-                <div class="weekday">Wed</div>
-                <div class="weekday">Thu</div>
-                <div class="weekday">Fri</div>
-                <div class="weekday">Sat</div>
-            </div>
-            <div class="calendar-days" id="calendar-days">
-                <!-- Calendar days will be generated here -->
-            </div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Registered Events - Chess Club</title>
+    <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
+</head>
+<body class="elite-chess-theme">
+    <div class="elite-background">
+        <div class="wood-pattern"></div>
+        <div class="elite-overlay"></div>
+        <div class="club-elements">
+            <div class="trophy-element">🏆</div>
+            <div class="medal-element">🥇</div>
+            <div class="chess-piece king">♔</div>
+            <div class="chess-piece queen">♕</div>
+            <div class="chess-piece rook">♖</div>
+            <div class="chess-piece bishop">♗</div>
+            <div class="chess-piece knight">♘</div>
+            <div class="chess-piece pawn">♙</div>
         </div>
     </div>
-    <!-- Event Modal -->
-    <div class="event-modal" id="event-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="modal-title">Event Details</h3>
-                <button class="modal-close" id="modal-close">
-                    <i class="fas fa-times"></i>
+    <?= view('partials/navbar') ?>
+    <div class="elite-login" style="max-width: 900px;">
+        <div class="section-header" style="text-align:center;">
+            <h2 class="events-title">My Registered Events</h2>
+            <p class="events-subtitle">See your tournaments and classes on the calendar</p>
+        </div>
+        <div class="calendar-section" id="calendar-section">
+            <div class="calendar-header">
+                <button class="calendar-nav" onclick="previousMonth()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h2 class="current-month" id="current-month">Month Year</h2>
+                <button class="calendar-nav" onclick="nextMonth()">
+                    <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="event-detail" id="modal-content">
-                    <!-- Event details will be populated here -->
+            <div class="calendar-grid">
+                <div class="calendar-weekdays">
+                    <div class="weekday">Sun</div>
+                    <div class="weekday">Mon</div>
+                    <div class="weekday">Tue</div>
+                    <div class="weekday">Wed</div>
+                    <div class="weekday">Thu</div>
+                    <div class="weekday">Fri</div>
+                    <div class="weekday">Sat</div>
+                </div>
+                <div class="calendar-days" id="calendar-days">
+                    <!-- Calendar days will be generated here -->
+                </div>
+            </div>
+        </div>
+        <!-- Event Modal -->
+        <div class="event-modal" id="event-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modal-title">Event Details</h3>
+                    <button class="modal-close" id="modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="event-detail" id="modal-content">
+                        <!-- Event details will be populated here -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 <script>
     let currentDate = new Date();
     let currentMonth = currentDate.getMonth();
@@ -128,3 +151,5 @@
     };
     renderCalendar();
 </script>
+</body>
+</html>
