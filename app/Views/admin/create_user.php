@@ -27,20 +27,20 @@
     <div class="auth-container">
         <h2><i class="fas fa-user-plus"></i> Create User</h2>
         <form method="post" action="<?= base_url('admin/users/store') ?>">
-            <label>Name:</label><br>
+            <label style="color:#8B5C2A;">Name:</label><br>
             <input type="text" name="name" class="elite-input" required><br><br>
-            <label>Email:</label><br>
+            <label style="color:#8B5C2A;">Email:</label><br>
             <input type="email" name="email" class="elite-input" required><br><br>
-            <label>Password:</label><br>
+            <label style="color:#8B5C2A;">Password:</label><br>
             <input type="password" name="password" class="elite-input" required><br><br>
-            <label>Membership Level:</label><br>
+            <label style="color:#8B5C2A;">Membership Level:</label><br>
             <select name="membership_level" class="elite-select" required>
                 <option value="Bronze">Bronze</option>
                 <option value="Silver">Silver</option>
                 <option value="Gold">Gold</option>
                 <option value="Admin">Admin</option>
             </select><br><br>
-            <label>Status:</label><br>
+            <label style="color:#8B5C2A;">Status:</label><br>
             <select name="status" class="elite-select" required>
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>

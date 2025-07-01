@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit User</title>
+    <title><?= esc($title) ?></title>
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-<?= view('partials/navbar_admin') ?>
+<body class="elite-chess-theme">
+    <div class="elite-background">
+        <div class="wood-pattern"></div>
+        <div class="elite-overlay"></div>
+        <div class="club-elements">
+            <div class="trophy-element">🏆</div>
+            <div class="medal-element">🥇</div>
+            <div class="chess-piece king">♔</div>
+            <div class="chess-piece queen">♕</div>
+            <div class="chess-piece rook">♖</div>
+            <div class="chess-piece bishop">♗</div>
+            <div class="chess-piece knight">♘</div>
+            <div class="chess-piece pawn">♙</div>
+        </div>
+    </div>
 
-<div class="auth-container">
-    <h2>Edit User</h2>
+    <?= view('partials/navbar_admin') ?>
 
-    <form method="post" action="<?= base_url('admin/users/update/'.$user['id']) ?>">
-        <input type="text" name="name" value="<?= esc($user['name']) ?>" required>
-        <input type="email" name="email" value="<?= esc($user['email']) ?>" required>
-        
-        <select name="membership_level">
-            <option <?= $user['membership_level'] === 'Bronze' ? 'selected' : '' ?>>Bronze</option>
-            <option <?= $user['membership_level'] === 'Silver' ? 'selected' : '' ?>>Silver</option>
-            <option <?= $user['membership_level'] === 'Gold' ? 'selected' : '' ?>>Gold</option>
-        </select>
-
-        <select name="status">
-            <option <?= $user['status'] === 'Active' ? 'selected' : '' ?>>Active</option>
-            <option <?= $user['status'] === 'Inactive' ? 'selected' : '' ?>>Inactive</option>
-        </select>
-
-        <button type="submit">Update</button>
-    </form>
-</div>
+    <div class="auth-container">
+        <h2><i class="fas fa-user-edit"></i> Edit User</h2>
+        <form method="post" action="<?= base_url('admin/users/update/'.$user['id']) ?>">
+            <label style="color:#8B5C2A;">Name:</label><br>
+            <input type="text" name="name" class="elite-input" value="<?= esc($user['name']) ?>" required><br><br>
+            <label style="color:#8B5C2A;">Email:</label><br>
+            <input type="email" name="email" class="elite-input" value="<?= esc($user['email']) ?>" required><br><br>
+            <label style="color:#8B5C2A;">Membership Level:</label><br>
+            <select name="membership_level" class="elite-select" required>
+                <option value="Bronze" <?= $user['membership_level'] === 'Bronze' ? 'selected' : '' ?>>Bronze</option>
+                <option value="Silver" <?= $user['membership_level'] === 'Silver' ? 'selected' : '' ?>>Silver</option>
+                <option value="Gold" <?= $user['membership_level'] === 'Gold' ? 'selected' : '' ?>>Gold</option>
+                <option value="Admin" <?= $user['membership_level'] === 'Admin' ? 'selected' : '' ?>>Admin</option>
+            </select><br><br>
+            <label style="color:#8B5C2A;">Status:</label><br>
+            <select name="status" class="elite-select" required>
+                <option value="Active" <?= $user['status'] === 'Active' ? 'selected' : '' ?>>Active</option>
+                <option value="Inactive" <?= $user['status'] === 'Inactive' ? 'selected' : '' ?>>Inactive</option>
+            </select><br><br>
+            <button type="submit" class="elite-button"><i class="fas fa-save"></i> Save</button>
+            <a href="<?= base_url('admin/users') ?>" class="elite-button" style="background:#888;"><i class="fas fa-times"></i> Cancel</a>
+        </form>
+    </div>
 </body>
 </html>
