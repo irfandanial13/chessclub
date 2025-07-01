@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +9,8 @@
 
 <div class="auth-container">
     <h2>Manage Users</h2>
+
+    <a href="<?= base_url('admin/users/create') ?>" class="btn btn-primary" style="margin-bottom: 15px;">Create User</a>
 
     <?php if (session()->getFlashdata('success')): ?>
         <div class="success-message"><?= session()->getFlashdata('success') ?></div>

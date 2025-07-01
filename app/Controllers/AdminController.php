@@ -60,4 +60,26 @@ class AdminController extends BaseController
         $userModel->delete($id);
         return redirect()->to(base_url('admin/manage-users'))->with('success', 'User deleted successfully');
     }
+
+    public function createUser()
+    {
+        return view('admin/create_user', [
+            'title' => 'Create User'
+        ]);
+    }
+
+    public function storeUser()
+    {
+        $userModel = new UserModel();
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'email' => $this->request->getPost('email'),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'membership_level' => $this->request->getPost('membership_level'),
+            'status' => $this->request->getPost('status'),
+            'created_at' => date('Y-m-d H:i:s'),
+        ];
+        $userModel->insert($data);
+        return redirect()->to(base_url('admin/users'))->with('success', 'User created successfully');
+    }
 }
