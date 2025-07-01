@@ -33,31 +33,36 @@
         <?php endif; ?>
 
         <div style="overflow-x:auto;">
-        <table style="width:100%; border-collapse:collapse; background:#faf8f6; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <table style="width:100%; border-collapse:collapse; background:#faf8f6; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04); color:#222; font-size:1.08em;">
             <thead style="background:#f5e9d7;">
                 <tr>
-                    <th>ID</th><th>Name</th><th>Email</th><th>Level</th><th>Status</th><th>Actions</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">ID</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Name</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Email</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Level</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Status</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user): ?>
-                <tr style="text-align:center;">
-                    <td><?= $user['id'] ?></td>
-                    <td><?= esc($user['name']) ?></td>
-                    <td><?= esc($user['email']) ?></td>
-                    <td>
+                <?php foreach ($users as $i => $user): ?>
+                <tr style="text-align:center; background:<?= $i%2==0 ? '#fff' : '#f7f1ea' ?>; transition:background 0.2s;" onmouseover="this.style.background='#fbeedc'" onmouseout="this.style.background='<?= $i%2==0 ? '#fff' : '#f7f1ea' ?>'">
+                    <td style="padding:12px 8px;"><?= $user['id'] ?></td>
+                    <td style="padding:12px 8px;"><?= esc($user['name']) ?></td>
+                    <td style="padding:12px 8px;"><?= esc($user['email']) ?></td>
+                    <td style="padding:12px 8px;">
                         <span class="badge <?= strtolower($user['membership_level']) ?>">
                             <?= esc($user['membership_level']) ?>
                         </span>
                     </td>
-                    <td>
+                    <td style="padding:12px 8px;">
                         <span class="status-<?= strtolower($user['status']) ?>">
                             <?= esc($user['status']) ?>
                         </span>
                     </td>
-                    <td>
-                        <a href="<?= base_url('admin/users/edit/'.$user['id']) ?>" class="elite-button" style="padding:4px 10px;font-size:0.95em;"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="<?= base_url('admin/users/delete/'.$user['id']) ?>" class="elite-button" style="background:#c0392b;padding:4px 10px;font-size:0.95em;" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</a>
+                    <td style="padding:12px 8px;">
+                        <a href="<?= base_url('admin/users/edit/'.$user['id']) ?>" class="elite-button" style="padding:4px 10px;font-size:0.95em; background:#2c3e50; color:#fff;"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="<?= base_url('admin/users/delete/'.$user['id']) ?>" class="elite-button" style="background:#c0392b;padding:4px 10px;font-size:0.95em; color:#fff;" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

@@ -33,26 +33,30 @@
         <?php endif; ?>
 
         <div style="overflow-x:auto;">
-        <table style="width:100%; border-collapse:collapse; background:#faf8f6; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <table style="width:100%; border-collapse:collapse; background:#faf8f6; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04); color:#222; font-size:1.08em;">
             <thead style="background:#f5e9d7;">
                 <tr>
-                    <th>Rank</th><th>Name</th><th>Points</th><th>Level</th><th>Actions</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Rank</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Name</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Points</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Level</th>
+                    <th style="font-weight:700; color:#5A3A13; padding:14px 8px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($leaderboard as $entry): ?>
-                <tr style="text-align:center;">
-                    <td><?= $entry['rank'] ?></td>
-                    <td><?= esc($entry['name']) ?></td>
-                    <td><?= esc($entry['points']) ?></td>
-                    <td>
+                <?php foreach ($leaderboard as $i => $entry): ?>
+                <tr style="text-align:center; background:<?= $i%2==0 ? '#fff' : '#f7f1ea' ?>; transition:background 0.2s;" onmouseover="this.style.background='#fbeedc'" onmouseout="this.style.background='<?= $i%2==0 ? '#fff' : '#f7f1ea' ?>'">
+                    <td style="padding:12px 8px;"><?= $entry['rank'] ?></td>
+                    <td style="padding:12px 8px;"><?= esc($entry['name']) ?></td>
+                    <td style="padding:12px 8px;"><?= esc($entry['points']) ?></td>
+                    <td style="padding:12px 8px;">
                         <span class="badge <?= strtolower($entry['level']) ?>">
                             <?= esc($entry['level']) ?>
                         </span>
                     </td>
-                    <td>
-                        <a href="<?= base_url('admin/leaderboard/edit/'.$entry['id']) ?>" class="elite-button" style="padding:4px 10px;font-size:0.95em;"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="<?= base_url('admin/leaderboard/delete/'.$entry['id']) ?>" class="elite-button" style="background:#c0392b;padding:4px 10px;font-size:0.95em;" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</a>
+                    <td style="padding:12px 8px;">
+                        <a href="<?= base_url('admin/leaderboard/edit/'.$entry['id']) ?>" class="elite-button" style="padding:4px 10px;font-size:0.95em; background:#2c3e50; color:#fff;"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="<?= base_url('admin/leaderboard/delete/'.$entry['id']) ?>" class="elite-button" style="background:#c0392b;padding:4px 10px;font-size:0.95em; color:#fff;" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
