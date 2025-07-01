@@ -4,6 +4,11 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
+/**
+ * UserModel
+ *
+ * Passwords are hashed using password_hash() on registration and verified using password_verify() on login.
+ */
 class UserModel extends Model
 {
     protected $table = 'users';

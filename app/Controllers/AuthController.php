@@ -21,7 +21,11 @@ class AuthController extends BaseController
 
         $user = $model->where('email', $email)->first();
 
-        if ($user && $user['password'] === $password) {
+        if ($user && (password_verify($password, $user['password']) || $user['password'] === $password)) {
+            // If plain text matched, upgrade to hash
+            if ($user['password'] === $password) {
+                $model->update($user['id'], ['password' => password_hash($password, PASSWORD_DEFAULT)]);
+            }
             if ($user['status'] !== 'Active') {
                 return redirect()->back()->with('error', 'Account inactive.');
             }
@@ -57,7 +61,7 @@ class AuthController extends BaseController
         $data = [
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
-            'password' => $this->request->getPost('password'),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'membership_level' => $this->request->getPost('membership_level'),
             'status' => 'Active',
         ];
