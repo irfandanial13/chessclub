@@ -15,6 +15,6 @@ class UserModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'name', 'email', 'password', 'membership_level', 'status', 'created_at'
+        'name', 'email', 'password', 'membership_level', 'status', 'created_at', 'points', 'honor_points'
     ];
 }

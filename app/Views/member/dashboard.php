@@ -37,6 +37,10 @@
                     <i class="fas fa-medal"></i>
                     <span><?= esc($level) ?> Member</span>
                 </div>
+                <div class="redeemable-points">
+                    <i class="fas fa-coins"></i>
+                    <span><?= number_format($redeemable_points) ?> Redeemable Points</span>
+                </div>
             </div>
         </div>
 
@@ -47,7 +51,7 @@
                 </div>
                 <div class="stat-content">
                     <div class="stat-value"><?= $points ?></div>
-                    <div class="stat-label">Total Points</div>
+                    <div class="stat-label">Honor Points</div>
                 </div>
             </div>
 

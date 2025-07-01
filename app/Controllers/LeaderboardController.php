@@ -23,7 +23,7 @@ class LeaderboardController extends BaseController
         if ($search) {
             $query = $query->like('name', $search);
         }
-        $allUsers = $query->orderBy('points', 'DESC')->findAll($limit);
+        $allUsers = $query->orderBy('honor_points', 'DESC')->findAll($limit);
 
         // If month filter is set, filter users who participated in events in that month
         $userEventModel = new UserEventModel();
@@ -119,5 +119,61 @@ class LeaderboardController extends BaseController
             'points' => $user['points'],
             'events' => $events
         ]);
+    }
+
+    public function ajaxLeaderboard()
+    {
+        $userModel = new UserModel();
+        $membershipLevel = $this->request->getGet('membership_level');
+        $month = $this->request->getGet('month');
+        $search = $this->request->getGet('search');
+        $limit = $this->request->getGet('limit') ?? 10;
+
+        $query = $userModel->where('status', 'Active');
+        if ($membershipLevel && $membershipLevel !== 'All') {
+            $query = $query->where('membership_level', $membershipLevel);
+        }
+        if ($search) {
+            $query = $query->like('name', $search);
+        }
+        $allUsers = $query->orderBy('honor_points', 'DESC')->findAll($limit);
+
+        $userEventModel = new UserEventModel();
+        $eventModel = new EventModel();
+        foreach ($allUsers as &$user) {
+            $userEvents = $userEventModel->where('user_id', $user['id'])->findAll();
+            $eventTitles = [];
+            foreach ($userEvents as $ue) {
+                $event = $eventModel->find($ue['event_id']);
+                if ($event) {
+                    $eventTitles[] = $event['title'];
+                }
+            }
+            $user['event_titles'] = $eventTitles;
+        }
+        unset($user);
+
+        ob_start();
+        $rank = 1;
+        foreach ($allUsers as $user): ?>
+            <tr class="<?= $rank == 1 ? 'first-place' : ($rank == 2 ? 'second-place' : ($rank == 3 ? 'third-place' : '') ) ?>">
+                <td>
+                    <?php if ($rank == 1): ?>
+                        <span title="1st" style="font-size:1.2em;">🥇</span>
+                    <?php elseif ($rank == 2): ?>
+                        <span title="2nd" style="font-size:1.1em;">🥈</span>
+                    <?php elseif ($rank == 3): ?>
+                        <span title="3rd" style="font-size:1.1em;">🥉</span>
+                    <?php else: ?>
+                        <?= $rank ?>
+                    <?php endif; ?>
+                </td>
+                <td><a href="#" class="profile-link" data-user-id="<?= $user['id'] ?>" style="color:#e8c547; text-decoration:underline; font-weight:500;"><?= esc($user['name']) ?></a></td>
+                <td><?= esc($user['membership_level']) ?></td>
+                <td><?= esc($user['points']) ?></td>
+            </tr>
+        <?php $rank++; endforeach;
+        $html = ob_get_clean();
+        return $this->response->setHeader('Content-Type', 'text/html')->setBody($html);
     }
 }

@@ -119,7 +119,7 @@
                 <th onclick="sortTable(0)">Rank</th>
                 <th onclick="sortTable(1)">Name</th>
                 <th onclick="sortTable(2)">Level</th>
-                <th onclick="sortTable(3)">Points</th>
+                <th onclick="sortTable(3)">Honor Points</th>
             </tr>
         </thead>
         <tbody>
@@ -138,7 +138,7 @@
                     </td>
                     <td><a href="#" class="profile-link" data-user-id="<?= $user['id'] ?>" style="color:#e8c547; text-decoration:underline; font-weight:500;"><?= esc($user['name']) ?></a></td>
                     <td><?= esc($user['membership_level']) ?></td>
-                    <td><?= esc($user['points']) ?></td>
+                    <td><?= esc($user['honor_points'] ?? 0) ?></td>
                 </tr>
             <?php $rank++; endforeach ?>
         </tbody>
@@ -182,32 +182,47 @@ function sortTable(n) {
     rows.forEach(row => table.tBodies[0].appendChild(row));
     table.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');
 }
-document.querySelectorAll('.profile-link').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const userId = this.getAttribute('data-user-id');
-        fetch('<?= base_url('leaderboard/profileModal/') ?>' + userId)
-            .then(res => res.json())
-            .then(data => {
-                let html = '<ul class="profile-detail-list">';
-                html += '<li><strong>Name:</strong> ' + data.name + '</li>';
-                html += '<li><strong>Membership:</strong> ' + data.membership_level + '</li>';
-                html += '<li><strong>Points:</strong> ' + data.points + '</li>';
-                html += '</ul>';
-                if (data.events && data.events.length > 0) {
-                    html += '<div><strong>Recent Events:</strong><ul class="profile-events-list">';
-                    data.events.forEach(ev => {
-                        html += '<li><strong>' + ev.title + '</strong> (' + ev.type + ')<br><span style="font-size:0.95em;">' + (new Date(ev.date).toLocaleDateString()) + '</span></li>';
-                    });
-                    html += '</ul></div>';
-                } else {
-                    html += '<div><em>No recent events.</em></div>';
-                }
-                document.getElementById('modal-body-profile').innerHTML = html;
-                document.getElementById('profile-modal').classList.add('show');
-            });
+function bindProfileLinks() {
+    document.querySelectorAll('.profile-link').forEach(link => {
+        link.onclick = function(e) {
+            e.preventDefault();
+            const userId = this.getAttribute('data-user-id');
+            fetch('<?= base_url('leaderboard/profileModal/') ?>' + userId)
+                .then(res => res.json())
+                .then(data => {
+                    let html = '<ul class="profile-detail-list">';
+                    html += '<li><strong>Name:</strong> ' + data.name + '</li>';
+                    html += '<li><strong>Membership:</strong> ' + data.membership_level + '</li>';
+                    html += '<li><strong>Points:</strong> ' + data.points + '</li>';
+                    html += '</ul>';
+                    if (data.events && data.events.length > 0) {
+                        html += '<div><strong>Recent Events:</strong><ul class="profile-events-list">';
+                        data.events.forEach(ev => {
+                            html += '<li><strong>' + ev.title + '</strong> (' + ev.type + ')<br><span style="font-size:0.95em;">' + (new Date(ev.date).toLocaleDateString()) + '</span></li>';
+                        });
+                        html += '</ul></div>';
+                    } else {
+                        html += '<div><em>No recent events.</em></div>';
+                    }
+                    document.getElementById('modal-body-profile').innerHTML = html;
+                    document.getElementById('profile-modal').classList.add('show');
+                });
+        };
     });
-});
+}
+bindProfileLinks();
+
+function refreshLeaderboard() {
+    const params = new URLSearchParams(new FormData(document.getElementById('filterForm'))).toString();
+    fetch('<?= base_url('leaderboard/ajaxLeaderboard') ?>?' + params)
+        .then(res => res.text())
+        .then(html => {
+            document.querySelector('#leaderboard-table tbody').innerHTML = html;
+            bindProfileLinks();
+        });
+}
+setInterval(refreshLeaderboard, 30000);
+
 document.getElementById('modal-close-profile').onclick = function() {
     document.getElementById('profile-modal').classList.remove('show');
 };

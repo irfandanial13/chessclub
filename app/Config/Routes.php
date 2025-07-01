@@ -42,6 +42,7 @@ $routes->get('admin/users/create', 'AdminController::createUser');
 $routes->post('admin/users/store', 'AdminController::storeUser');
 
 $routes->get('leaderboard/profileModal/(:num)', 'LeaderboardController::profileModal/$1');
+$routes->get('leaderboard/ajaxLeaderboard', 'LeaderboardController::ajaxLeaderboard');
 
 
 

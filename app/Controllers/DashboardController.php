@@ -11,14 +11,17 @@ class DashboardController extends BaseController
             return redirect()->to('/login');
         }
 
-        // Example dummy data – you can fetch real stats later
+        $userId = session()->get('user_id');
+        $userModel = new \App\Models\UserModel();
+        $user = $userModel->find($userId);
         $data = [
             'title' => 'Member Dashboard',
-            'name' => session()->get('user_name'),
-            'level' => session()->get('membership_level'),
-            'points' => 120, // example
-            'events_joined' => 3,
-            'classes_booked' => 2,
+            'name' => $user['name'],
+            'level' => $user['membership_level'],
+            'points' => $user['honor_points'] ?? 0, // Honor points from honor_points column
+            'redeemable_points' => $user['points'] ?? 0, // Redeemable points from points column
+            'events_joined' => 3, // you can fetch real stats if needed
+            'classes_booked' => 2, // you can fetch real stats if needed
         ];
 
         return view('member/dashboard', $data);
