@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li style="margin-bottom:18px;">
-                <a href="<?= base_url('admin/events') ?>" style="display:flex;align-items:center;gap:10px;font-size:1.15em;text-decoration:none;color:#2c3e50;font-weight:600;">
+                <a href="<?= base_url('admin/event') ?>" style="display:flex;align-items:center;gap:10px;font-size:1.15em;text-decoration:none;color:#2c3e50;font-weight:600;">
                     <i class="fas fa-calendar-alt"></i> Manage Events
                 </a>
             </li>

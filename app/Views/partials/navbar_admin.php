@@ -1,12 +1,21 @@
-<nav class="navbar">
+<nav class="elite-navbar">
     <div class="logo">
-        <span style="font-size: 1.5em; margin-right: 8px; vertical-align: middle;">&#9812;</span> ChessClub Admin
+        <div class="logo-icon">
+            <span class="chess-king">&#9812;</span>
+            <div class="logo-glow"></div>
+        </div>
+        <div class="logo-text">
+            <span class="brand-name">ChessClub</span>
+            <span class="brand-tagline">Admin Panel</span>
+        </div>
     </div>
-    <ul>
-        <li><a href="<?= base_url('admin/dashboard') ?>">Dashboard</a></li>
-        <li><a href="<?= base_url('admin/users') ?>">Users</a></li>
+    <ul class="nav-menu">
+        <li><a href="<?= base_url('admin/dashboard') ?>" class="nav-link"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+        <li><a href="<?= base_url('admin/users') ?>" class="nav-link"><i class="fas fa-users"></i><span>Users</span></a></li>
+        <li><a href="<?= base_url('admin/event') ?>" class="nav-link"><i class="fas fa-calendar-alt"></i><span>Events</span></a></li>
+        <li><a href="<?= base_url('admin/leaderboard') ?>" class="nav-link"><i class="fas fa-trophy"></i><span>Leaderboard</span></a></li>
     </ul>
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <a href="<?= base_url('logout') ?>">Logout</a>
+    <div class="user-section">
+        <a href="<?= base_url('logout') ?>" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </div>
 </nav>

@@ -31,8 +31,6 @@
             <input type="text" name="title" class="elite-input" style="color:#000; font-size:1.08em; margin-bottom:18px;" required><br>
             <label style="color:#8B5C2A; font-weight:600; font-size:1.08em; margin-bottom:6px;">Date:</label><br>
             <input type="date" name="date" class="elite-input" style="color:#000; font-size:1.08em; margin-bottom:18px;" required><br>
-            <label style="color:#8B5C2A; font-weight:600; font-size:1.08em; margin-bottom:6px;">Location:</label><br>
-            <input type="text" name="location" class="elite-input" style="color:#000; font-size:1.08em; margin-bottom:18px;" required><br>
             <label style="color:#8B5C2A; font-weight:600; font-size:1.08em; margin-bottom:6px;">Description:</label><br>
             <textarea name="description" class="elite-input" style="color:#000; font-size:1.08em; margin-bottom:24px; min-height:80px;" required></textarea><br>
             <div style="display:flex; gap:12px; align-items:center; margin-top:8px;">

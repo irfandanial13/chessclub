@@ -146,6 +146,144 @@ class AdminController extends BaseController
     {
         $eventModel = new \App\Models\EventModel();
         $eventModel->delete($event_id);
-        return redirect()->to(base_url('admin/event'))->with('success', 'Event deleted successfully');
+        return redirect()->to(base_url('admin/event'))->with('success', 'Event updated successfully');
+    }
+
+    // Leaderboard Management Methods
+    public function manageLeaderboard()
+    {
+        $userModel = new UserModel();
+        $membershipLevel = $this->request->getGet('membership_level');
+        $search = $this->request->getGet('search');
+        $sortBy = $this->request->getGet('sort_by') ?? 'honor_points';
+        $sortOrder = $this->request->getGet('sort_order') ?? 'DESC';
+
+        $query = $userModel->where('status', 'Active');
+        
+        if ($membershipLevel && $membershipLevel !== 'All') {
+            $query = $query->where('membership_level', $membershipLevel);
+        }
+        
+        if ($search) {
+            $query = $query->like('name', $search);
+        }
+        
+        $users = $query->orderBy($sortBy, $sortOrder)->findAll();
+
+        // Calculate ranks
+        $rank = 1;
+        foreach ($users as &$user) {
+            $user['rank'] = $rank++;
+        }
+
+        $data = [
+            'title' => 'Manage Leaderboard',
+            'users' => $users,
+            'totalUsers' => count($users),
+            'membershipLevels' => ['All', 'Gold', 'Silver', 'Bronze']
+        ];
+        
+        return view('admin/manage_leaderboard', $data);
+    }
+
+    public function updateUserPoints($userId)
+    {
+        $userModel = new UserModel();
+        $points = $this->request->getPost('points');
+        $reason = $this->request->getPost('reason') ?? 'Admin adjustment';
+        
+        if (!is_numeric($points)) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Invalid points value']);
+        }
+
+        $user = $userModel->find($userId);
+        if (!$user) {
+            return $this->response->setJSON(['success' => false, 'message' => 'User not found']);
+        }
+
+        $newPoints = max(0, $user['honor_points'] + $points);
+        $userModel->update($userId, ['honor_points' => $newPoints]);
+
+        // Log the point adjustment (you can create a separate table for this)
+        // $this->logPointAdjustment($userId, $points, $reason, session()->get('user_id'));
+
+        return $this->response->setJSON([
+            'success' => true, 
+            'message' => 'Points updated successfully',
+            'newPoints' => $newPoints,
+            'adjustment' => $points
+        ]);
+    }
+
+    public function resetLeaderboard()
+    {
+        $userModel = new UserModel();
+        $userModel->set('honor_points', 0)->update();
+        
+        return redirect()->to(base_url('admin/leaderboard'))->with('success', 'Leaderboard has been reset');
+    }
+
+    public function exportLeaderboard()
+    {
+        $userModel = new UserModel();
+        $users = $userModel->where('status', 'Active')
+                          ->orderBy('honor_points', 'DESC')
+                          ->findAll();
+
+        $filename = 'leaderboard_export_' . date('Y-m-d_H-i-s') . '.csv';
+        
+        $this->response->setHeader('Content-Type', 'text/csv');
+        $this->response->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '"');
+        
+        $output = fopen('php://output', 'w');
+        fputcsv($output, ['Rank', 'Name', 'Email', 'Membership Level', 'Honor Points', 'Status']);
+        
+        $rank = 1;
+        foreach ($users as $user) {
+            fputcsv($output, [
+                $rank++,
+                $user['name'],
+                $user['email'],
+                $user['membership_level'],
+                $user['honor_points'] ?? 0,
+                $user['status']
+            ]);
+        }
+        
+        fclose($output);
+        return $this->response;
+    }
+
+    public function leaderboardAnalytics()
+    {
+        $userModel = new UserModel();
+        
+        // Get statistics
+        $totalUsers = $userModel->where('status', 'Active')->countAllResults();
+        $totalPoints = $userModel->selectSum('honor_points')->where('status', 'Active')->first()['honor_points'] ?? 0;
+        $avgPoints = $totalUsers > 0 ? round($totalPoints / $totalUsers, 2) : 0;
+        
+        // Top 10 users
+        $topUsers = $userModel->where('status', 'Active')
+                             ->orderBy('honor_points', 'DESC')
+                             ->findAll(10);
+        
+        // Points distribution by membership level
+        $goldUsers = $userModel->where('status', 'Active')->where('membership_level', 'Gold')->countAllResults();
+        $silverUsers = $userModel->where('status', 'Active')->where('membership_level', 'Silver')->countAllResults();
+        $bronzeUsers = $userModel->where('status', 'Active')->where('membership_level', 'Bronze')->countAllResults();
+        
+        $data = [
+            'title' => 'Leaderboard Analytics',
+            'totalUsers' => $totalUsers,
+            'totalPoints' => $totalPoints,
+            'avgPoints' => $avgPoints,
+            'topUsers' => $topUsers,
+            'goldUsers' => $goldUsers,
+            'silverUsers' => $silverUsers,
+            'bronzeUsers' => $bronzeUsers
+        ];
+        
+        return view('admin/leaderboard_analytics', $data);
     }
 }
