@@ -71,6 +71,198 @@
     .profile-events-list li {
         margin-bottom: 6px;
     }
+    /* Rank Badges */
+    .rank-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-right: 2px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .gold-badge { background: linear-gradient(135deg, #ffe066 60%, #ffd700 100%); color: #bfa100; border: 2px solid #ffd700; }
+    .silver-badge { background: linear-gradient(135deg, #e0e0e0 60%, #bfc1c2 100%); color: #7d7d7d; border: 2px solid #bfc1c2; }
+    .bronze-badge { background: linear-gradient(135deg, #f8e6d0 60%, #cd7f32 100%); color: #8c5a2b; border: 2px solid #cd7f32; }
+
+    /* Tier Row Highlights */
+    .gold-row { background: linear-gradient(90deg, #fffbe6 0%, #ffe066 100%) !important; }
+    .silver-row { background: linear-gradient(90deg, #f0f0f0 0%, #bfc1c2 100%) !important; }
+    .bronze-row { background: linear-gradient(90deg, #f8e6d0 0%, #cd7f32 100%) !important; }
+
+    /* Progress Bar */
+    .points-bar-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 120px;
+    }
+    .points-bar-bg {
+        background: #e0e7ef;
+        border-radius: 8px;
+        width: 70px;
+        height: 12px;
+        overflow: hidden;
+        margin-right: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
+    .points-bar-fill {
+        background: linear-gradient(90deg, #3bb6c1 0%, #e8c547 100%);
+        height: 100%;
+        border-radius: 8px;
+        transition: width 1s cubic-bezier(.4,2,.6,1);
+    }
+    .points-label {
+        font-size: 0.95em;
+        color: #22335a;
+        font-weight: 600;
+    }
+    .elite-login {
+        /* background: #fff; */
+        border-radius: 24px;
+        box-shadow: 0 8px 32px rgba(44, 24, 16, 0.10), 0 2px 8px rgba(232, 197, 71, 0.08);
+        padding: 32px 24px 40px 24px;
+        margin: 40px auto 32px auto;
+        max-width: 950px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .leaderboard-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: transparent;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 1.08em;
+        margin-bottom: 0;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(44, 24, 16, 0.06);
+    }
+
+    .leaderboard-table th, .leaderboard-table td {
+        padding: 18px 16px;
+        text-align: center;
+        border-bottom: 1px solid #f0e6d2;
+        font-size: 1.08em;
+    }
+
+    .leaderboard-table th {
+        background: linear-gradient(90deg, #e8c547 0%, #fffbe6 100%);
+        color: #2c1810;
+        font-size: 1.12em;
+        font-weight: 700;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        letter-spacing: 0.5px;
+    }
+
+    .leaderboard-table tbody tr {
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .leaderboard-table tbody tr:not(.first-place):not(.second-place):not(.third-place):nth-child(even) {
+        background: #f8fbff !important;
+    }
+    .leaderboard-table tbody tr:not(.first-place):not(.second-place):not(.third-place):nth-child(odd) {
+        background: #f4f6fa !important;
+    }
+
+    .leaderboard-table tbody tr:hover {
+        background: #e8f0fe !important;
+        box-shadow: 0 2px 12px rgba(44, 24, 16, 0.08);
+    }
+
+    .leaderboard-table tbody tr.first-place,
+    .leaderboard-table tbody tr.second-place,
+    .leaderboard-table tbody tr.third-place {
+        font-size: 1.13em;
+        font-weight: bold;
+        box-shadow: 0 4px 16px rgba(232, 197, 71, 0.10);
+    }
+
+    .rank-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.2em;
+        height: 2.2em;
+        border-radius: 50%;
+        font-size: 1.3em;
+        font-weight: bold;
+        margin-right: 2px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        animation: popIn 0.7s cubic-bezier(.4,2,.6,1);
+    }
+    @keyframes popIn {
+        0% { transform: scale(0.5); opacity: 0; }
+        70% { transform: scale(1.15); opacity: 1; }
+        100% { transform: scale(1); }
+    }
+    .gold-badge { background: linear-gradient(135deg, #ffe066 60%, #ffd700 100%); color: #bfa100; border: 2px solid #ffd700; }
+    .silver-badge { background: linear-gradient(135deg, #e0e0e0 60%, #bfc1c2 100%); color: #7d7d7d; border: 2px solid #bfc1c2; }
+    .bronze-badge { background: linear-gradient(135deg, #f8e6d0 60%, #cd7f32 100%); color: #8c5a2b; border: 2px solid #cd7f32; }
+
+    .membership-badge {
+        display: inline-block;
+        font-size: 1.1em;
+        margin-left: 6px;
+        vertical-align: middle;
+    }
+    .membership-gold { color: #ffd700; }
+    .membership-silver { color: #bfc1c2; }
+    .membership-bronze { color: #cd7f32; }
+
+    .events-title {
+        text-align: center;
+        width: 100%;
+        margin-bottom: 18px;
+    }
+    .filter-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+    #filterForm {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+    #filterForm .elite-button {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+    .board-tab {
+        background: #e8c547;
+        color: #2c1810;
+        border: none;
+        border-radius: 8px 8px 0 0;
+        padding: 10px 24px;
+        margin: 0 2px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .board-tab.active, .board-tab:hover {
+        background: #2c1810;
+        color: #fffbe6;
+    }
+    .board-table {
+        margin-bottom: 32px;
+    }
     </style>
 </head>
 <body class="elite-chess-theme">
@@ -89,60 +281,177 @@
         <div class="chess-piece pawn">♙</div>
     </div>
 </div>
-<div class="elite-login" style="max-width: 900px; position: relative; z-index: 2;">
-    <h2 class="events-title">Top Players <span style="font-size:1.1em;">🏆</span></h2>
-    <div class="filter-bar" style="display:flex; gap:16px; margin-bottom:18px; flex-wrap:wrap; align-items:center;">
-        <form id="filterForm" method="get" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
-            <input type="text" name="search" placeholder="Search by name..." value="<?= esc($_GET['search'] ?? '') ?>" class="elite-input" style="max-width:180px;">
-            <select name="membership_level" class="elite-input" style="max-width:150px;">
-                <option value="All">All Levels</option>
-                <option value="Bronze" <?= (($_GET['membership_level'] ?? '') == 'Bronze') ? 'selected' : '' ?>>Bronze</option>
-                <option value="Silver" <?= (($_GET['membership_level'] ?? '') == 'Silver') ? 'selected' : '' ?>>Silver</option>
-                <option value="Gold" <?= (($_GET['membership_level'] ?? '') == 'Gold') ? 'selected' : '' ?>>Gold</option>
-            </select>
-            <select name="month" class="elite-input" style="max-width:150px;">
-                <option value="All">All Months</option>
-                <?php foreach ($months as $m): ?>
-                    <option value="<?= $m ?>" <?= (($_GET['month'] ?? '') == $m) ? 'selected' : '' ?>><?= date('F Y', strtotime($m.'-01')) ?></option>
-                <?php endforeach; ?>
-            </select>
-            <select name="limit" class="elite-input" style="max-width:120px;">
-                <option value="10" <?= ($limit == 10) ? 'selected' : '' ?>>Top 10</option>
-                <option value="50" <?= ($limit == 50) ? 'selected' : '' ?>>Top 50</option>
-            </select>
-            <button type="submit" class="elite-button">Filter</button>
-        </form>
+<div class="elite-login" style="max-width: 950px; position: relative; z-index: 2;">
+    <div class="board-tabs" style="text-align:center; margin-bottom:18px;">
+        <button class="board-tab active" onclick="showBoard('all')">All Levels</button>
+        <button class="board-tab" onclick="showBoard('gold')">Gold</button>
+        <button class="board-tab" onclick="showBoard('silver')">Silver</button>
+        <button class="board-tab" onclick="showBoard('bronze')">Bronze</button>
     </div>
-    <table class="leaderboard-table" id="leaderboard-table">
-        <thead>
-            <tr>
-                <th onclick="sortTable(0)">Rank</th>
-                <th onclick="sortTable(1)">Name</th>
-                <th onclick="sortTable(2)">Level</th>
-                <th onclick="sortTable(3)">Honor Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php $rank = 1; foreach ($users as $user): ?>
-                <tr class="<?= $rank == 1 ? 'first-place' : ($rank == 2 ? 'second-place' : ($rank == 3 ? 'third-place' : '') ) ?>">
+    <div id="board-all" class="board-table">
+        <h2 class="events-title">Leaderboard - All Levels <span style="font-size:1.1em;">🏆</span></h2>
+        <table class="leaderboard-table" id="leaderboard-table-all">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Level</th>
+                    <th>Honor Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $rank = 1; foreach ($users as $user):
+                    $tierClass = '';
+                    if (strtolower($user['membership_level']) === 'gold') $tierClass = 'gold-row';
+                    elseif (strtolower($user['membership_level']) === 'silver') $tierClass = 'silver-row';
+                    elseif (strtolower($user['membership_level']) === 'bronze') $tierClass = 'bronze-row';
+                ?>
+                <tr class="<?= $rank == 1 ? 'first-place' : ($rank == 2 ? 'second-place' : ($rank == 3 ? 'third-place' : '') ) ?> <?= $tierClass ?>">
                     <td>
                         <?php if ($rank == 1): ?>
-                            <span title="1st" style="font-size:1.2em;">🥇</span>
+                            <span class="rank-badge gold-badge" title="1st">🥇</span>
                         <?php elseif ($rank == 2): ?>
-                            <span title="2nd" style="font-size:1.1em;">🥈</span>
+                            <span class="rank-badge silver-badge" title="2nd">🥈</span>
                         <?php elseif ($rank == 3): ?>
-                            <span title="3rd" style="font-size:1.1em;">🥉</span>
+                            <span class="rank-badge bronze-badge" title="3rd">🥉</span>
                         <?php else: ?>
                             <?= $rank ?>
                         <?php endif; ?>
                     </td>
                     <td><a href="#" class="profile-link" data-user-id="<?= $user['id'] ?>" style="color:#e8c547; text-decoration:underline; font-weight:500;"><?= esc($user['name']) ?></a></td>
-                    <td><?= esc($user['membership_level']) ?></td>
+                    <td>
+                        <?= esc($user['membership_level']) ?>
+                        <?php if (strtolower($user['membership_level']) === 'gold'): ?>
+                            <span class="membership-badge membership-gold" title="Gold">🥇</span>
+                        <?php elseif (strtolower($user['membership_level']) === 'silver'): ?>
+                            <span class="membership-badge membership-silver" title="Silver">🥈</span>
+                        <?php elseif (strtolower($user['membership_level']) === 'bronze'): ?>
+                            <span class="membership-badge membership-bronze" title="Bronze">🥉</span>
+                        <?php endif; ?>
+                    </td>
                     <td><?= esc($user['honor_points'] ?? 0) ?></td>
                 </tr>
-            <?php $rank++; endforeach ?>
-        </tbody>
-    </table>
+                <?php $rank++; endforeach ?>
+            </tbody>
+        </table>
+    </div>
+    <div id="board-gold" class="board-table" style="display:none;">
+        <h2 class="events-title">Leaderboard - Gold Level <span style="font-size:1.1em;">🥇</span></h2>
+        <table class="leaderboard-table" id="leaderboard-table-gold">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Level</th>
+                    <th>Honor Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $rank = 1; foreach ($users as $user):
+                    if (trim(strtolower($user['membership_level'])) !== 'gold') continue;
+                    $tierClass = 'gold-row';
+                ?>
+                <tr class="<?= $rank == 1 ? 'first-place' : ($rank == 2 ? 'second-place' : ($rank == 3 ? 'third-place' : '') ) ?> <?= $tierClass ?>">
+                    <td>
+                        <?php if ($rank == 1): ?>
+                            <span class="rank-badge gold-badge" title="1st">🥇</span>
+                        <?php elseif ($rank == 2): ?>
+                            <span class="rank-badge silver-badge" title="2nd">🥈</span>
+                        <?php elseif ($rank == 3): ?>
+                            <span class="rank-badge bronze-badge" title="3rd">🥉</span>
+                        <?php else: ?>
+                            <?= $rank ?>
+                        <?php endif; ?>
+                    </td>
+                    <td><a href="#" class="profile-link" data-user-id="<?= $user['id'] ?>" style="color:#e8c547; text-decoration:underline; font-weight:500;"><?= esc($user['name']) ?></a></td>
+                    <td>
+                        <?= esc($user['membership_level']) ?>
+                        <span class="membership-badge membership-gold" title="Gold">🥇</span>
+                    </td>
+                    <td><?= esc($user['honor_points'] ?? 0) ?></td>
+                </tr>
+                <?php $rank++; endforeach ?>
+            </tbody>
+        </table>
+    </div>
+    <div id="board-silver" class="board-table" style="display:none;">
+        <h2 class="events-title">Leaderboard - Silver Level <span style="font-size:1.1em;">🥈</span></h2>
+        <table class="leaderboard-table" id="leaderboard-table-silver">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Level</th>
+                    <th>Honor Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $rank = 1; foreach ($users as $user):
+                    if (trim(strtolower($user['membership_level'])) !== 'silver') continue;
+                    $tierClass = 'silver-row';
+                ?>
+                <tr class="<?= $rank == 1 ? 'first-place' : ($rank == 2 ? 'second-place' : ($rank == 3 ? 'third-place' : '') ) ?> <?= $tierClass ?>">
+                    <td>
+                        <?php if ($rank == 1): ?>
+                            <span class="rank-badge gold-badge" title="1st">🥇</span>
+                        <?php elseif ($rank == 2): ?>
+                            <span class="rank-badge silver-badge" title="2nd">🥈</span>
+                        <?php elseif ($rank == 3): ?>
+                            <span class="rank-badge bronze-badge" title="3rd">🥉</span>
+                        <?php else: ?>
+                            <?= $rank ?>
+                        <?php endif; ?>
+                    </td>
+                    <td><a href="#" class="profile-link" data-user-id="<?= $user['id'] ?>" style="color:#e8c547; text-decoration:underline; font-weight:500;"><?= esc($user['name']) ?></a></td>
+                    <td>
+                        <?= esc($user['membership_level']) ?>
+                        <span class="membership-badge membership-silver" title="Silver">🥈</span>
+                    </td>
+                    <td><?= esc($user['honor_points'] ?? 0) ?></td>
+                </tr>
+                <?php $rank++; endforeach ?>
+            </tbody>
+        </table>
+    </div>
+    <div id="board-bronze" class="board-table" style="display:none;">
+        <h2 class="events-title">Leaderboard - Bronze Level <span style="font-size:1.1em;">🥉</span></h2>
+        <table class="leaderboard-table" id="leaderboard-table-bronze">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Level</th>
+                    <th>Honor Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $rank = 1; foreach ($users as $user):
+                    if (trim(strtolower($user['membership_level'])) !== 'bronze') continue;
+                    $tierClass = 'bronze-row';
+                ?>
+                <tr class="<?= $rank == 1 ? 'first-place' : ($rank == 2 ? 'second-place' : ($rank == 3 ? 'third-place' : '') ) ?> <?= $tierClass ?>">
+                    <td>
+                        <?php if ($rank == 1): ?>
+                            <span class="rank-badge gold-badge" title="1st">🥇</span>
+                        <?php elseif ($rank == 2): ?>
+                            <span class="rank-badge silver-badge" title="2nd">🥈</span>
+                        <?php elseif ($rank == 3): ?>
+                            <span class="rank-badge bronze-badge" title="3rd">🥉</span>
+                        <?php else: ?>
+                            <?= $rank ?>
+                        <?php endif; ?>
+                    </td>
+                    <td><a href="#" class="profile-link" data-user-id="<?= $user['id'] ?>" style="color:#e8c547; text-decoration:underline; font-weight:500;"><?= esc($user['name']) ?></a></td>
+                    <td>
+                        <?= esc($user['membership_level']) ?>
+                        <span class="membership-badge membership-bronze" title="Bronze">🥉</span>
+                    </td>
+                    <td><?= esc($user['honor_points'] ?? 0) ?></td>
+                </tr>
+                <?php $rank++; endforeach ?>
+            </tbody>
+        </table>
+    </div>
     <!-- Profile Modal -->
     <div class="profile-modal" id="profile-modal">
         <div class="modal-content">
@@ -231,6 +540,13 @@ document.getElementById('profile-modal').onclick = function(e) {
         this.classList.remove('show');
     }
 };
+
+function showBoard(level) {
+    document.querySelectorAll('.board-table').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.board-tab').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('board-' + level).style.display = '';
+    document.querySelector('.board-tab[onclick*="' + level + '"]').classList.add('active');
+}
 </script>
 </body>
 </html>

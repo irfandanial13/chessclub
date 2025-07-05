@@ -3,6 +3,7 @@
 <head>
     <title>My Registered Events - Chess Club</title>
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="elite-chess-theme">
     <div class="elite-background">

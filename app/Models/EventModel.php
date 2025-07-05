@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class EventModel extends Model
 {
-    protected $table = 'event';
-    protected $primaryKey = 'event_id';
+    protected $table = 'events';
+    protected $primaryKey = 'id';
     protected $allowedFields = ['title', 'date', 'location', 'description'];
 }

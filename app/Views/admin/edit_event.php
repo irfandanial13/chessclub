@@ -26,7 +26,7 @@
 
     <div class="auth-container" style="box-shadow:0 4px 24px rgba(139,92,42,0.08);">
         <h2><i class="fas fa-calendar-edit"></i> Edit Event</h2>
-        <form method="post" action="<?= base_url('admin/events/update/'.$event['event_id']) ?>">
+        <form method="post" action="<?= base_url('admin/events/update/'.$event['id']) ?>">
             <label style="color:#8B5C2A; font-weight:600; font-size:1.08em; margin-bottom:6px;">Title:</label><br>
             <input type="text" name="title" class="elite-input" value="<?= esc($event['title']) ?>" style="color:#000; font-size:1.08em; margin-bottom:18px;" required><br>
             <label style="color:#8B5C2A; font-weight:600; font-size:1.08em; margin-bottom:6px;">Date:</label><br>

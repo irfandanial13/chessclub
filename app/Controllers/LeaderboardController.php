@@ -34,7 +34,7 @@ class LeaderboardController extends BaseController
                 $userEvents = $userEventModel->where('user_id', $user['id'])->findAll();
                 $hasEventInMonth = false;
                 foreach ($userEvents as $ue) {
-                    $event = $eventModel->find($ue['event_id']);
+                    $event = $eventModel->find($ue['id']);
                     if ($event && date('Y-m', strtotime($event['event_date'])) === $month) {
                         $hasEventInMonth = true;
                         break;
@@ -52,7 +52,7 @@ class LeaderboardController extends BaseController
             $userEvents = $userEventModel->where('user_id', $user['id'])->findAll();
             $eventTitles = [];
             foreach ($userEvents as $ue) {
-                $event = $eventModel->find($ue['event_id']);
+                $event = $eventModel->find($ue['id']);
                 if ($event) {
                     $eventTitles[] = $event['title'];
                 }
@@ -86,7 +86,7 @@ class LeaderboardController extends BaseController
         $userEvents = $userEventModel->where('user_id', $userId)->findAll();
         $events = [];
         foreach ($userEvents as $ue) {
-            $event = $eventModel->find($ue['event_id']);
+            $event = $eventModel->find($ue['id']);
             if ($event) {
                 $events[] = $event;
             }
@@ -104,7 +104,7 @@ class LeaderboardController extends BaseController
         $events = [];
         $userEvents = $userEventModel->where('user_id', $id)->orderBy('id', 'DESC')->findAll(5);
         foreach ($userEvents as $ue) {
-            $event = $eventModel->find($ue['event_id']);
+            $event = $eventModel->find($ue['id']);
             if ($event) {
                 $events[] = [
                     'title' => $event['title'],
@@ -144,7 +144,7 @@ class LeaderboardController extends BaseController
             $userEvents = $userEventModel->where('user_id', $user['id'])->findAll();
             $eventTitles = [];
             foreach ($userEvents as $ue) {
-                $event = $eventModel->find($ue['event_id']);
+                $event = $eventModel->find($ue['id']);
                 if ($event) {
                     $eventTitles[] = $event['title'];
                 }
