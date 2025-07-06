@@ -61,8 +61,8 @@
                         </span>
                     </td>
                     <td style="padding:12px 8px;">
-                        <a href="<?= base_url('admin/users/edit/'.$user['id']) ?>" class="elite-button" style="padding:4px 10px;font-size:0.95em; background:#2c3e50; color:#fff;"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="<?= base_url('admin/users/delete/'.$user['id']) ?>" class="elite-button" style="background:#c0392b;padding:4px 10px;font-size:0.95em; color:#fff;" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</a>
+                        <a href="<?= base_url('admin/users/edit/'.$user['id']) ?>" class="action-btn edit-btn" style="padding:4px 10px;font-size:0.95em; background:#2c3e50; color:#fff;"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="<?= base_url('admin/users/delete/'.$user['id']) ?>" class="action-btn delete-btn" style="background:#c0392b;padding:4px 10px;font-size:0.95em; color:#fff;" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

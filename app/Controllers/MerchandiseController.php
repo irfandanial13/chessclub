@@ -151,4 +151,154 @@ class MerchandiseController extends BaseController
         }
         return view('merchandise/checkout');
     }
+
+    public function processPayment()
+    {
+        if ($this->request->getMethod() !== 'post') {
+            return redirect()->to('merchandise/checkout');
+        }
+
+        $paymentMethod = $this->request->getPost('paymentMethod');
+        
+        if (!$paymentMethod) {
+            session()->setFlashdata('error', 'Please select a payment method.');
+            return redirect()->back();
+        }
+
+        // Store payment method in session for next step
+        session()->set('selected_payment_method', $paymentMethod);
+
+        // Redirect based on payment method
+        switch ($paymentMethod) {
+            case 'cash':
+                return redirect()->to('merchandise/cash-payment');
+            case 'bank':
+                return redirect()->to('merchandise/bank-payment');
+            case 'online':
+                return redirect()->to('merchandise/card-payment');
+            default:
+                return redirect()->back();
+        }
+    }
+
+    public function cashPayment()
+    {
+        return view('merchandise/cash_payment');
+    }
+
+    public function bankPayment()
+    {
+        return view('merchandise/bank_payment');
+    }
+
+    public function cardPayment()
+    {
+        return view('merchandise/card_payment');
+    }
+
+    public function completeOrder()
+    {
+        if ($this->request->getMethod() !== 'post') {
+            return redirect()->to('merchandise/checkout');
+        }
+
+        // Validate input
+        $rules = [
+            'name' => 'required|min_length[2]',
+            'email' => 'required|valid_email',
+            'phone' => 'required|min_length[10]',
+            'address' => 'required|min_length[10]',
+            'payment_method' => 'required|in_list[cash,bank,card]'
+        ];
+
+        if (!$this->validate($rules)) {
+            session()->setFlashdata('error', 'Please check your input and try again.');
+            return redirect()->back()->withInput();
+        }
+
+        // Get form data
+        $orderData = [
+            'customer_name' => $this->request->getPost('name'),
+            'customer_email' => $this->request->getPost('email'),
+            'customer_phone' => $this->request->getPost('phone'),
+            'shipping_address' => $this->request->getPost('address'),
+            'payment_method' => $this->request->getPost('payment_method'),
+            'order_date' => date('Y-m-d H:i:s'),
+            'status' => 'pending',
+            'total_amount' => 0 // Will be calculated from cart
+        ];
+
+        // Add payment-specific data
+        $paymentMethod = $this->request->getPost('payment_method');
+        if ($paymentMethod === 'bank') {
+            $orderData['payment_details'] = json_encode([
+                'transfer_reference' => $this->request->getPost('transfer_reference')
+            ]);
+        } elseif ($paymentMethod === 'card') {
+            $orderData['payment_details'] = json_encode([
+                'card_last4' => substr($this->request->getPost('card_number'), -4),
+                'card_type' => 'credit/debit'
+            ]);
+            $orderData['status'] = 'paid'; // Mark as paid for card payments
+        }
+
+        // Add delivery notes if provided
+        if ($this->request->getPost('notes')) {
+            $orderData['order_notes'] = $this->request->getPost('notes');
+        }
+
+        // Get cart items and calculate total
+        $cartModel = new CartModel();
+        $cartItems = $cartModel->getCartItems(session()->get('user_id'));
+        
+        if (empty($cartItems)) {
+            session()->setFlashdata('error', 'Your cart is empty.');
+            return redirect()->to('merchandise/cart');
+        }
+
+        $total = 0;
+        foreach ($cartItems as $item) {
+            $total += $item['price'] * $item['quantity'];
+        }
+        $total += 10.00; // Delivery cost
+        $orderData['total_amount'] = $total;
+
+        // Save order
+        $orderModel = new OrderModel();
+        $orderId = $orderModel->insert($orderData);
+
+        if (!$orderId) {
+            session()->setFlashdata('error', 'Failed to create order. Please try again.');
+            return redirect()->back()->withInput();
+        }
+
+        // Save order items
+        $orderItemModel = new OrderItemModel();
+        foreach ($cartItems as $item) {
+            $orderItemData = [
+                'order_id' => $orderId,
+                'merchandise_id' => $item['merchandise_id'],
+                'quantity' => $item['quantity'],
+                'price' => $item['price'],
+                'subtotal' => $item['price'] * $item['quantity']
+            ];
+            $orderItemModel->insert($orderItemData);
+        }
+
+        // Clear cart
+        $cartModel->clearCart(session()->get('user_id'));
+
+        // Set success message and redirect
+        $successMessage = 'Order placed successfully! Order ID: #' . $orderId;
+        if ($paymentMethod === 'cash') {
+            $successMessage .= ' - Pay with cash on delivery';
+        } elseif ($paymentMethod === 'bank') {
+            $successMessage .= ' - Please complete bank transfer';
+        } elseif ($paymentMethod === 'card') {
+            $successMessage .= ' - Payment processed successfully';
+        }
+        
+        session()->setFlashdata('success', $successMessage);
+        return redirect()->to('merchandise/thank-you/' . $orderId);
+    }
 } 

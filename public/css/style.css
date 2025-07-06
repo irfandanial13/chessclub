@@ -2892,7 +2892,7 @@ table tr:nth-child(even) {
     padding: 16px;
     background: linear-gradient(135deg, #8b4513, #a0522d);
     border: none;
-    border-radius: 12px;
+    border-radius: 1px;
     color: white;
     font-size: 16px;
     font-weight: 600;

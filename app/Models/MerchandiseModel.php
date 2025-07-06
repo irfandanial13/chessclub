@@ -13,7 +13,7 @@ class MerchandiseModel extends Model
                 'name' => 'Chess Club T-Shirt',
                 'price' => 25.00,
                 'image' => base_url('images/merch_tshirt.jpg'),
-                'description' => 'Premium cotton T-shirt with Chess Club logo.'
+                'description' => 'Premium cotton T-shirt Chess Club design.'
             ],
             [
                 'id' => 2,

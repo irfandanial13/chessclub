@@ -31,6 +31,12 @@ $routes->post('merchandise/addToCart/(:num)', 'MerchandiseController::addToCart/
 $routes->get('merchandise/cart', 'MerchandiseController::cart');
 $routes->post('merchandise/removeFromCart/(:num)', 'MerchandiseController::removeFromCart/$1');
 $routes->post('merchandise/checkout', 'MerchandiseController::checkout');
+$routes->post('merchandise/process-payment', 'MerchandiseController::processPayment');
+$routes->get('merchandise/cash-payment', 'MerchandiseController::cashPayment');
+$routes->get('merchandise/bank-payment', 'MerchandiseController::bankPayment');
+$routes->get('merchandise/card-payment', 'MerchandiseController::cardPayment');
+$routes->post('merchandise/complete-order', 'MerchandiseController::completeOrder');
+$routes->get('merchandise/thank-you/(:num)', 'MerchandiseController::thankYou/$1');
 
 // Admin Routes
 $routes->get('admin/dashboard', 'AdminController::dashboard');
