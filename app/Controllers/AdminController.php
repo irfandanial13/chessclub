@@ -105,8 +105,7 @@ class AdminController extends BaseController
         $eventModel = new \App\Models\EventModel();
         $data = [
             'title' => $this->request->getPost('title'),
-            'date' => $this->request->getPost('date'),
-            'location' => $this->request->getPost('location'),
+            'event_date' => $this->request->getPost('event_date'),
             'description' => $this->request->getPost('description'),
         ];
         $eventModel->insert($data);
@@ -134,8 +133,7 @@ class AdminController extends BaseController
         $eventModel = new \App\Models\EventModel();
         $data = [
             'title' => $this->request->getPost('title'),
-            'date' => $this->request->getPost('date'),
-            'location' => $this->request->getPost('location'),
+            'event_date' => $this->request->getPost('event_date'),
             'description' => $this->request->getPost('description'),
         ];
         $eventModel->update($event_id, $data);

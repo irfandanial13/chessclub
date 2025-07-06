@@ -30,7 +30,7 @@
             <label style="color:#8B5C2A; font-weight:600; font-size:1.08em; margin-bottom:6px;">Title:</label><br>
             <input type="text" name="title" class="elite-input" value="<?= esc($event['title']) ?>" style="color:#000; font-size:1.08em; margin-bottom:18px;" required><br>
             <label style="color:#8B5C2A; font-weight:600; font-size:1.08em; margin-bottom:6px;">Date:</label><br>
-            <input type="date" name="date" class="elite-input" value="<?= esc($event['event_date']) ?>" style="color:#000; font-size:1.08em; margin-bottom:18px;" required><br>
+            <input type="date" name="event_date" class="elite-input" value="<?= esc($event['event_date']) ?>" style="color:#000; font-size:1.08em; margin-bottom:18px;" required><br>
             <label style="color:#8B5C2A; font-weight:600; font-size:1.08em; margin-bottom:6px;">Description:</label><br>
             <textarea name="description" class="elite-input" style="color:#000; font-size:1.08em; margin-bottom:24px; min-height:80px;" required><?= esc($event['description']) ?></textarea><br>
             <div style="display:flex; gap:12px; align-items:center; margin-top:8px;">

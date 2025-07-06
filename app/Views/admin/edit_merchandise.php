@@ -111,7 +111,7 @@
 
                 <div class="form-group">
                     <label for="image">Image URL</label>
-                    <input type="url" id="image" name="image" value="<?= esc($merchandise['image']) ?>" placeholder="https://example.com/image.jpg">
+                    <input type="text" id="image" name="image" value="<?= esc($merchandise['image']) ?>" placeholder="https://example.com/image.jpg">
                 </div>
 
                 <div class="form-group">

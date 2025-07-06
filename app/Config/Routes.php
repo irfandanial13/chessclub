@@ -38,6 +38,10 @@ $routes->get('merchandise/card-payment', 'MerchandiseController::cardPayment');
 $routes->post('merchandise/complete-order', 'MerchandiseController::completeOrder');
 $routes->get('merchandise/thank-you/(:num)', 'MerchandiseController::thankYou/$1');
 
+// Contact Routes
+$routes->get('contact', 'ContactController::index');
+$routes->post('contact/send', 'ContactController::sendMessage');
+
 // Admin Routes
 $routes->get('admin/dashboard', 'AdminController::dashboard');
 $routes->get('admin/users', 'AdminController::manageUsers');
