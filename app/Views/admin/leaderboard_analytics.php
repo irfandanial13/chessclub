@@ -31,19 +31,23 @@
         
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
             margin-bottom: 40px;
         }
         
         .stat-card {
             background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             border-left: 5px solid #e8c547;
             transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 160px;
         }
         
         .stat-card:hover {
@@ -51,44 +55,60 @@
         }
         
         .stat-icon {
-            font-size: 2.5em;
-            margin-bottom: 15px;
+            font-size: 2em;
+            margin-bottom: 12px;
             color: #e8c547;
+            flex-shrink: 0;
         }
         
         .stat-value {
-            font-size: 2.5em;
+            font-size: 2em;
             font-weight: 700;
             color: #2c3e50;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            line-height: 1;
+            flex-shrink: 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .stat-label {
             color: #6c757d;
-            font-size: 1em;
+            font-size: 0.9em;
             font-weight: 500;
+            flex-shrink: 0;
+            margin-top: auto;
+            line-height: 1.2;
         }
         
         .charts-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
         .chart-card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 12px;
+            padding: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
         }
         
         .chart-title {
-            font-size: 1.3em;
+            font-size: 1.1em;
             font-weight: 600;
             color: #2c3e50;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
         }
         
         .top-performers {
@@ -250,11 +270,15 @@
             <div class="charts-section">
                 <div class="chart-card">
                     <h3 class="chart-title">Membership Level Distribution</h3>
-                    <canvas id="membershipChart" width="400" height="300"></canvas>
+                    <div class="chart-container">
+                        <canvas id="membershipChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-card">
                     <h3 class="chart-title">Points Distribution</h3>
-                    <canvas id="pointsChart" width="400" height="300"></canvas>
+                    <div class="chart-container">
+                        <canvas id="pointsChart"></canvas>
+                    </div>
                 </div>
             </div>
 
@@ -294,8 +318,9 @@
                         '#C0C0C0',
                         '#CD7F32'
                     ],
-                    borderWidth: 2,
-                    borderColor: '#fff'
+                    borderWidth: 3,
+                    borderColor: '#fff',
+                    hoverBorderWidth: 4
                 }]
             },
             options: {
@@ -305,17 +330,33 @@
                     legend: {
                         position: 'bottom',
                         labels: {
-                            padding: 20,
+                            padding: 15,
                             font: {
-                                size: 14
-                            }
+                                size: 12,
+                                weight: '500'
+                            },
+                            usePointStyle: true,
+                            pointStyle: 'circle'
                         }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleFont: {
+                            size: 13,
+                            weight: '600'
+                        },
+                        bodyFont: {
+                            size: 12
+                        },
+                        padding: 10,
+                        cornerRadius: 6
                     }
-                }
+                },
+                cutout: '60%'
             }
         });
 
-        // Points Distribution Chart (simplified - you can enhance this with actual data)
+        // Points Distribution Chart
         const pointsCtx = document.getElementById('pointsChart').getContext('2d');
         new Chart(pointsCtx, {
             type: 'bar',
@@ -335,8 +376,10 @@
                         '#3498db',
                         '#27ae60'
                     ],
-                    borderWidth: 1,
-                    borderColor: '#fff'
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                    borderRadius: 6,
+                    borderSkipped: false
                 }]
             },
             options: {
@@ -346,13 +389,49 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            stepSize: 1
+                            stepSize: 1,
+                            font: {
+                                size: 11
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)',
+                            lineWidth: 1
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 11,
+                                weight: '500'
+                            }
+                        },
+                        grid: {
+                            display: false
                         }
                     }
                 },
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleFont: {
+                            size: 13,
+                            weight: '600'
+                        },
+                        bodyFont: {
+                            size: 12
+                        },
+                        padding: 10,
+                        cornerRadius: 6
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 10,
+                        bottom: 10
                     }
                 }
             }

@@ -44,31 +44,42 @@
         
         .stats-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
             margin-bottom: 25px;
         }
         
         .stat-card {
             background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
             border-radius: 10px;
-            padding: 20px;
+            padding: 18px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             border-left: 4px solid #e8c547;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 110px;
         }
         
         .stat-value {
-            font-size: 2em;
+            font-size: 1.8em;
             font-weight: 700;
             color: #2c3e50;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            line-height: 1;
+            flex-shrink: 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .stat-label {
             color: #6c757d;
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 500;
+            flex-shrink: 0;
+            margin-top: auto;
+            line-height: 1.2;
         }
         
         .action-btn {
@@ -255,30 +266,49 @@
         
         .bulk-form {
             display: flex;
-            gap: 10px;
-            align-items: center;
+            gap: 15px;
+            align-items: flex-end;
             flex-wrap: wrap;
         }
         
-        .bulk-form input {
-            padding: 8px 12px;
+        .bulk-form input,
+        .bulk-form textarea {
+            padding: 10px 12px;
             border: 1px solid #ddd;
             border-radius: 6px;
-            width: 120px;
+            font-size: 0.9em;
+        }
+        
+        .bulk-form input {
+            width: 150px;
+        }
+        
+        .bulk-form textarea {
+            width: 200px;
+            height: 60px;
+            resize: vertical;
         }
         
         .bulk-form button {
-            padding: 8px 16px;
+            padding: 10px 16px;
             background: #e8c547;
             color: #2c1810;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
+            transition: all 0.2s;
         }
         
         .bulk-form button:hover {
             background: #d4b03a;
+            transform: translateY(-1px);
+        }
+        
+        .bulk-form button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
         }
     </style>
 </head>
@@ -549,8 +579,45 @@
             }
             
             if (confirm(`Are you sure you want to ${points > 0 ? 'add' : 'subtract'} ${Math.abs(points)} points to all users?`)) {
-                // This would need to be implemented in the controller
-                alert('Bulk points adjustment feature will be implemented.');
+                // Show loading state
+                const applyBtn = document.querySelector('#bulkActions button');
+                const originalText = applyBtn.textContent;
+                applyBtn.textContent = 'Processing...';
+                applyBtn.disabled = true;
+                
+                fetch('<?= base_url('admin/leaderboard/bulk-update-points') ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `points=${points}&reason=${encodeURIComponent(reason)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Success: ${data.message}`);
+                        hideBulkActions();
+                        // Clear the form
+                        document.getElementById('bulkPoints').value = '';
+                        document.getElementById('bulkReason').value = '';
+                        // Reload the page to show updated points
+                        location.reload();
+                    } else {
+                        alert(`Error: ${data.message}`);
+                        if (data.errors && data.errors.length > 0) {
+                            console.error('Bulk update errors:', data.errors);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while processing bulk points adjustment.');
+                })
+                .finally(() => {
+                    // Restore button state
+                    applyBtn.textContent = originalText;
+                    applyBtn.disabled = false;
+                });
             }
         }
         

@@ -53,9 +53,15 @@ $routes->get('admin/events/edit/(:num)', 'AdminController::editEvent/$1');
 $routes->post('admin/events/update/(:num)', 'AdminController::updateEvent/$1');
 $routes->get('admin/events/delete/(:num)', 'AdminController::deleteEvent/$1');
 
+// Order Management Routes
+$routes->get('admin/orders', 'AdminController::manageOrders');
+$routes->get('admin/orders/delete/(:num)', 'AdminController::deleteOrder/$1');
+$routes->get('admin/orders/view/(:num)', 'AdminController::viewOrder/$1');
+
 // Leaderboard Management Routes
 $routes->get('admin/leaderboard', 'AdminController::manageLeaderboard');
 $routes->post('admin/leaderboard/update-points/(:num)', 'AdminController::updateUserPoints/$1');
+$routes->post('admin/leaderboard/bulk-update-points', 'AdminController::bulkUpdatePoints');
 $routes->get('admin/leaderboard/reset', 'AdminController::resetLeaderboard');
 $routes->get('admin/leaderboard/export', 'AdminController::exportLeaderboard');
 $routes->get('admin/leaderboard/analytics', 'AdminController::leaderboardAnalytics');
@@ -70,4 +76,6 @@ $routes->post('admin/merchandise/store', 'AdminController::storeMerchandise');
 $routes->get('admin/merchandise/edit/(:num)', 'AdminController::editMerchandise/$1');
 $routes->post('admin/merchandise/update/(:num)', 'AdminController::updateMerchandise/$1');
 $routes->get('admin/merchandise/delete/(:num)', 'AdminController::deleteMerchandise/$1');
+$routes->get('admin/merchandise/toggle-availability/(:num)', 'AdminController::toggleMerchandiseAvailability/$1');
+$routes->post('admin/merchandise/update-stock/(:num)', 'AdminController::updateMerchandiseStock/$1');
 

@@ -13,7 +13,7 @@ class MerchandiseController extends BaseController
     public function index()
     {
         $model = new MerchandiseModel();
-        $items = $model->getAllMerchandise();
+        $items = $model->getAvailableMerchandise();
         return view('merchandise/index', ['items' => $items]);
     }
 
@@ -118,38 +118,57 @@ class MerchandiseController extends BaseController
         $cartModel = new CartModel();
         $cartItemModel = new CartItemModel();
         $merchModel = new MerchandiseModel();
-        $orderModel = new OrderModel();
-        $orderItemModel = new OrderItemModel();
 
+        // Check if user is logged in
+        if (!$userId) {
+            session()->setFlashdata('error', 'Please log in to proceed with checkout.');
+            return redirect()->to('/login');
+        }
+
+        // Get cart and items
         $cart = $cartModel
             ->where('user_id', $userId)
             ->orWhere('session_id', $sessionId)
             ->first();
-        if ($cart) {
-            $items = $cartItemModel->where('cart_id', $cart['id'])->findAll();
-            $total = 0;
-            foreach ($items as $item) {
-                $total += $item['price'] * $item['quantity'];
-            }
-            // Simpan ke tabel orders
-            $orderId = $orderModel->insert([
-                'user_id' => $userId,
-                'session_id' => $sessionId,
-                'total' => $total
-            ], true); // true = return insertID
-            // Simpan order_items
-            foreach ($items as $item) {
-                $orderItemModel->insert([
-                    'order_id' => $orderId,
-                    'item_id' => $item['item_id'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price']
-                ]);
-            }
-            // Hapus cart
-            $cartModel->delete($cart['id']);
+            
+        if (!$cart) {
+            session()->setFlashdata('error', 'Your cart is empty.');
+            return redirect()->to('/merchandise/cart');
         }
-        return view('merchandise/checkout');
+
+        $items = $cartItemModel->where('cart_id', $cart['id'])->findAll();
+        
+        if (empty($items)) {
+            session()->setFlashdata('error', 'Your cart is empty.');
+            return redirect()->to('/merchandise/cart');
+        }
+
+        // Calculate total
+        $total = 0;
+        $cartItems = [];
+        foreach ($items as $item) {
+            $merch = $merchModel->getItem($item['item_id']);
+            if ($merch) {
+                $subtotal = $item['price'] * $item['quantity'];
+                $total += $subtotal;
+                $cartItems[] = [
+                    'id' => $item['item_id'],
+                    'name' => $merch['name'],
+                    'price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'subtotal' => $subtotal
+                ];
+            }
+        }
+
+        // Store cart data in session for checkout process
+        session()->set('checkout_cart', $cartItems);
+        session()->set('checkout_total', $total);
+
+        return view('merchandise/checkout', [
+            'cartItems' => $cartItems,
+            'total' => $total
+        ]);
     }
 
     public function processPayment()
@@ -202,6 +221,22 @@ class MerchandiseController extends BaseController
             return redirect()->to('merchandise/checkout');
         }
 
+        // Check if user is logged in
+        $userId = session()->get('user_id');
+        if (!$userId) {
+            session()->setFlashdata('error', 'Please log in to complete your order.');
+            return redirect()->to('/login');
+        }
+
+        // Get cart data from session
+        $cartItems = session()->get('checkout_cart');
+        $total = session()->get('checkout_total');
+        
+        if (empty($cartItems)) {
+            session()->setFlashdata('error', 'Your cart is empty.');
+            return redirect()->to('merchandise/cart');
+        }
+
         // Validate input
         $rules = [
             'name' => 'required|min_length[2]',
@@ -216,89 +251,81 @@ class MerchandiseController extends BaseController
             return redirect()->back()->withInput();
         }
 
-        // Get form data
-        $orderData = [
-            'customer_name' => $this->request->getPost('name'),
-            'customer_email' => $this->request->getPost('email'),
-            'customer_phone' => $this->request->getPost('phone'),
-            'shipping_address' => $this->request->getPost('address'),
-            'payment_method' => $this->request->getPost('payment_method'),
-            'order_date' => date('Y-m-d H:i:s'),
-            'status' => 'pending',
-            'total_amount' => 0 // Will be calculated from cart
-        ];
-
-        // Add payment-specific data
-        $paymentMethod = $this->request->getPost('payment_method');
-        if ($paymentMethod === 'bank') {
-            $orderData['payment_details'] = json_encode([
-                'transfer_reference' => $this->request->getPost('transfer_reference')
-            ]);
-        } elseif ($paymentMethod === 'card') {
-            $orderData['payment_details'] = json_encode([
-                'card_last4' => substr($this->request->getPost('card_number'), -4),
-                'card_type' => 'credit/debit'
-            ]);
-            $orderData['status'] = 'paid'; // Mark as paid for card payments
-        }
-
-        // Add delivery notes if provided
-        if ($this->request->getPost('notes')) {
-            $orderData['order_notes'] = $this->request->getPost('notes');
-        }
-
-        // Get cart items and calculate total
-        $cartModel = new CartModel();
-        $cartItems = $cartModel->getCartItems(session()->get('user_id'));
-        
-        if (empty($cartItems)) {
-            session()->setFlashdata('error', 'Your cart is empty.');
-            return redirect()->to('merchandise/cart');
-        }
-
-        $total = 0;
-        foreach ($cartItems as $item) {
-            $total += $item['price'] * $item['quantity'];
-        }
-        $total += 10.00; // Delivery cost
-        $orderData['total_amount'] = $total;
-
-        // Save order
+        $sessionId = session_id();
         $orderModel = new OrderModel();
-        $orderId = $orderModel->insert($orderData);
+        $orderItemModel = new OrderItemModel();
+        $cartModel = new CartModel();
 
-        if (!$orderId) {
+        // Start transaction
+        $orderModel->db->transStart();
+
+        try {
+            // Create order
+            $orderData = [
+                'user_id' => $userId,
+                'session_id' => $sessionId,
+                'total' => $total
+            ];
+
+            $orderId = $orderModel->insert($orderData);
+
+            if (!$orderId) {
+                throw new \Exception('Failed to create order');
+            }
+
+            // Create order items
+            foreach ($cartItems as $item) {
+                $orderItemData = [
+                    'order_id' => $orderId,
+                    'item_id' => $item['id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price']
+                ];
+                
+                if (!$orderItemModel->insert($orderItemData)) {
+                    throw new \Exception('Failed to create order item');
+                }
+            }
+
+            // Clear cart
+            $cart = $cartModel
+                ->where('user_id', $userId)
+                ->orWhere('session_id', $sessionId)
+                ->first();
+                
+            if ($cart) {
+                $cartModel->delete($cart['id']);
+            }
+
+            // Clear session data
+            session()->remove('checkout_cart');
+            session()->remove('checkout_total');
+
+            $orderModel->db->transComplete();
+
+            if ($orderModel->db->transStatus() === false) {
+                throw new \Exception('Transaction failed');
+            }
+
+            // Set success message
+            $paymentMethod = $this->request->getPost('payment_method');
+            $successMessage = 'Order placed successfully! Order ID: #' . $orderId;
+            
+            if ($paymentMethod === 'cash') {
+                $successMessage .= ' - Pay with cash on delivery';
+            } elseif ($paymentMethod === 'bank') {
+                $successMessage .= ' - Please complete bank transfer';
+            } elseif ($paymentMethod === 'card') {
+                $successMessage .= ' - Payment processed successfully';
+            }
+            
+            session()->setFlashdata('success', $successMessage);
+            return redirect()->to('merchandise/thank-you/' . $orderId);
+
+        } catch (\Exception $e) {
+            $orderModel->db->transRollback();
             session()->setFlashdata('error', 'Failed to create order. Please try again.');
             return redirect()->back()->withInput();
         }
-
-        // Save order items
-        $orderItemModel = new OrderItemModel();
-        foreach ($cartItems as $item) {
-            $orderItemData = [
-                'order_id' => $orderId,
-                'merchandise_id' => $item['merchandise_id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-                'subtotal' => $item['price'] * $item['quantity']
-            ];
-            $orderItemModel->insert($orderItemData);
-        }
-
-        // Clear cart
-        $cartModel->clearCart(session()->get('user_id'));
-
-        // Set success message and redirect
-        $successMessage = 'Order placed successfully! Order ID: #' . $orderId;
-        if ($paymentMethod === 'cash') {
-            $successMessage .= ' - Pay with cash on delivery';
-        } elseif ($paymentMethod === 'bank') {
-            $successMessage .= ' - Please complete bank transfer';
-        } elseif ($paymentMethod === 'card') {
-            $successMessage .= ' - Payment processed successfully';
-        }
-        
-        session()->setFlashdata('success', $successMessage);
-        return redirect()->to('merchandise/thank-you/' . $orderId);
     }
 } 

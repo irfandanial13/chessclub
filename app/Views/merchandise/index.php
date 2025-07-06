@@ -226,7 +226,13 @@
         <div class="merch-grid">
             <?php foreach ($items as $item): ?>
                 <div class="merch-card">
-                    <img src="<?= esc($item['image']) ?>" alt="<?= esc($item['name']) ?>">
+                    <?php if (!empty($item['image'])): ?>
+                        <img src="<?= base_url($item['image']) ?>" alt="<?= esc($item['name']) ?>">
+                    <?php else: ?>
+                        <div style="width: 100%; height: 300px; background: #34495e; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; color: #bdc3c7; font-size: 3em;">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                    <?php endif; ?>
                     <h3><?= esc($item['name']) ?></h3>
                     <div class="price">RM<?= number_format($item['price'], 2) ?></div>
                     <p><?= esc($item['description']) ?></p>

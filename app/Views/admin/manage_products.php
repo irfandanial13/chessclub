@@ -113,35 +113,47 @@
         
         .stats-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
             margin-bottom: 30px;
         }
         
         .stat-card {
             background: #23272f;
-            padding: 20px;
+            padding: 18px;
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px;
         }
         
         .stat-icon {
-            font-size: 2em;
+            font-size: 1.8em;
             color: #e8c547;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
         }
         
         .stat-value {
-            font-size: 1.8em;
+            font-size: 1.6em;
             font-weight: bold;
             color: #fff;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            line-height: 1;
+            flex-shrink: 0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .stat-label {
             color: #bdc3c7;
-            font-size: 0.9em;
+            font-size: 0.85em;
+            flex-shrink: 0;
+            margin-top: auto;
+            line-height: 1.2;
         }
         
         .product-image {

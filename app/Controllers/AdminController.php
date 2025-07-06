@@ -24,14 +24,14 @@ class AdminController extends BaseController
     public function editUser($id = null)
     {
         if (!$id || !is_numeric($id)) {
-            return redirect()->to(base_url('admin/manage-users'))->with('error', 'Invalid user ID');
+            return redirect()->to(base_url('admin/users'))->with('error', 'Invalid user ID');
         }
 
         $userModel = new UserModel();
         $user = $userModel->find($id);
 
         if (!$user) {
-            return redirect()->to(base_url('admin/manage-users'))->with('error', 'User not found');
+            return redirect()->to(base_url('admin/users'))->with('error', 'User not found');
         }
 
         return view('admin/edit_user', [
@@ -51,14 +51,14 @@ class AdminController extends BaseController
         ];
 
         $userModel->update($id, $data);
-        return redirect()->to(base_url('admin/manage-users'))->with('success', 'User updated successfully');
+        return redirect()->to(base_url('admin/users'))->with('success', 'User updated successfully');
     }
 
     public function deleteUser($id)
     {
         $userModel = new UserModel();
         $userModel->delete($id);
-        return redirect()->to(base_url('admin/manage-users'))->with('success', 'User deleted successfully');
+        return redirect()->to(base_url('admin/users'))->with('success', 'User deleted successfully');
     }
 
     public function createUser()
@@ -215,6 +215,53 @@ class AdminController extends BaseController
         ]);
     }
 
+    public function bulkUpdatePoints()
+    {
+        $userModel = new UserModel();
+        $points = $this->request->getPost('points');
+        $reason = $this->request->getPost('reason') ?? 'Bulk admin adjustment';
+        
+        if (!is_numeric($points)) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Invalid points value']);
+        }
+
+        // Get all active users
+        $users = $userModel->where('status', 'Active')->findAll();
+        
+        if (empty($users)) {
+            return $this->response->setJSON(['success' => false, 'message' => 'No active users found']);
+        }
+
+        $updatedCount = 0;
+        $errors = [];
+
+        foreach ($users as $user) {
+            try {
+                $newPoints = max(0, ($user['honor_points'] ?? 0) + $points);
+                $userModel->update($user['id'], ['honor_points' => $newPoints]);
+                $updatedCount++;
+            } catch (\Exception $e) {
+                $errors[] = "Failed to update user {$user['name']}: " . $e->getMessage();
+            }
+        }
+
+        if ($updatedCount > 0) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => "Successfully updated points for {$updatedCount} users",
+                'updatedCount' => $updatedCount,
+                'adjustment' => $points,
+                'errors' => $errors
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Failed to update any users',
+                'errors' => $errors
+            ]);
+        }
+    }
+
     public function resetLeaderboard()
     {
         $userModel = new UserModel();
@@ -285,5 +332,214 @@ class AdminController extends BaseController
         ];
         
         return view('admin/leaderboard_analytics', $data);
+    }
+
+    // Order Management Methods
+    public function manageOrders()
+    {
+        $orderModel = new \App\Models\OrderModel();
+        
+        // Get search parameters
+        $search = $this->request->getGet('search');
+        
+        // Get orders with details
+        $orders = $orderModel->getOrdersWithDetails();
+        
+        // Filter by search
+        if ($search) {
+            $orders = array_filter($orders, function($order) use ($search) {
+                return stripos((string)$order['id'], $search) !== false ||
+                       stripos($order['user_name'] ?? '', $search) !== false ||
+                       stripos($order['user_email'] ?? '', $search) !== false;
+            });
+        }
+        
+        // Get statistics
+        $stats = $orderModel->getOrderStats();
+        
+        $data = [
+            'title' => 'Manage Orders',
+            'orders' => $orders,
+            'totalOrders' => $stats['total_orders'] ?? 0,
+            'totalRevenue' => $stats['total_revenue'] ?? 0,
+            'avgOrderValue' => $stats['avg_order_value'] ?? 0,
+            'recentOrders' => $stats['recent_orders'] ?? 0,
+            'search' => $search
+        ];
+        
+        return view('admin/manage_orders', $data);
+    }
+
+    public function deleteOrder($id)
+    {
+        $orderModel = new \App\Models\OrderModel();
+        $orderItemModel = new \App\Models\OrderItemModel();
+        
+        // Start transaction
+        $orderModel->db->transStart();
+        
+        try {
+            // Delete order items first
+            $orderItemModel->deleteByOrderId($id);
+            
+            // Delete order
+            if (!$orderModel->delete($id)) {
+                throw new \Exception('Failed to delete order');
+            }
+            
+            $orderModel->db->transComplete();
+            
+            if ($orderModel->db->transStatus() === false) {
+                throw new \Exception('Transaction failed');
+            }
+            
+            return redirect()->to(base_url('admin/orders'))->with('success', 'Order deleted successfully');
+            
+        } catch (\Exception $e) {
+            $orderModel->db->transRollback();
+            return redirect()->to(base_url('admin/orders'))->with('error', 'Failed to delete order');
+        }
+    }
+
+    public function viewOrder($id)
+    {
+        if (!$id || !is_numeric($id)) {
+            return redirect()->to(base_url('admin/orders'))->with('error', 'Invalid order ID');
+        }
+
+        $orderModel = new \App\Models\OrderModel();
+        $order = $orderModel->getOrderWithDetails($id);
+
+        if (!$order) {
+            return redirect()->to(base_url('admin/orders'))->with('error', 'Order not found');
+        }
+
+        return view('admin/view_order', [
+            'title' => 'View Order',
+            'order' => $order
+        ]);
+    }
+
+    // Merchandise Management Methods
+    public function manageMerchandise()
+    {
+        $merchandiseModel = new \App\Models\MerchandiseModel();
+        $search = $this->request->getGet('search');
+        $availability = $this->request->getGet('availability');
+
+        $query = $merchandiseModel;
+        
+        if ($search) {
+            $query = $query->like('name', $search);
+        }
+        
+        if ($availability && $availability !== 'all') {
+            if ($availability === 'available') {
+                $query = $query->where('is_available', true);
+            } elseif ($availability === 'unavailable') {
+                $query = $query->where('is_available', false);
+            } elseif ($availability === 'out_of_stock') {
+                $query = $query->where('stock_quantity', 0);
+            }
+        }
+        
+        $merchandise = $query->findAll();
+        $stats = $merchandiseModel->getStats();
+
+        return view('admin/manage_merchandise', [
+            'title' => 'Manage Merchandise',
+            'merchandise' => $merchandise,
+            'stats' => $stats,
+            'search' => $search,
+            'availability' => $availability
+        ]);
+    }
+
+    public function createMerchandise()
+    {
+        return view('admin/create_merchandise', [
+            'title' => 'Create Merchandise'
+        ]);
+    }
+
+    public function storeMerchandise()
+    {
+        $merchandiseModel = new \App\Models\MerchandiseModel();
+        
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'description' => $this->request->getPost('description'),
+            'price' => $this->request->getPost('price'),
+            'image' => $this->request->getPost('image'),
+            'is_available' => $this->request->getPost('is_available') ? true : false,
+            'stock_quantity' => $this->request->getPost('stock_quantity'),
+        ];
+
+        $merchandiseModel->insert($data);
+        return redirect()->to(base_url('admin/merchandise'))->with('success', 'Merchandise created successfully');
+    }
+
+    public function editMerchandise($id)
+    {
+        $merchandiseModel = new \App\Models\MerchandiseModel();
+        $merchandise = $merchandiseModel->find($id);
+        
+        if (!$merchandise) {
+            return redirect()->to(base_url('admin/merchandise'))->with('error', 'Merchandise not found');
+        }
+
+        return view('admin/edit_merchandise', [
+            'title' => 'Edit Merchandise',
+            'merchandise' => $merchandise
+        ]);
+    }
+
+    public function updateMerchandise($id)
+    {
+        $merchandiseModel = new \App\Models\MerchandiseModel();
+        
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'description' => $this->request->getPost('description'),
+            'price' => $this->request->getPost('price'),
+            'image' => $this->request->getPost('image'),
+            'is_available' => $this->request->getPost('is_available') ? true : false,
+            'stock_quantity' => $this->request->getPost('stock_quantity'),
+        ];
+
+        $merchandiseModel->update($id, $data);
+        return redirect()->to(base_url('admin/merchandise'))->with('success', 'Merchandise updated successfully');
+    }
+
+    public function deleteMerchandise($id)
+    {
+        $merchandiseModel = new \App\Models\MerchandiseModel();
+        $merchandiseModel->delete($id);
+        return redirect()->to(base_url('admin/merchandise'))->with('success', 'Merchandise deleted successfully');
+    }
+
+    public function toggleMerchandiseAvailability($id)
+    {
+        $merchandiseModel = new \App\Models\MerchandiseModel();
+        $success = $merchandiseModel->toggleAvailability($id);
+        
+        if ($success) {
+            return redirect()->to(base_url('admin/merchandise'))->with('success', 'Availability toggled successfully');
+        } else {
+            return redirect()->to(base_url('admin/merchandise'))->with('error', 'Failed to toggle availability');
+        }
+    }
+
+    public function updateMerchandiseStock($id)
+    {
+        $merchandiseModel = new \App\Models\MerchandiseModel();
+        $quantity = $this->request->getPost('stock_quantity');
+        
+        if (!is_numeric($quantity) || $quantity < 0) {
+            return redirect()->to(base_url('admin/merchandise'))->with('error', 'Invalid stock quantity');
+        }
+
+        $merchandiseModel->updateStock($id, $quantity);
+        return redirect()->to(base_url('admin/merchandise'))->with('success', 'Stock updated successfully');
     }
 }

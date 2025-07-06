@@ -44,6 +44,21 @@
                     <i class="fas fa-trophy"></i> Manage Leaderboard
                 </a>
             </li>
+            <li style="margin-bottom:18px;">
+                <a href="<?= base_url('admin/orders') ?>" style="display:flex;align-items:center;gap:10px;font-size:1.15em;text-decoration:none;color:#2c3e50;font-weight:600;">
+                    <i class="fas fa-shopping-cart"></i> Manage Orders
+                </a>
+            </li>
+            <li style="margin-bottom:18px;">
+                <a href="<?= base_url('admin/orders') ?>" style="display:flex;align-items:center;gap:10px;font-size:1.15em;text-decoration:none;color:#2c3e50;font-weight:600;">
+                    <i class="fas fa-shopping-cart"></i> Manage Orders
+                </a>
+            </li>
+            <li style="margin-bottom:18px;">
+                <a href="<?= base_url('admin/merchandise') ?>" style="display:flex;align-items:center;gap:10px;font-size:1.15em;text-decoration:none;color:#2c3e50;font-weight:600;">
+                    <i class="fas fa-tshirt"></i> Manage Merchandise
+                </a>
+            </li>
         </ul>
     </div>
 </body>

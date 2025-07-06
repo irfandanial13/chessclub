@@ -265,21 +265,24 @@
     </div>
 
     <script>
-        // Sample order data (in real app, this would come from session/cart)
-        const orderItems = [
-            { name: 'Chess Club T-Shirt', price: 25.00, qty: 1 },
-            { name: 'Chess Mug', price: 12.00, qty: 2 }
-        ];
+        // Get order data from PHP
+        const orderItems = <?= json_encode($cartItems ?? []) ?>;
+        const total = <?= $total ?? 0 ?>;
 
         // Calculate totals
-        let subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        let delivery = 10.00;
-        let total = subtotal + delivery;
+        let subtotal = total;
+        let delivery = 0.00; // No delivery fee for now
+        let finalTotal = subtotal + delivery;
 
         // Populate order summary
         function populateOrderSummary() {
             const orderItemsContainer = document.getElementById('orderItems');
             orderItemsContainer.innerHTML = '';
+            
+            if (orderItems.length === 0) {
+                orderItemsContainer.innerHTML = '<div style="text-align: center; color: #bdc3c7; padding: 20px;">No items in cart</div>';
+                return;
+            }
             
             orderItems.forEach(item => {
                 const itemDiv = document.createElement('div');
@@ -287,16 +290,16 @@
                 itemDiv.innerHTML = `
                     <div class="item-details">
                         <div class="item-name">${item.name}</div>
-                        <div>Qty: ${item.qty}</div>
-</div>
-                    <div class="item-price">RM${(item.price * item.qty).toFixed(2)}</div>
+                        <div>Qty: ${item.quantity}</div>
+                    </div>
+                    <div class="item-price">RM${(item.price * item.quantity).toFixed(2)}</div>
                 `;
                 orderItemsContainer.appendChild(itemDiv);
             });
 
             document.getElementById('subtotal').textContent = subtotal.toFixed(2);
             document.getElementById('delivery').textContent = delivery.toFixed(2);
-            document.getElementById('finalTotal').textContent = total.toFixed(2);
+            document.getElementById('finalTotal').textContent = finalTotal.toFixed(2);
         }
 
         // Payment method selection

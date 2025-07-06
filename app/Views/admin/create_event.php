@@ -34,10 +34,10 @@
             <label style="color:#8B5C2A; font-weight:600; font-size:1.08em; margin-bottom:6px;">Description:</label><br>
             <textarea name="description" class="elite-input" style="color:#000; font-size:1.08em; margin-bottom:24px; min-height:80px;" required></textarea><br>
             <div style="display:flex; gap:12px; align-items:center; margin-top:8px;">
-                <button type="submit" class="elite-button" style="font-size:1.08em; padding:10px 28px; background:#2c3e50; border-radius:6px; transition:background 0.2s;" onmouseover="this.style.background='#1a252f'" onmouseout="this.style.background='#2c3e50'">
+                <button type="submit" class="elite-button" style="font-size:1.08em; padding:10px 28px; background:#2c3e50; border-radius:3px; transition:background 0.2s;" onmouseover="this.style.background='#1a252f'" onmouseout="this.style.background='#2c3e50'">
                     <i class="fas fa-save"></i> Save
                 </button>
-                <a href="<?= base_url('admin/events') ?>" class="elite-button" style="font-size:1.08em; padding:10px 28px; background:#888; border-radius:6px; transition:background 0.2s; text-align:center; display:inline-block; line-height:38px;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#888'">
+                <a href="<?= base_url('admin/events') ?>" class="elite-button" style="font-size:1.08em; padding:5px 28px; background:#888; border-radius:3px; transition:background 0.2s; text-align:center; display:inline-block; line-height:38px;" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#888'">
                     <i class="fas fa-times"></i> Cancel
                 </a>
             </div>
