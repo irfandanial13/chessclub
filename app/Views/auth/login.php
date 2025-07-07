@@ -42,20 +42,31 @@
             </div>
         <?php endif; ?>
 
-        <form method="post" action="<?= base_url('login') ?>" class="elite-form">
+        <form method="post" action="<?= base_url('login') ?>" class="elite-form" id="loginForm">
             <?= csrf_field() ?>
+            
+            <?php if (session()->getFlashdata('errors')): ?>
+                <div class="validation-summary">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Please correct the following errors:</h4>
+                    <ul>
+                        <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                            <li><?= esc($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
             
             <div class="input-field">
                 <div class="input-icon">
-                    <!-- <i class="fas fa-envelope"></i> -->
+                    <i class="fas fa-envelope"></i>
                 </div>
-                <input type="email" name="email" placeholder="Your Email Address" required class="elite-input">
+                <input type="email" name="email" placeholder="Your Email Address" required class="elite-input" value="<?= old('email') ?>">
                 <div class="input-highlight"></div>
             </div>
             
             <div class="input-field">
                 <div class="input-icon">
-                    <!-- <i class="fas fa-lock"></i> -->
+                    <i class="fas fa-lock"></i>
                 </div>
                 <input type="password" name="password" placeholder="Your Password" required class="elite-input">
                 <div class="input-highlight"></div>
@@ -104,5 +115,12 @@
             <div class="club-motto">"Excellence in every move, prestige in every game"</div>
         </div>
     </div>
+    
+    <!-- Validation Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+    <script src="<?= base_url('js/validation.js') ?>"></script>
+    <link rel="stylesheet" href="<?= base_url('css/validation.css') ?>">
 </body>
 </html>

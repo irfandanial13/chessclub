@@ -49,14 +49,25 @@
             </div>
         <?php endif; ?>
 
-        <form method="post" action="<?= base_url('register') ?>" class="elite-form">
+        <form method="post" action="<?= base_url('register') ?>" class="elite-form" id="registerForm">
             <?= csrf_field() ?>
+            
+            <?php if (session()->getFlashdata('errors')): ?>
+                <div class="validation-summary">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Please correct the following errors:</h4>
+                    <ul>
+                        <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                            <li><?= esc($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
             
             <div class="input-field">
                 <div class="input-icon">
                     <i class="fas fa-user"></i>
                 </div>
-                <input type="text" name="name" placeholder="Full Name" required class="elite-input">
+                <input type="text" name="name" placeholder="Full Name" required class="elite-input" value="<?= old('name') ?>">
                 <div class="input-highlight"></div>
             </div>
             
@@ -64,7 +75,7 @@
                 <div class="input-icon">
                     <i class="fas fa-envelope"></i>
                 </div>
-                <input type="email" name="email" placeholder="Email Address" required class="elite-input">
+                <input type="email" name="email" placeholder="Email Address" required class="elite-input" value="<?= old('email') ?>">
                 <div class="input-highlight"></div>
             </div>
             
@@ -72,7 +83,15 @@
                 <div class="input-icon">
                     <i class="fas fa-lock"></i>
                 </div>
-                <input type="password" name="password" placeholder="Password" required class="elite-input">
+                <input type="password" name="password" id="password" placeholder="Password" required class="elite-input">
+                <div class="input-highlight"></div>
+            </div>
+            
+            <div class="input-field">
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required class="elite-input">
                 <div class="input-highlight"></div>
             </div>
             
@@ -81,9 +100,9 @@
                     <i class="fas fa-medal"></i>
                 </div>
                 <select name="membership_level" required class="elite-input elite-select">
-                    <option value="Bronze" selected>♔ Bronze Member</option>
-                    <option value="Silver">♕ Silver Member</option>
-                    <option value="Gold">♖ Gold Member</option>
+                    <option value="Bronze" <?= old('membership_level') == 'Bronze' ? 'selected' : '' ?>>♔ Bronze Member</option>
+                    <option value="Silver" <?= old('membership_level') == 'Silver' ? 'selected' : '' ?>>♕ Silver Member</option>
+                    <option value="Gold" <?= old('membership_level') == 'Gold' ? 'selected' : '' ?>>♖ Gold Member</option>
                 </select>
                 <div class="input-highlight"></div>
             </div>
@@ -130,5 +149,12 @@
             <div class="club-motto">"Excellence in every move, prestige in every game"</div>
         </div>
     </div>
+    
+    <!-- Validation Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+    <script src="<?= base_url('js/validation.js') ?>"></script>
+    <link rel="stylesheet" href="<?= base_url('css/validation.css') ?>">
 </body>
 </html>

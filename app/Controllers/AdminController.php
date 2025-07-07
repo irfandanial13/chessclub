@@ -110,14 +110,57 @@ class AdminController extends BaseController
 
     public function storeEvent()
     {
+        $validation = \Config\Services::validation();
+        
+        // Set validation rules
+        $validation->setRules([
+            'title' => [
+                'rules' => 'required|min_length[3]|max_length[255]',
+                'errors' => [
+                    'required' => 'Event title is required.',
+                    'min_length' => 'Event title must be at least 3 characters long.',
+                    'max_length' => 'Event title cannot exceed 255 characters.'
+                ]
+            ],
+            'event_date' => [
+                'rules' => 'required|valid_date|check_future_date',
+                'errors' => [
+                    'required' => 'Event date is required.',
+                    'valid_date' => 'Please enter a valid date.',
+                    'check_future_date' => 'Event date must be in the future.'
+                ]
+            ],
+            'description' => [
+                'rules' => 'required|min_length[10]|max_length[1000]',
+                'errors' => [
+                    'required' => 'Event description is required.',
+                    'min_length' => 'Event description must be at least 10 characters long.',
+                    'max_length' => 'Event description cannot exceed 1000 characters.'
+                ]
+            ]
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $validation->getErrors());
+        }
+
         $eventModel = new \App\Models\EventModel();
         $data = [
             'title' => $this->request->getPost('title'),
             'event_date' => $this->request->getPost('event_date'),
             'description' => $this->request->getPost('description'),
         ];
-        $eventModel->insert($data);
-        return redirect()->to(base_url('admin/event'))->with('success', 'Event created successfully');
+        
+        try {
+            $eventModel->insert($data);
+            return redirect()->to(base_url('admin/event'))->with('success', 'Event created successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to create event. Please try again.');
+        }
     }
 
     public function editEvent($event_id = null)
@@ -138,14 +181,57 @@ class AdminController extends BaseController
 
     public function updateEvent($event_id)
     {
+        $validation = \Config\Services::validation();
+        
+        // Set validation rules
+        $validation->setRules([
+            'title' => [
+                'rules' => 'required|min_length[3]|max_length[255]',
+                'errors' => [
+                    'required' => 'Event title is required.',
+                    'min_length' => 'Event title must be at least 3 characters long.',
+                    'max_length' => 'Event title cannot exceed 255 characters.'
+                ]
+            ],
+            'event_date' => [
+                'rules' => 'required|valid_date|check_today_or_future',
+                'errors' => [
+                    'required' => 'Event date is required.',
+                    'valid_date' => 'Please enter a valid date.',
+                    'check_today_or_future' => 'Event date cannot be in the past.'
+                ]
+            ],
+            'description' => [
+                'rules' => 'required|min_length[10]|max_length[1000]',
+                'errors' => [
+                    'required' => 'Event description is required.',
+                    'min_length' => 'Event description must be at least 10 characters long.',
+                    'max_length' => 'Event description cannot exceed 1000 characters.'
+                ]
+            ]
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $validation->getErrors());
+        }
+
         $eventModel = new \App\Models\EventModel();
         $data = [
             'title' => $this->request->getPost('title'),
             'event_date' => $this->request->getPost('event_date'),
             'description' => $this->request->getPost('description'),
         ];
-        $eventModel->update($event_id, $data);
-        return redirect()->to(base_url('admin/event'))->with('success', 'Event updated successfully');
+        
+        try {
+            $eventModel->update($event_id, $data);
+            return redirect()->to(base_url('admin/event'))->with('success', 'Event updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to update event. Please try again.');
+        }
     }
 
     public function deleteEvent($event_id)
@@ -488,6 +574,51 @@ class AdminController extends BaseController
 
     public function storeMerchandise()
     {
+        $validation = \Config\Services::validation();
+        
+        // Set validation rules
+        $validation->setRules([
+            'name' => [
+                'rules' => 'required|min_length[2]|max_length[255]',
+                'errors' => [
+                    'required' => 'Product name is required.',
+                    'min_length' => 'Product name must be at least 2 characters long.',
+                    'max_length' => 'Product name cannot exceed 255 characters.'
+                ]
+            ],
+            'description' => [
+                'rules' => 'required|min_length[10]|max_length[1000]',
+                'errors' => [
+                    'required' => 'Product description is required.',
+                    'min_length' => 'Product description must be at least 10 characters long.',
+                    'max_length' => 'Product description cannot exceed 1000 characters.'
+                ]
+            ],
+            'price' => [
+                'rules' => 'required|numeric|greater_than[0]|less_than_equal_to[999999.99]',
+                'errors' => [
+                    'required' => 'Product price is required.',
+                    'numeric' => 'Price must be a valid number.',
+                    'greater_than' => 'Price must be greater than 0.',
+                    'less_than_equal_to' => 'Price cannot exceed 999,999.99.'
+                ]
+            ],
+            'stock_quantity' => [
+                'rules' => 'required|integer|greater_than_equal_to[0]',
+                'errors' => [
+                    'required' => 'Stock quantity is required.',
+                    'integer' => 'Stock quantity must be a whole number.',
+                    'greater_than_equal_to' => 'Stock quantity cannot be negative.'
+                ]
+            ]
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $validation->getErrors());
+        }
+
         $merchandiseModel = new \App\Models\MerchandiseModel();
         
         $data = [
@@ -499,8 +630,14 @@ class AdminController extends BaseController
             'stock_quantity' => $this->request->getPost('stock_quantity'),
         ];
 
-        $merchandiseModel->insert($data);
-        return redirect()->to(base_url('admin/merchandise'))->with('success', 'Merchandise created successfully');
+        try {
+            $merchandiseModel->insert($data);
+            return redirect()->to(base_url('admin/merchandise'))->with('success', 'Merchandise created successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to create merchandise. Please try again.');
+        }
     }
 
     public function editMerchandise($id)

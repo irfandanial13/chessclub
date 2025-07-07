@@ -13,6 +13,31 @@ class AuthController extends BaseController
 
     public function loginPost()
     {
+        $validation = \Config\Services::validation();
+        
+        // Set validation rules
+        $validation->setRules([
+            'email' => [
+                'rules' => 'required|valid_email',
+                'errors' => [
+                    'required' => 'Email address is required.',
+                    'valid_email' => 'Please enter a valid email address.'
+                ]
+            ],
+            'password' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Password is required.'
+                ]
+            ]
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $validation->getErrors());
+        }
+
         $session = session();
         $model = new UserModel();
 
@@ -56,6 +81,57 @@ class AuthController extends BaseController
 
     public function registerPost()
     {
+        $validation = \Config\Services::validation();
+        
+        // Set validation rules
+        $validation->setRules([
+            'name' => [
+                'rules' => 'required|min_length[2]|max_length[100]|alpha_space',
+                'errors' => [
+                    'required' => 'Full name is required.',
+                    'min_length' => 'Name must be at least 2 characters long.',
+                    'max_length' => 'Name cannot exceed 100 characters.',
+                    'alpha_space' => 'Name can only contain letters and spaces.'
+                ]
+            ],
+            'email' => [
+                'rules' => 'required|valid_email|is_unique[users.email]',
+                'errors' => [
+                    'required' => 'Email address is required.',
+                    'valid_email' => 'Please enter a valid email address.',
+                    'is_unique' => 'This email address is already registered.'
+                ]
+            ],
+            'password' => [
+                'rules' => 'required|min_length[8]|max_length[255]|regex_match[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/]',
+                'errors' => [
+                    'required' => 'Password is required.',
+                    'min_length' => 'Password must be at least 8 characters long.',
+                    'max_length' => 'Password cannot exceed 255 characters.',
+                    'regex_match' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+                ]
+            ],
+            'membership_level' => [
+                'rules' => 'required|in_list[Bronze,Silver,Gold]',
+                'errors' => [
+                    'required' => 'Please select a membership level.',
+                    'in_list' => 'Please select a valid membership level.'
+                ]
+            ],
+            'terms' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'You must agree to the terms and conditions.'
+                ]
+            ]
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $validation->getErrors());
+        }
+
         $model = new UserModel();
 
         $data = [
@@ -64,11 +140,17 @@ class AuthController extends BaseController
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'membership_level' => $this->request->getPost('membership_level') ?: 'Bronze',
             'status' => 'Active',
+            'created_at' => date('Y-m-d H:i:s'),
         ];
 
-        $model->save($data);
-
-        return redirect()->to('/login')->with('success', 'Registered successfully!');
+        try {
+            $model->save($data);
+            return redirect()->to('/login')->with('success', 'Registered successfully! Please login.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Registration failed. Please try again.');
+        }
     }
 
     public function logout()
