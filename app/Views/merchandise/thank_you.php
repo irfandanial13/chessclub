@@ -117,6 +117,14 @@
 
     <div class="auth-container">
         <div class="thankyou-container">
+            <!-- Success Message -->
+            <?php if (session()->getFlashdata('success')): ?>
+                <div style="background: #27ae60; color: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-size: 1.1em;">
+                    <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+                    <?= session()->getFlashdata('success') ?>
+                </div>
+            <?php endif; ?>
+            
             <div class="success-card">
                 <div class="success-icon">✅</div>
                 <h2>Thank You for Your Order!</h2>

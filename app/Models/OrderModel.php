@@ -13,7 +13,10 @@ class OrderModel extends Model
     protected $allowedFields = [
         'user_id',
         'session_id',
-        'total'
+        'total',
+        'payment_method',
+        'status',
+        'transfer_slip'
     ];
 
     // Dates

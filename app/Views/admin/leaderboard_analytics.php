@@ -250,7 +250,7 @@
                     <div class="stat-label">Average Points per Member</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">🥇</div>
+                    <div class="stat-icon"></div>
                     <div class="stat-value"><?= $goldUsers ?></div>
                     <div class="stat-label">Gold Level Members</div>
                 </div>

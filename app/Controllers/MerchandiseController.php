@@ -243,8 +243,13 @@ class MerchandiseController extends BaseController
             'email' => 'required|valid_email',
             'phone' => 'required|min_length[10]',
             'address' => 'required|min_length[10]',
-            'payment_method' => 'required|in_list[cash,bank,card]'
+            'payment_method' => 'required|in_list[bank]'
         ];
+
+        // Add file validation for bank transfer
+        if ($this->request->getPost('payment_method') === 'bank') {
+            $rules['transfer_slip'] = 'uploaded[transfer_slip]|max_size[transfer_slip,5120]|mime_in[transfer_slip,image/jpeg,image/png,image/jpg,application/pdf]';
+        }
 
         if (!$this->validate($rules)) {
             session()->setFlashdata('error', 'Please check your input and try again.');
@@ -260,11 +265,25 @@ class MerchandiseController extends BaseController
         $orderModel->db->transStart();
 
         try {
+            // Handle file upload for bank transfer
+            $transferSlipPath = null;
+            if ($this->request->getPost('payment_method') === 'bank') {
+                $file = $this->request->getFile('transfer_slip');
+                if ($file && $file->isValid() && !$file->hasMoved()) {
+                    $newName = 'transfer_slip_' . time() . '_' . $file->getRandomName();
+                    $file->move(WRITEPATH . 'uploads/transfers', $newName);
+                    $transferSlipPath = 'uploads/transfers/' . $newName;
+                }
+            }
+
             // Create order
             $orderData = [
                 'user_id' => $userId,
                 'session_id' => $sessionId,
-                'total' => $total
+                'total' => $total,
+                'payment_method' => $this->request->getPost('payment_method'),
+                'status' => 'pending',
+                'transfer_slip' => $transferSlipPath
             ];
 
             $orderId = $orderModel->insert($orderData);
@@ -309,14 +328,10 @@ class MerchandiseController extends BaseController
 
             // Set success message
             $paymentMethod = $this->request->getPost('payment_method');
-            $successMessage = 'Order placed successfully! Order ID: #' . $orderId;
+            $successMessage = '✅ Order Received Successfully! Order ID: #' . $orderId;
             
-            if ($paymentMethod === 'cash') {
-                $successMessage .= ' - Pay with cash on delivery';
-            } elseif ($paymentMethod === 'bank') {
-                $successMessage .= ' - Please complete bank transfer';
-            } elseif ($paymentMethod === 'card') {
-                $successMessage .= ' - Payment processed successfully';
+            if ($paymentMethod === 'bank') {
+                $successMessage .= ' - Your transfer slip has been uploaded. We will verify and process your order soon.';
             }
             
             session()->setFlashdata('success', $successMessage);
@@ -327,5 +342,21 @@ class MerchandiseController extends BaseController
             session()->setFlashdata('error', 'Failed to create order. Please try again.');
             return redirect()->back()->withInput();
         }
+    }
+
+    public function thankYou($orderId)
+    {
+        $orderModel = new OrderModel();
+        $order = $orderModel->getOrderWithDetails($orderId);
+        
+        if (!$order) {
+            session()->setFlashdata('error', 'Order not found.');
+            return redirect()->to('/merchandise');
+        }
+        
+        return view('merchandise/thank_you', [
+            'order' => $order,
+            'orderId' => $orderId
+        ]);
     }
 } 

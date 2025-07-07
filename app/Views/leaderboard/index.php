@@ -322,11 +322,11 @@
                     <td>
                         <?= esc($user['membership_level']) ?>
                         <?php if (strtolower($user['membership_level']) === 'gold'): ?>
-                            <span class="membership-badge membership-gold" title="Gold">🥇</span>
+                            <span class="membership-badge membership-gold" title="Gold"></span>
                         <?php elseif (strtolower($user['membership_level']) === 'silver'): ?>
-                            <span class="membership-badge membership-silver" title="Silver">🥈</span>
+                            <span class="membership-badge membership-silver" title="Silver"></span>
                         <?php elseif (strtolower($user['membership_level']) === 'bronze'): ?>
-                            <span class="membership-badge membership-bronze" title="Bronze">🥉</span>
+                            <span class="membership-badge membership-bronze" title="Bronze"></span>
                         <?php endif; ?>
                     </td>
                     <td><?= esc($user['honor_points'] ?? 0) ?></td>
@@ -336,7 +336,7 @@
         </table>
     </div>
     <div id="board-gold" class="board-table" style="display:none;">
-        <h2 class="events-title">Leaderboard - Gold Level <span style="font-size:1.1em;">🥇</span></h2>
+        <h2 class="events-title">Leaderboard - Gold Level <span style="font-size:1.1em;"></span></h2>
         <table class="leaderboard-table" id="leaderboard-table-gold">
             <thead>
                 <tr>
@@ -366,7 +366,7 @@
                     <td><a href="#" class="profile-link" data-user-id="<?= $user['id'] ?>" style="color:#e8c547; text-decoration:underline; font-weight:500;"><?= esc($user['name']) ?></a></td>
                     <td>
                         <?= esc($user['membership_level']) ?>
-                        <span class="membership-badge membership-gold" title="Gold">🥇</span>
+                        <span class="membership-badge membership-gold" title="Gold"></span>
                     </td>
                     <td><?= esc($user['honor_points'] ?? 0) ?></td>
                 </tr>
@@ -375,7 +375,7 @@
         </table>
     </div>
     <div id="board-silver" class="board-table" style="display:none;">
-        <h2 class="events-title">Leaderboard - Silver Level <span style="font-size:1.1em;">🥈</span></h2>
+        <h2 class="events-title">Leaderboard - Silver Level <span style="font-size:1.1em;"></span></h2>
         <table class="leaderboard-table" id="leaderboard-table-silver">
             <thead>
                 <tr>
@@ -405,7 +405,7 @@
                     <td><a href="#" class="profile-link" data-user-id="<?= $user['id'] ?>" style="color:#e8c547; text-decoration:underline; font-weight:500;"><?= esc($user['name']) ?></a></td>
                     <td>
                         <?= esc($user['membership_level']) ?>
-                        <span class="membership-badge membership-silver" title="Silver">🥈</span>
+                        <span class="membership-badge membership-silver" title="Silver"></span>
                     </td>
                     <td><?= esc($user['honor_points'] ?? 0) ?></td>
                 </tr>
@@ -414,7 +414,7 @@
         </table>
     </div>
     <div id="board-bronze" class="board-table" style="display:none;">
-        <h2 class="events-title">Leaderboard - Bronze Level <span style="font-size:1.1em;">🥉</span></h2>
+        <h2 class="events-title">Leaderboard - Bronze Level <span style="font-size:1.1em;"></span></h2>
         <table class="leaderboard-table" id="leaderboard-table-bronze">
             <thead>
                 <tr>
@@ -444,7 +444,7 @@
                     <td><a href="#" class="profile-link" data-user-id="<?= $user['id'] ?>" style="color:#e8c547; text-decoration:underline; font-weight:500;"><?= esc($user['name']) ?></a></td>
                     <td>
                         <?= esc($user['membership_level']) ?>
-                        <span class="membership-badge membership-bronze" title="Bronze">🥉</span>
+                        <span class="membership-badge membership-bronze" title="Bronze"></span>
                     </td>
                     <td><?= esc($user['honor_points'] ?? 0) ?></td>
                 </tr>

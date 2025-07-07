@@ -116,6 +116,28 @@
         .btn-edit { background: #ffc107; color: #23272f; }
         .btn-delete { background: #dc3545; color: white; }
         .btn:hover { opacity: 0.8; }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-processing { background: #d1ecf1; color: #0c5460; }
+        .status-shipped { background: #d4edda; color: #155724; }
+        .status-delivered { background: #c3e6cb; color: #155724; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+        .payment-method {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        .payment-cod { background: #e8c547; color: #23272f; }
+        .payment-cash { background: #28a745; color: white; }
+        .payment-bank { background: #17a2b8; color: white; }
+        .payment-card { background: #6f42c1; color: white; }
         .add-order-btn {
             background: #e8c547;
             color: #23272f;
@@ -210,6 +232,8 @@
                         <th>Customer</th>
                         <th>Items</th>
                         <th>Total</th>
+                        <th>Payment Method</th>
+                        <th>Status</th>
                         <th>Date</th>
                         <th>Actions</th>
                     </tr>
@@ -237,6 +261,27 @@
                                 <?php endif; ?>
                             </td>
                             <td><strong>RM<?= number_format($order['total'], 2) ?></strong></td>
+                            <td>
+                                <?php 
+                                $paymentMethod = $order['payment_method'] ?? 'cash';
+                                $paymentClass = 'payment-' . $paymentMethod;
+                                $paymentLabel = ucfirst($paymentMethod);
+                                if ($paymentMethod === 'cod') $paymentLabel = 'COD';
+                                ?>
+                                <span class="payment-method <?= $paymentClass ?>"><?= $paymentLabel ?></span>
+                            </td>
+                            <td>
+                                <form method="POST" action="<?= base_url('admin/orders/update-status/' . $order['id']) ?>" style="display: inline;">
+                                    <?= csrf_field() ?>
+                                    <select name="status" onchange="this.form.submit()" style="padding: 4px 8px; border-radius: 4px; border: 1px solid #ddd; font-size: 0.8em;">
+                                        <option value="pending" <?= ($order['status'] ?? 'pending') === 'pending' ? 'selected' : '' ?>>Pending</option>
+                                        <option value="processing" <?= ($order['status'] ?? 'pending') === 'processing' ? 'selected' : '' ?>>Processing</option>
+                                        <option value="shipped" <?= ($order['status'] ?? 'pending') === 'shipped' ? 'selected' : '' ?>>Shipped</option>
+                                        <option value="delivered" <?= ($order['status'] ?? 'pending') === 'delivered' ? 'selected' : '' ?>>Delivered</option>
+                                        <option value="cancelled" <?= ($order['status'] ?? 'pending') === 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
+                                    </select>
+                                </form>
+                            </td>
                             <td><?= date('M j, Y', strtotime($order['created_at'])) ?></td>
                             <td>
                                 <div class="action-buttons">

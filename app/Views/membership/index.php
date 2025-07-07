@@ -127,7 +127,7 @@
                                 Downgrade
                             </button>
                         <?php else: ?>
-                            <form method="post" action="<?= base_url('membership/upgrade') ?>">
+                            <form method="post" action="<?= base_url('membership/payment-upload') ?>">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="level" value="Silver">
                                 <button type="submit" class="upgrade-btn">
@@ -163,7 +163,7 @@
                                 Current Plan
                             </button>
                         <?php else: ?>
-                            <form method="post" action="<?= base_url('membership/upgrade') ?>">
+                            <form method="post" action="<?= base_url('membership/payment-upload') ?>">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="level" value="Gold">
                                 <button type="submit" class="upgrade-btn">

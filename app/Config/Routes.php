@@ -32,6 +32,7 @@ $routes->get('merchandise', 'MerchandiseController::index');
 $routes->post('merchandise/addToCart/(:num)', 'MerchandiseController::addToCart/$1');
 $routes->get('merchandise/cart', 'MerchandiseController::cart');
 $routes->post('merchandise/removeFromCart/(:num)', 'MerchandiseController::removeFromCart/$1');
+$routes->get('merchandise/checkout', 'MerchandiseController::checkout');
 $routes->post('merchandise/checkout', 'MerchandiseController::checkout');
 $routes->post('merchandise/process-payment', 'MerchandiseController::processPayment');
 $routes->get('merchandise/cash-payment', 'MerchandiseController::cashPayment');
@@ -63,6 +64,7 @@ $routes->get('admin/events/delete/(:num)', 'AdminController::deleteEvent/$1');
 $routes->get('admin/orders', 'AdminController::manageOrders');
 $routes->get('admin/orders/delete/(:num)', 'AdminController::deleteOrder/$1');
 $routes->get('admin/orders/view/(:num)', 'AdminController::viewOrder/$1');
+$routes->post('admin/orders/update-status/(:num)', 'AdminController::updateOrderStatus/$1');
 
 // Leaderboard Management Routes
 $routes->get('admin/leaderboard', 'AdminController::manageLeaderboard');
@@ -84,4 +86,10 @@ $routes->post('admin/merchandise/update/(:num)', 'AdminController::updateMerchan
 $routes->get('admin/merchandise/delete/(:num)', 'AdminController::deleteMerchandise/$1');
 $routes->get('admin/merchandise/toggle-availability/(:num)', 'AdminController::toggleMerchandiseAvailability/$1');
 $routes->post('admin/merchandise/update-stock/(:num)', 'AdminController::updateMerchandiseStock/$1');
+
+$routes->post('membership/payment-upload', 'MembershipController::showPaymentUpload');
+$routes->post('membership/submitPaymentUpload', 'MembershipController::submitPaymentUpload');
+$routes->get('admin/payments', 'AdminController::managePayments');
+$routes->post('admin/payments/approve/(:num)', 'AdminController::approvePayment/$1');
+$routes->post('admin/payments/reject/(:num)', 'AdminController::rejectPayment/$1');
 

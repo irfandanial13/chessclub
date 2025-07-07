@@ -3,9 +3,17 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use App\Models\PaymentModel;
 
 class AdminController extends BaseController
 {
+    private function requireAdmin()
+    {
+        if (session()->get('membership_level') !== 'Admin') {
+            return redirect()->to('/login')->with('error', 'Admin access required.');
+        }
+    }
+
     public function dashboard()
     {
         return view('admin/dashboard', ['title' => 'Admin Dashboard']);
@@ -418,6 +426,24 @@ class AdminController extends BaseController
         ]);
     }
 
+    public function updateOrderStatus($id)
+    {
+        $orderModel = new \App\Models\OrderModel();
+        $status = $this->request->getPost('status');
+        
+        $allowedStatuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+        
+        if (!in_array($status, $allowedStatuses)) {
+            return redirect()->back()->with('error', 'Invalid status.');
+        }
+        
+        if ($orderModel->update($id, ['status' => $status])) {
+            return redirect()->back()->with('success', 'Order status updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update order status.');
+        }
+    }
+
     // Merchandise Management Methods
     public function manageMerchandise()
     {
@@ -539,5 +565,60 @@ class AdminController extends BaseController
 
         $merchandiseModel->updateStock($id, $quantity);
         return redirect()->to(base_url('admin/merchandise'))->with('success', 'Stock updated successfully');
+    }
+
+    public function managePayments()
+    {
+        if ($redirect = $this->requireAdmin()) return $redirect;
+        $paymentModel = new PaymentModel();
+        $userModel = new UserModel();
+        $sort = $this->request->getGet('sort') ?: 'id';
+        $direction = strtoupper($this->request->getGet('direction') ?: 'ASC');
+        $allowedSorts = ['id', 'user_id', 'level', 'payment_reference', 'status', 'created_at'];
+        $allowedDirections = ['ASC', 'DESC'];
+        if (!in_array($sort, $allowedSorts)) $sort = 'id';
+        if (!in_array($direction, $allowedDirections)) $direction = 'ASC';
+        $payments = $paymentModel->orderBy($sort, $direction)->findAll();
+        // Attach user name to each payment
+        foreach ($payments as &$payment) {
+            $user = $userModel->find($payment['user_id']);
+            $payment['user_name'] = $user ? $user['name'] : $payment['user_id'];
+        }
+        return view('admin/payments', [
+            'payments' => $payments,
+            'sort' => $sort,
+            'direction' => $direction
+        ]);
+    }
+
+    public function approvePayment($id)
+    {
+        if ($redirect = $this->requireAdmin()) return $redirect;
+        $paymentModel = new PaymentModel();
+        $userModel = new UserModel();
+        $payment = $paymentModel->find($id);
+        if (!$payment || $payment['status'] !== 'pending') {
+            return redirect()->back()->with('error', 'Invalid or already processed payment.');
+        }
+        // Approve payment
+        $paymentModel->update($id, ['status' => 'approved']);
+        // Upgrade user membership
+        $userModel->update($payment['user_id'], ['membership_level' => $payment['level']]);
+        // Notify user (flash message on next login)
+        // (Optional: send email here)
+        return redirect()->back()->with('success', 'Payment approved and membership upgraded.');
+    }
+
+    public function rejectPayment($id)
+    {
+        if ($redirect = $this->requireAdmin()) return $redirect;
+        $paymentModel = new PaymentModel();
+        $payment = $paymentModel->find($id);
+        if (!$payment || $payment['status'] !== 'pending') {
+            return redirect()->back()->with('error', 'Invalid or already processed payment.');
+        }
+        $paymentModel->update($id, ['status' => 'rejected']);
+        // (Optional: send email here)
+        return redirect()->back()->with('success', 'Payment rejected.');
     }
 }
