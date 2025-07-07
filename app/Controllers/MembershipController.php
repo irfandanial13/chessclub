@@ -19,8 +19,8 @@ class MembershipController extends BaseController
         }
 
         return view('membership/index', [
-            'level' => $user['membership_level'],
-            'status' => $user['status'],
+            'level' => $user['membership_level'] ?? 'Bronze',
+            'status' => $user['status'] ?? 'Active',
             'expiry_date' => '2025-12-31', // Placeholder
         ]);
     }

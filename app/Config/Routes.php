@@ -13,6 +13,8 @@ $routes->get('register', 'AuthController::register');
 $routes->post('register', 'AuthController::registerPost');
 $routes->get('logout', 'AuthController::logout');
 
+
+
 // Main Routes
 $routes->get('/', 'Home::index');
 $routes->get('dashboard', 'DashboardController::index');

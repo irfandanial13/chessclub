@@ -81,8 +81,7 @@
                     <i class="fas fa-medal"></i>
                 </div>
                 <select name="membership_level" required class="elite-input elite-select">
-                    <option value="">Choose Membership Level</option>
-                    <option value="Bronze">♔ Bronze Member</option>
+                    <option value="Bronze" selected>♔ Bronze Member</option>
                     <option value="Silver">♕ Silver Member</option>
                     <option value="Gold">♖ Gold Member</option>
                 </select>

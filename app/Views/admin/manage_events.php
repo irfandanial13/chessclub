@@ -8,12 +8,11 @@
     <style>
         .action-btn {
             display: inline-block;
-            width: 25px;
-            height: 20px;
+            width: 45px;
+            height: 40px;
             border-radius: 3px;
             text-decoration: none;
             text-align: center;
-            line-height: 32px;
             margin: 0 2px;
             transition: all 0.2s ease;
             font-size: 14px;
@@ -90,8 +89,8 @@
                     <td style="padding:12px 8px;"><?= esc($event['event_date']) ?></td>
                     <td style="padding:12px 8px;"><?= esc($event['description']) ?></td>
                     <td style="padding:12px 8px;">
-                        <a href="<?= base_url('admin/events/edit/'.$event['id']) ?>" class="action-btn edit-btn" title="Edit Event"><i class="fas fa-edit"></i></a>
-                        <a href="<?= base_url('admin/events/delete/'.$event['id']) ?>" class="action-btn delete-btn" title="Delete Event" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i></a>
+                        <a href="<?= base_url('admin/events/edit/'.$event['id']) ?>" class="action-btn edit-btn" style="padding:4px 10px;font-size:0.95em; background:#22313f; color:#fff;"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="<?= base_url('admin/events/delete/'.$event['id']) ?>" class="action-btn delete-btn" style="background:#96281B;padding:4px 10px;font-size:0.95em; color:#fff;" onclick="return confirm('Are you sure?')"><i class="fas fa-trash"></i> Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

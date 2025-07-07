@@ -31,9 +31,9 @@
                 <p class="membership-subtitle">Your exclusive chess journey</p>
             </div>
             <div class="current-status">
-                <div class="status-badge <?= strtolower($level) ?>">
+                <div class="status-badge <?= strtolower($level ?? 'bronze') ?>">
                     <i class="fas fa-medal"></i>
-                    <span><?= esc($level) ?> Member</span>
+                    <span><?= esc($level ?? 'Bronze') ?> Member</span>
                 </div>
             </div>
         </div>
@@ -44,14 +44,14 @@
                     <i class="fas fa-medal"></i>
                     <div class="info-content">
                         <label>Current Level</label>
-                        <span><?= esc($level) ?></span>
+                        <span><?= esc($level ?? 'Bronze') ?></span>
                     </div>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-check-circle"></i>
                     <div class="info-content">
                         <label>Status</label>
-                        <span class="status-<?= strtolower($status) ?>"><?= esc($status) ?></span>
+                        <span class="status-<?= strtolower($status ?? 'active') ?>"><?= esc($status ?? 'Active') ?></span>
                     </div>
                 </div>
                 <div class="info-item">
@@ -71,7 +71,7 @@
             </div>
 
             <div class="membership-cards">
-                <div class="membership-card bronze <?= strtolower($level) === 'bronze' ? 'current' : '' ?>">
+                <div class="membership-card bronze <?= strtolower($level ?? 'bronze') === 'bronze' ? 'current' : '' ?>">
                     <div class="card-header">
                         <div class="card-icon">♔</div>
                         <h3>Bronze Member</h3>
@@ -86,7 +86,7 @@
                         </ul>
                     </div>
                     <div class="card-action">
-                        <?php if (strtolower($level) === 'bronze'): ?>
+                        <?php if (strtolower($level ?? 'bronze') === 'bronze'): ?>
                             <button class="current-btn" disabled>
                                 <i class="fas fa-check-circle"></i>
                                 Current Plan
@@ -100,7 +100,7 @@
                     </div>
                 </div>
 
-                <div class="membership-card silver <?= strtolower($level) === 'silver' ? 'current' : '' ?>">
+                <div class="membership-card silver <?= strtolower($level ?? 'bronze') === 'silver' ? 'current' : '' ?>">
                     <div class="card-header">
                         <div class="card-icon">♕</div>
                         <h3>Silver Member</h3>
@@ -116,12 +116,12 @@
                         </ul>
                     </div>
                     <div class="card-action">
-                        <?php if (strtolower($level) === 'silver'): ?>
+                        <?php if (strtolower($level ?? 'bronze') === 'silver'): ?>
                             <button class="current-btn" disabled>
                                 <i class="fas fa-check-circle"></i>
                                 Current Plan
                             </button>
-                        <?php elseif (strtolower($level) === 'gold'): ?>
+                        <?php elseif (strtolower($level ?? 'bronze') === 'gold'): ?>
                             <button class="upgrade-btn" disabled>
                                 <i class="fas fa-arrow-down"></i>
                                 Downgrade
@@ -139,7 +139,7 @@
                     </div>
                 </div>
 
-                <div class="membership-card gold <?= strtolower($level) === 'gold' ? 'current' : '' ?>">
+                <div class="membership-card gold <?= strtolower($level ?? 'bronze') === 'gold' ? 'current' : '' ?>">
                     <div class="card-header">
                         <div class="card-icon">♖</div>
                         <h3>Gold Member</h3>
@@ -157,7 +157,7 @@
                         </ul>
                     </div>
                     <div class="card-action">
-                        <?php if (strtolower($level) === 'gold'): ?>
+                        <?php if (strtolower($level ?? 'bronze') === 'gold'): ?>
                             <button class="current-btn" disabled>
                                 <i class="fas fa-check-circle"></i>
                                 Current Plan

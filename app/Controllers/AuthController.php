@@ -62,7 +62,7 @@ class AuthController extends BaseController
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-            'membership_level' => $this->request->getPost('membership_level'),
+            'membership_level' => $this->request->getPost('membership_level') ?: 'Bronze',
             'status' => 'Active',
         ];
 
