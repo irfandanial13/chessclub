@@ -1,509 +1,186 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Checkout - Chess Club Merchandise</title>
+    <title>Payment Method - Chess Club Merchandise</title>
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .checkout-container {
-            max-width: 1000px;
+        .payment-container {
+            max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .checkout-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .checkout-header h1 {
-            color: #e8c547;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        
-        .checkout-header p {
-            color: #bdc3c7;
-            font-size: 1.1em;
-        }
-        
-        .checkout-content {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 30px;
         }
-        
-        .payment-section {
+
+        .payment-methods {
             background: #23272f;
-            border-radius: 15px;
+            color: #fff;
+            border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
-        
-        .section-title {
+
+        .payment-title {
             font-size: 1.5em;
             font-weight: 700;
             color: #e8c547;
             margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 2px solid #e8c547;
-            padding-bottom: 10px;
+            text-align: center;
         }
-        
+
         .payment-option {
             background: #2c3e50;
             border: 2px solid #444;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 20px;
-            position: relative;
+            gap: 15px;
         }
-        
+
         .payment-option:hover {
             border-color: #e8c547;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(232, 197, 71, 0.2);
+            transform: translateY(-2px);
         }
-        
+
         .payment-option.selected {
             border-color: #e8c547;
-            background: linear-gradient(135deg, rgba(232, 197, 71, 0.1) 0%, rgba(232, 197, 71, 0.05) 100%);
-            box-shadow: 0 8px 25px rgba(232, 197, 71, 0.3);
+            background: rgba(232, 197, 71, 0.1);
         }
-        
-        .payment-option.selected::before {
-            content: '✓';
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: #e8c547;
-            color: #23272f;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.1em;
-            box-shadow: 0 4px 15px rgba(232, 197, 71, 0.4);
-        }
-        
+
         .payment-icon {
-            font-size: 3em;
+            font-size: 2em;
             color: #e8c547;
-            width: 70px;
+            width: 50px;
             text-align: center;
         }
-        
+
         .payment-details {
             flex: 1;
         }
-        
+
         .payment-name {
-            font-size: 1.3em;
+            font-size: 1.1em;
             font-weight: 600;
-            margin-bottom: 8px;
-            color: #fff;
+            margin-bottom: 5px;
         }
-        
+
         .payment-description {
-            font-size: 1em;
+            font-size: 0.9em;
             color: #bdc3c7;
-            line-height: 1.5;
         }
-        
+
         .payment-option input[type="radio"] {
             display: none;
         }
-        
-        .customer-details {
-            background: #34495e;
-            border-radius: 12px;
-            padding: 30px;
-            margin-top: 25px;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-        
-        .customer-details.show {
-            opacity: 1;
-            transform: translateY(0);
-            border-color: #e8c547;
-            animation: slideIn 0.4s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-        
-        .form-label {
-            font-weight: 600;
-            color: #e8c547;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95em;
-        }
-        
-        .form-input {
-            padding: 15px;
-            border: 2px solid #555;
-            border-radius: 8px;
-            background: #2c3e50;
-            color: #fff;
-            font-size: 1em;
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #e8c547;
-            box-shadow: 0 0 0 3px rgba(232, 197, 71, 0.1);
-            background: #2c3e50;
-        }
-        
-        .form-input.error {
-            border-color: #e74c3c;
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
-        }
-        
-        .form-input.success {
-            border-color: #27ae60;
-            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
-        }
-        
-        .error-message {
-            color: #e74c3c;
-            font-size: 0.85em;
-            margin-top: 5px;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .success-message {
-            color: #27ae60;
-            font-size: 0.85em;
-            margin-top: 5px;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .file-upload-section {
-            background: #34495e;
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 20px;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-        
-        .file-upload-section.show {
-            opacity: 1;
-            transform: translateY(0);
-            border-color: #e8c547;
-            animation: slideIn 0.4s ease-out;
-        }
-        
-        .file-input-wrapper {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        
-        .file-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px dashed #555;
-            border-radius: 8px;
-            background: #2c3e50;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .file-input:hover {
-            border-color: #e8c547;
-            background: rgba(232, 197, 71, 0.05);
-        }
-        
-        .file-input:focus {
-            outline: none;
-            border-color: #e8c547;
-            box-shadow: 0 0 0 3px rgba(232, 197, 71, 0.1);
-        }
-        
-        .bank-details {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #e8c547;
-            margin-top: 15px;
-        }
-        
-        .bank-details h5 {
-            color: #e8c547;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1.1em;
-        }
-        
-        .bank-details p {
-            color: #bdc3c7;
-            margin-bottom: 8px;
-            font-size: 0.95em;
-        }
-        
-        .bank-details strong {
-            color: #fff;
-        }
-        
+
         .order-summary {
             background: #2c3e50;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            color: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             height: fit-content;
-            position: sticky;
-            top: 20px;
         }
-        
+
         .summary-title {
-            font-size: 1.4em;
+            font-size: 1.2em;
             font-weight: 600;
             color: #e8c547;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border-bottom: 2px solid #e8c547;
             padding-bottom: 10px;
         }
-        
+
         .order-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #444;
         }
-        
+
         .order-item:last-child {
             border-bottom: none;
         }
-        
+
         .item-details {
             flex: 1;
         }
-        
+
         .item-name {
             font-weight: 600;
-            margin-bottom: 5px;
-            color: #fff;
-            font-size: 1.05em;
+            margin-bottom: 4px;
         }
-        
-        .item-meta {
-            font-size: 0.9em;
-            color: #bdc3c7;
-        }
-        
+
         .item-price {
             color: #e8c547;
             font-weight: 600;
-            font-size: 1.1em;
         }
-        
+
         .total-section {
-            margin-top: 25px;
+            margin-top: 20px;
             padding-top: 20px;
             border-top: 2px solid #e8c547;
         }
-        
+
         .total-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 1em;
+            margin-bottom: 8px;
         }
-        
+
         .total-row.final {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: 700;
             color: #e8c547;
-            margin-top: 20px;
+            margin-top: 15px;
             padding-top: 15px;
             border-top: 1px solid #444;
         }
-        
+
         .continue-btn {
             width: 100%;
-            background: linear-gradient(135deg, #e8c547 0%, #d4b03a 100%);
+            background: #e8c547;
             color: #23272f;
             border: none;
-            border-radius: 12px;
-            padding: 20px;
-            font-size: 1.2em;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 1.1em;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            box-shadow: 0 6px 20px rgba(232, 197, 71, 0.3);
+            transition: all 0.3s;
+            margin-top: 20px;
         }
-        
+
         .continue-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(232, 197, 71, 0.4);
+            background: #d4b03a;
+            transform: translateY(-2px);
         }
-        
+
         .continue-btn:disabled {
             background: #666;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
-        
-        .loading {
-            display: none;
-        }
-        
-        .loading.show {
-            display: inline-block;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .security-badges {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #444;
-        }
-        
-        .security-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #27ae60;
-            font-size: 0.9em;
-            font-weight: 500;
-        }
-        
-        .progress-indicator {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 30px;
-            gap: 10px;
-        }
-        
-        .progress-step {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #555;
-            color: #bdc3c7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .progress-step.active {
-            background: #e8c547;
-            color: #23272f;
-            transform: scale(1.1);
-        }
-        
-        .progress-step.completed {
-            background: #27ae60;
-            color: #fff;
-        }
-        
-        .progress-line {
-            width: 60px;
-            height: 3px;
-            background: #555;
-            border-radius: 2px;
-        }
-        
-        .progress-line.active {
-            background: #e8c547;
-        }
-        
+
         @media (max-width: 768px) {
-            .checkout-content {
+            .payment-container {
                 grid-template-columns: 1fr;
                 gap: 20px;
-            }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .checkout-header h1 {
-                font-size: 2em;
-            }
-            
-            .security-badges {
-                flex-direction: column;
-                gap: 10px;
             }
         }
     </style>
 </head>
+
 <body class="elite-chess-theme">
     <?= view('partials/navbar') ?>
-    
+
     <div class="elite-background">
         <div class="wood-pattern"></div>
         <div class="elite-overlay"></div>
@@ -520,166 +197,120 @@
     </div>
 
     <div class="auth-container">
-        <div class="checkout-container">
-            <!-- Progress Indicator -->
-            <!-- <div class="progress-indicator">
-                <div class="progress-step active" id="step1">1</div>
-                <div class="progress-line" id="line1"></div>
-                <div class="progress-step" id="step2">2</div>
-                <div class="progress-line" id="line2"></div>
-                <div class="progress-step" id="step3">3</div>
-            </div> -->
-            
-            <!-- Checkout Header -->
-            <div class="checkout-header">
-                <h1><i class="fas fa-shopping-cart"></i> Complete Your Order</h1>
-                <p>Review your items and provide payment details</p>
-            </div>
-            
-            <div class="checkout-content">
-                <!-- Payment Section -->
-                <div class="payment-section">
-                    <h3 class="section-title">
-                        <i class="fas fa-credit-card"></i>
-                        Payment Method
-                    </h3>
-                    
-                    <form id="paymentForm" method="post" action="<?= base_url('merchandise/complete-order') ?>" enctype="multipart/form-data">
-                        <?= csrf_field() ?>
-                        
-                        <!-- Payment Options -->
-                        <div class="payment-option" onclick="selectPayment('bank')">
-                            <input type="radio" name="paymentMethod" value="bank" id="bank">
-                            <div class="payment-icon">🏦</div>
-                            <div class="payment-details">
-                                <div class="payment-name">Bank Transfer</div>
-                                <div class="payment-description">
-                                    Transfer money directly to our bank account. Upload your transfer slip for verification.
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Customer Details Section -->
-                        <div id="customerDetails" class="customer-details">
-                            <h4 style="color: #e8c547; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                                <i class="fas fa-user"></i> Customer Information
-                            </h4>
-                            
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">
-                                        <i class="fas fa-user"></i> Full Name *
-                                    </label>
-                                    <input type="text" name="name" class="form-input" required>
-                                    <div class="error-message" id="nameError"></div>
-                                    <div class="success-message" id="nameSuccess"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">
-                                        <i class="fas fa-envelope"></i> Email *
-                                    </label>
-                                    <input type="email" name="email" class="form-input" required>
-                                    <div class="error-message" id="emailError"></div>
-                                    <div class="success-message" id="emailSuccess"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label">
-                                        <i class="fas fa-phone"></i> Phone Number *
-                                    </label>
-                                    <input type="tel" name="phone" class="form-input" required>
-                                    <div class="error-message" id="phoneError"></div>
-                                    <div class="success-message" id="phoneSuccess"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">
-                                        <i class="fas fa-university"></i> Payment Method *
-                                    </label>
-                                    <select name="payment_method" class="form-input" required>
-                                        <option value="">Select Payment Method</option>
-                                        <option value="bank">Bank Transfer</option>
-                                    </select>
-                                    <div class="error-message" id="paymentError"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label class="form-label">
-                                    <i class="fas fa-map-marker-alt"></i> Delivery Address *
-                                </label>
-                                <textarea name="address" class="form-input" required rows="4" placeholder="Enter your complete delivery address..."></textarea>
-                                <div class="error-message" id="addressError"></div>
-                                <div class="success-message" id="addressSuccess"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- File Upload Section -->
-                        <div id="fileUploadSection" class="file-upload-section">
-                            <h4 style="color: #e8c547; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                                <i class="fas fa-upload"></i> Upload Transfer Slip
-                            </h4>
-                            
-                            <div class="file-input-wrapper">
-                                <input type="file" name="transfer_slip" class="file-input" accept="image/*,.pdf" required>
-                                <small style="color: #bdc3c7; font-size: 0.85em; margin-top: 8px; display: block;">
-                                    Accepted formats: JPG, PNG, PDF (Max 5MB)
-                                </small>
-                                <div class="error-message" id="fileError"></div>
-                            </div>
-                            
-                            <div class="bank-details">
-                                <h5><i class="fas fa-info-circle"></i> Bank Transfer Details</h5>
-                                <p><strong>Bank:</strong> Chess Club Bank</p>
-                                <p><strong>Account Number:</strong> 1234-5678-9012-3456</p>
-                                <p><strong>Account Name:</strong> Chess Club Merchandise</p>
-                                <p><strong>Reference:</strong> Use your order number as reference</p>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="continue-btn" id="continueBtn" disabled>
-                            <i class="fas fa-university"></i>
-                            <span id="btnText">Select Payment Method</span>
-                            <i class="fas fa-spinner loading" id="loadingSpinner"></i>
-                        </button>
-                    </form>
+        <h2><i class="fas fa-credit-card"></i> Choose Payment Method</h2>
+
+        <div class="payment-container">
+            <!-- Payment Methods -->
+            <div class="payment-methods">
+                <h3 class="payment-title">Select Your Payment Method</h3>
+                <div class="payment-option" onclick="selectPayment('bank')">
+                    <input type="radio" name="paymentMethod" value="bank" id="bank">
+                    <div class="payment-icon">🏦</div>
+                    <div class="payment-details">
+                        <div class="payment-name">Bank Transfer</div>
+                        <div class="payment-description">Transfer money to our bank account</div>
+                    </div>
                 </div>
-                
-                <!-- Order Summary -->
-                <div class="order-summary">
-                    <h3 class="summary-title">
-                        <i class="fas fa-shopping-cart"></i> Order Summary
-                    </h3>
-                    
-                    <div id="orderItems">
-                        <!-- Order items will be populated by JavaScript -->
+
+                <!-- File Upload Section - Always visible now -->
+                <div id="fileUploadSection" style="margin-top: 20px; padding: 20px; background: #34495e; border-radius: 10px;">
+                    <h4 style="color: #e8c547; margin-bottom: 15px;"><i class="fas fa-upload"></i> Upload Transfer Slip</h4>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; color: #bdc3c7;">Transfer Slip/Receipt *</label>
+                        <input type="file" name="transfer_slip" id="transferSlipInput" accept="image/*,.pdf" required
+                            style="width: 100%; padding: 10px; border: 1px solid #555; border-radius: 5px; background: #2c3e50; color: #fff;">
+                        <div id="fileInfo" style="margin-top: 10px; color: #e8c547; font-size: 0.95em;"></div>
+                        <div id="filePreview" style="margin-top: 10px;"></div>
+                        <div id="fileError" style="color: #e74c3c; font-size: 0.95em; margin-top: 5px; display: none;"></div>
+                        <button type="button" id="clearFileBtn" style="display:none; margin-top:10px; background:#e74c3c; color:#fff; border:none; border-radius:5px; padding:5px 12px; cursor:pointer;">Clear File</button>
+                        <small style="color: #bdc3c7; font-size: 0.85em;">Accepted formats: JPG, PNG, PDF (Max 5MB)</small>
                     </div>
-                    
-                    <div class="total-section">
-                        <div class="total-row">
-                            <span>Subtotal:</span>
-                            <span>RM<span id="subtotal">0.00</span></span>
-                        </div>
-                        <div class="total-row">
-                            <span>Delivery:</span>
-                            <span>RM<span id="delivery">0.00</span></span>
-                        </div>
-                        <div class="total-row final">
-                            <span>Total:</span>
-                            <span>RM<span id="finalTotal">0.00</span></span>
+                    <div style="background: #2c3e50; padding: 15px; border-radius: 8px; border-left: 4px solid #e8c547;">
+                        <h5 style="color: #e8c547; margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Bank Details</h5>
+                        <div style="color: #bdc3c7; font-size: 0.9em;">
+                            <p><strong>Bank:</strong> Chess Club Bank</p>
+                            <p><strong>Account Number:</strong> 1234-5678-9012-3456</p>
+                            <p><strong>Account Name:</strong> Chess Club Merchandise</p>
+                            <p><strong>Reference:</strong> Use your order number as reference</p>
                         </div>
                     </div>
-                    
-                    <div class="security-badges">
-                        <div class="security-badge">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Secure Payment</span>
+                </div>
+                <br />
+                <form id="paymentForm" method="post" action="<?= base_url('merchandise/complete-order') ?>"
+                    enctype="multipart/form-data">
+                    <?= csrf_field() ?>
+
+                    <!-- Customer Details Section - Hidden initially -->
+                    <div id="customerDetails" class="customer-details"
+                        style="margin-bottom: 30px; padding: 20px; background: #34495e; border-radius: 10px; display: none;">
+                        <h4 style="color: #e8c547; margin-bottom: 15px;"><i class="fas fa-user"></i> Customer Details
+                        </h4>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: #bdc3c7;">Full Name *</label>
+                                <input type="text" name="name" required
+                                    style="width: 100%; padding: 10px; border: 1px solid #555; border-radius: 5px; background: #2c3e50; color: #fff;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: #bdc3c7;">Email *</label>
+                                <input type="email" name="email" required
+                                    style="width: 100%; padding: 10px; border: 1px solid #555; border-radius: 5px; background: #2c3e50; color: #fff;">
+                            </div>
                         </div>
-                        <div class="security-badge">
-                            <i class="fas fa-lock"></i>
-                            <span>SSL Encrypted</span>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: #bdc3c7;">Phone Number
+                                    *</label>
+                                <input type="tel" name="phone" required
+                                    style="width: 100%; padding: 10px; border: 1px solid #555; border-radius: 5px; background: #2c3e50; color: #fff;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: #bdc3c7;">Payment Method
+                                    *</label>
+                                <input type="text" name="payment_method_display" value="Bank Transfer" readonly
+                                    style="width: 100%; padding: 10px; border: 1px solid #555; border-radius: 5px; background: #2c3e50; color: #fff;">
+                                <input type="hidden" name="payment_method" value="bank">
+                            </div>
                         </div>
+
+                        <div>
+                            <label style="display: block; margin-bottom: 5px; color: #bdc3c7;">Delivery Address
+                                *</label>
+                            <textarea name="address" required rows="3"
+                                style="width: 100%; padding: 10px; border: 1px solid #555; border-radius: 5px; background: #2c3e50; color: #fff; resize: vertical;"></textarea>
+                        </div>
+                    </div>
+
+
+
+                    <button type="submit" class="continue-btn" id="continueBtn" disabled>
+                        <i class="fas fa-check"></i> Complete Order
+                    </button>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h3 class="summary-title"><i class="fas fa-shopping-cart"></i> Order Summary</h3>
+
+                <div id="orderItems">
+                    <!-- Order items will be populated by JavaScript -->
+                </div>
+
+                <div class="total-section">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span>RM<span id="subtotal">0.00</span></span>
+                    </div>
+                    <div class="total-row">
+                        <span>Delivery:</span>
+                        <span>RM<span id="delivery">0.00</span></span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Total:</span>
+                        <span>RM<span id="finalTotal">0.00</span></span>
                     </div>
                 </div>
             </div>
@@ -696,106 +327,23 @@
         let delivery = 0.00; // No delivery fee for now
         let finalTotal = subtotal + delivery;
 
-        // Form validation
-        const form = document.getElementById('paymentForm');
-        const inputs = form.querySelectorAll('input, select, textarea');
-        
-        // Real-time validation
-        inputs.forEach(input => {
-            input.addEventListener('blur', validateField);
-            input.addEventListener('input', clearError);
-        });
-
-        function validateField(e) {
-            const field = e.target;
-            const value = field.value.trim();
-            const fieldName = field.name;
-            const errorElement = document.getElementById(fieldName + 'Error');
-            const successElement = document.getElementById(fieldName + 'Success');
-            
-            let isValid = true;
-            let errorMessage = '';
-            
-            switch(fieldName) {
-                case 'name':
-                    if (value.length < 2) {
-                        isValid = false;
-                        errorMessage = 'Name must be at least 2 characters long';
-                    }
-                    break;
-                case 'email':
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailRegex.test(value)) {
-                        isValid = false;
-                        errorMessage = 'Please enter a valid email address';
-                    }
-                    break;
-                case 'phone':
-                    const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/;
-                    if (!phoneRegex.test(value)) {
-                        isValid = false;
-                        errorMessage = 'Please enter a valid phone number';
-                    }
-                    break;
-                case 'address':
-                    if (value.length < 10) {
-                        isValid = false;
-                        errorMessage = 'Address must be at least 10 characters long';
-                    }
-                    break;
-                case 'payment_method':
-                    if (!value) {
-                        isValid = false;
-                        errorMessage = 'Please select a payment method';
-                    }
-                    break;
-            }
-            
-            if (!isValid) {
-                field.classList.add('error');
-                field.classList.remove('success');
-                errorElement.textContent = errorMessage;
-                errorElement.style.display = 'block';
-                if (successElement) successElement.style.display = 'none';
-            } else {
-                field.classList.remove('error');
-                field.classList.add('success');
-                errorElement.style.display = 'none';
-                if (successElement) {
-                    successElement.textContent = '✓ Valid';
-                    successElement.style.display = 'block';
-                }
-            }
-            
-            return isValid;
-        }
-
-        function clearError(e) {
-            const field = e.target;
-            const errorElement = document.getElementById(field.name + 'Error');
-            const successElement = document.getElementById(field.name + 'Success');
-            field.classList.remove('error');
-            errorElement.style.display = 'none';
-            if (successElement) successElement.style.display = 'none';
-        }
-
         // Populate order summary
         function populateOrderSummary() {
             const orderItemsContainer = document.getElementById('orderItems');
             orderItemsContainer.innerHTML = '';
-            
+
             if (orderItems.length === 0) {
                 orderItemsContainer.innerHTML = '<div style="text-align: center; color: #bdc3c7; padding: 20px;">No items in cart</div>';
                 return;
             }
-            
+
             orderItems.forEach(item => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'order-item';
                 itemDiv.innerHTML = `
                     <div class="item-details">
                         <div class="item-name">${item.name}</div>
-                        <div class="item-meta">Qty: ${item.quantity} × RM${item.price.toFixed(2)}</div>
+                        <div>Qty: ${item.quantity}</div>
                     </div>
                     <div class="item-price">RM${(item.price * item.quantity).toFixed(2)}</div>
                 `;
@@ -813,126 +361,133 @@
             document.querySelectorAll('.payment-option').forEach(el => {
                 el.classList.remove('selected');
             });
-            
+
             // Add selected class to clicked option
             event.currentTarget.classList.add('selected');
-            
+
             // Check the radio button
             document.getElementById(method).checked = true;
-            
+
             // Show customer details section
             const customerDetails = document.getElementById('customerDetails');
-            customerDetails.classList.add('show');
-            
+            customerDetails.style.display = 'block';
+
             // Set the payment method in the dropdown
             const paymentMethodSelect = customerDetails.querySelector('select[name="payment_method"]');
             paymentMethodSelect.value = method;
-            
+
             // Enable continue button
             document.getElementById('continueBtn').disabled = false;
-            
-            // Update progress
-            updateProgress(2);
-            
-            // Change button text
-            const btnText = document.getElementById('btnText');
+
+            // Change button text based on payment method
+            const continueBtn = document.getElementById('continueBtn');
             if (method === 'bank') {
-                btnText.textContent = 'Complete Order';
-            }
-            
-            // Show file upload section for bank transfer
-            const fileUploadSection = document.getElementById('fileUploadSection');
-            if (method === 'bank') {
-                fileUploadSection.classList.add('show');
-            } else {
-                fileUploadSection.classList.remove('show');
+                continueBtn.innerHTML = '<i class="fas fa-university"></i> Complete Order';
             }
         }
 
-        // Update progress indicator
-        function updateProgress(step) {
-            // Update step indicators
-            for (let i = 1; i <= 3; i++) {
-                const stepElement = document.getElementById('step' + i);
-                const lineElement = document.getElementById('line' + (i - 1));
-                
-                if (i < step) {
-                    stepElement.classList.add('completed');
-                    stepElement.classList.remove('active');
-                    if (lineElement) lineElement.classList.add('active');
-                } else if (i === step) {
-                    stepElement.classList.add('active');
-                    stepElement.classList.remove('completed');
-                    if (lineElement) lineElement.classList.add('active');
-                } else {
-                    stepElement.classList.remove('active', 'completed');
-                    if (lineElement) lineElement.classList.remove('active');
-                }
-            }
-        }
-
-        // Form submission
-        form.addEventListener('submit', function(e) {
+        // Form validation
+        document.getElementById('paymentForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            
-            // Validate all fields
-            let isValid = true;
-            inputs.forEach(input => {
-                if (!validateField({ target: input })) {
-                    isValid = false;
-                }
-            });
-            
-            // Check if file is uploaded for bank transfer
+
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-            if (paymentMethod && paymentMethod.value === 'bank') {
-                const fileInput = document.querySelector('input[name="transfer_slip"]');
-                if (!fileInput.files[0]) {
-                    const fileError = document.getElementById('fileError');
-                    fileError.textContent = 'Please upload your transfer slip/receipt.';
-                    fileError.style.display = 'block';
-                    isValid = false;
-                } else {
-                    // Check file size (5MB limit)
-                    const fileSize = fileInput.files[0].size / 1024 / 1024; // Convert to MB
-                    if (fileSize > 5) {
-                        const fileError = document.getElementById('fileError');
-                        fileError.textContent = 'File size must be less than 5MB.';
-                        fileError.style.display = 'block';
-                        isValid = false;
-                    }
-                }
-            }
-            
-            if (!isValid) {
-                alert('Please correct the errors before submitting.');
+
+            if (!paymentMethod) {
+                alert('Please select a payment method.');
                 return;
             }
-            
-            // Show confirmation dialog
+
+            // Check if file is uploaded for bank transfer
+            if (paymentMethod.value === 'bank') {
+                const fileInput = document.getElementById('transferSlipInput');
+                if (!fileInput.files[0]) {
+                    alert('Please upload your transfer slip/receipt.');
+                    return;
+                }
+
+                // Check file size (5MB limit)
+                const fileSize = fileInput.files[0].size / 1024 / 1024; // Convert to MB
+                if (fileSize > 5) {
+                    alert('File size must be less than 5MB.');
+                    return;
+                }
+            }
+
+            // Show success message before submitting
             if (confirm('Are you sure you want to complete this order?')) {
                 // Show loading state
                 const btn = document.getElementById('continueBtn');
-                const spinner = document.getElementById('loadingSpinner');
-                const btnText = document.getElementById('btnText');
-                
+                const originalText = btn.innerHTML;
                 btn.disabled = true;
-                spinner.classList.add('show');
-                btnText.textContent = 'Processing...';
-                
-                // Update progress
-                updateProgress(3);
-                
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
                 // Submit form after a short delay to show processing
                 setTimeout(() => {
-                    form.submit();
-                }, 1500);
+                    document.getElementById('paymentForm').submit();
+                }, 1000);
             }
         });
 
+        // --- File Upload Improvements ---
+        const transferSlipInput = document.getElementById('transferSlipInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const filePreview = document.getElementById('filePreview');
+        const fileError = document.getElementById('fileError');
+        const clearFileBtn = document.getElementById('clearFileBtn');
+        const continueBtn = document.getElementById('continueBtn');
+
+        function resetFileUI() {
+            fileInfo.textContent = '';
+            filePreview.innerHTML = '';
+            fileError.style.display = 'none';
+            clearFileBtn.style.display = 'none';
+            continueBtn.disabled = false;
+        }
+
+        if (transferSlipInput) {
+            transferSlipInput.addEventListener('change', function () {
+                resetFileUI();
+                const file = this.files[0];
+                if (!file) return;
+                // Validate type
+                const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+                if (!validTypes.includes(file.type)) {
+                    fileError.textContent = 'Invalid file type. Only JPG, PNG, or PDF allowed.';
+                    fileError.style.display = 'block';
+                    continueBtn.disabled = true;
+                    return;
+                }
+                // Validate size
+                if (file.size > 5 * 1024 * 1024) {
+                    fileError.textContent = 'File size must be less than 5MB.';
+                    fileError.style.display = 'block';
+                    continueBtn.disabled = true;
+                    return;
+                }
+                // Show file name
+                fileInfo.textContent = 'Selected: ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+                // Show preview if image
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        filePreview.innerHTML = '<img src="' + e.target.result + '" alt="Preview" style="max-width:120px; max-height:120px; border-radius:8px; border:1px solid #e8c547; margin-top:5px;">';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    filePreview.innerHTML = '<i class="fas fa-file-pdf" style="font-size:2em; color:#e8c547;"></i> PDF file selected.';
+                }
+                clearFileBtn.style.display = 'inline-block';
+                continueBtn.disabled = false;
+            });
+            clearFileBtn.addEventListener('click', function () {
+                transferSlipInput.value = '';
+                resetFileUI();
+            });
+        }
+
         // Initialize
         populateOrderSummary();
-        updateProgress(1);
     </script>
 </body>
+
 </html>
