@@ -6,119 +6,90 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// Disable auto-routing for security
-$routes->setAutoRoute(false);
+// Auth Routes
+$routes->get('login', 'AuthController::login');
+$routes->post('login', 'AuthController::loginPost');
+$routes->get('register', 'AuthController::register');
+$routes->post('register', 'AuthController::registerPost');
+$routes->get('logout', 'AuthController::logout');
 
-// Home page
+
+
+// Main Routes
 $routes->get('/', 'Home::index');
+$routes->get('dashboard', 'DashboardController::index');
+$routes->get('membership', 'MembershipController::index');
+$routes->post('membership/upgrade', 'MembershipController::upgrade');
+$routes->get('events', 'EventController::index');
+$routes->get('events/join/(:num)', 'EventController::join/$1');
+$routes->get('events/confirm-join/(:num)', 'EventController::confirmJoin/$1');
+$routes->get('my-events', 'EventController::myEvents');
+$routes->get('leaderboard', 'LeaderboardController::index');
+$routes->get('book', 'EventController::book');
+$routes->get('events/register/(:num)', 'EventController::register/$1');
+$routes->post('events/register/(:num)', 'EventController::registerPost/$1');
+$routes->get('merchandise', 'MerchandiseController::index');
+$routes->post('merchandise/addToCart/(:num)', 'MerchandiseController::addToCart/$1');
+$routes->get('merchandise/cart', 'MerchandiseController::cart');
+$routes->post('merchandise/removeFromCart/(:num)', 'MerchandiseController::removeFromCart/$1');
+$routes->get('merchandise/checkout', 'MerchandiseController::checkout');
+$routes->post('merchandise/checkout', 'MerchandiseController::checkout');
+$routes->post('merchandise/process-payment', 'MerchandiseController::processPayment');
+$routes->get('merchandise/cash-payment', 'MerchandiseController::cashPayment');
+$routes->get('merchandise/bank-payment', 'MerchandiseController::bankPayment');
+$routes->get('merchandise/card-payment', 'MerchandiseController::cardPayment');
+$routes->post('merchandise/complete-order', 'MerchandiseController::completeOrder');
+$routes->get('merchandise/thank-you/(:num)', 'MerchandiseController::thankYou/$1');
 
-// Authentication routes (clean URLs)
-$routes->get('login', 'Auth::login');
-$routes->post('login', 'Auth::loginPost');
-$routes->get('register', 'Auth::register');
-$routes->post('register', 'Auth::registerPost');
-$routes->get('logout', 'Auth::logout');
+// Contact Routes
+$routes->get('contact', 'ContactController::index');
+$routes->post('contact/send', 'ContactController::sendMessage');
 
-// Dashboard routes
-$routes->get('dashboard', 'Dashboard::index');
-$routes->get('member/dashboard', 'Member::dashboard');
+// Admin Routes
+$routes->get('admin/dashboard', 'AdminController::dashboard');
+$routes->get('admin/users', 'AdminController::manageUsers');
+$routes->get('admin/users/edit/(:num)', 'AdminController::editUser/$1');
+$routes->post('admin/users/update/(:num)', 'AdminController::updateUser/$1');
+$routes->get('admin/users/delete/(:num)', 'AdminController::deleteUser/$1');
+$routes->get('admin/users/create', 'AdminController::createUser');
+$routes->post('admin/users/store', 'AdminController::storeUser');
+$routes->get('admin/event', 'AdminController::manageEvents');
+$routes->get('admin/events/create', 'AdminController::createEvent');
+$routes->post('admin/events/store', 'AdminController::storeEvent');
+$routes->get('admin/events/edit/(:num)', 'AdminController::editEvent/$1');
+$routes->post('admin/events/update/(:num)', 'AdminController::updateEvent/$1');
+$routes->get('admin/events/delete/(:num)', 'AdminController::deleteEvent/$1');
 
-// Admin routes (clean URLs)
-$routes->group('admin', ['filter' => 'auth'], function($routes) {
-    $routes->get('/', 'Admin::dashboard');
-    $routes->get('dashboard', 'Admin::dashboard');
-    
-    // User management
-    $routes->get('users', 'Admin::manageUsers');
-    $routes->get('users/create', 'Admin::createUser');
-    $routes->post('users/store', 'Admin::storeUser');
-    $routes->get('users/edit/(:num)', 'Admin::editUser/$1');
-    $routes->post('users/update/(:num)', 'Admin::updateUser/$1');
-    $routes->get('users/delete/(:num)', 'Admin::deleteUser/$1');
-    
-    // Event management
-    $routes->get('events', 'Admin::manageEvents');
-    $routes->get('events/create', 'Admin::createEvent');
-    $routes->post('events/store', 'Admin::storeEvent');
-    $routes->get('events/edit/(:num)', 'Admin::editEvent/$1');
-    $routes->post('events/update/(:num)', 'Admin::updateEvent/$1');
-    $routes->get('events/delete/(:num)', 'Admin::deleteEvent/$1');
-    
-    // Merchandise management
-    $routes->get('merchandise', 'Admin::manageMerchandise');
-    $routes->get('merchandise/create', 'Admin::createMerchandise');
-    $routes->post('merchandise/store', 'Admin::storeMerchandise');
-    $routes->get('merchandise/edit/(:num)', 'Admin::editMerchandise/$1');
-    $routes->post('merchandise/update/(:num)', 'Admin::updateMerchandise/$1');
-    $routes->get('merchandise/delete/(:num)', 'Admin::deleteMerchandise/$1');
-    
-    // Leaderboard management
-    $routes->get('leaderboard', 'Admin::manageLeaderboard');
-    $routes->post('leaderboard/update/(:num)', 'Admin::updateUserPoints/$1');
-    $routes->post('leaderboard/bulk-update', 'Admin::bulkUpdatePoints');
-    $routes->get('leaderboard/reset', 'Admin::resetLeaderboard');
-    $routes->get('leaderboard/export', 'Admin::exportLeaderboard');
-    $routes->get('leaderboard/analytics', 'Admin::leaderboardAnalytics');
-    
-    // Order management
-    $routes->get('orders', 'Admin::manageOrders');
-    $routes->get('orders/view/(:num)', 'Admin::viewOrder/$1');
-    $routes->post('orders/update-status/(:num)', 'Admin::updateOrderStatus/$1');
-    $routes->get('orders/delete/(:num)', 'Admin::deleteOrder/$1');
-    
-    // Payment management
-    $routes->get('payments', 'Admin::managePayments');
-    $routes->get('payments/approve/(:num)', 'Admin::approvePayment/$1');
-    $routes->get('payments/reject/(:num)', 'Admin::rejectPayment/$1');
-});
+// Order Management Routes
+$routes->get('admin/orders', 'AdminController::manageOrders');
+$routes->get('admin/orders/delete/(:num)', 'AdminController::deleteOrder/$1');
+$routes->get('admin/orders/view/(:num)', 'AdminController::viewOrder/$1');
+$routes->post('admin/orders/update-status/(:num)', 'AdminController::updateOrderStatus/$1');
 
-// Public routes (clean URLs)
-$routes->get('events', 'Events::index');
-$routes->get('events/my-events', 'Events::myEvents');
-$routes->get('events/join/(:num)', 'Events::joinEvent/$1');
-$routes->get('events/confirm-join/(:num)', 'Events::confirmJoin/$1');
+// Leaderboard Management Routes
+$routes->get('admin/leaderboard', 'AdminController::manageLeaderboard');
+$routes->post('admin/leaderboard/update-points/(:num)', 'AdminController::updateUserPoints/$1');
+$routes->post('admin/leaderboard/bulk-update-points', 'AdminController::bulkUpdatePoints');
+$routes->get('admin/leaderboard/reset', 'AdminController::resetLeaderboard');
+$routes->get('admin/leaderboard/export', 'AdminController::exportLeaderboard');
+$routes->get('admin/leaderboard/analytics', 'AdminController::leaderboardAnalytics');
 
-$routes->get('merchandise', 'Merchandise::index');
-$routes->get('merchandise/cart', 'Merchandise::cart');
-$routes->get('merchandise/checkout', 'Merchandise::checkout');
-$routes->get('merchandise/bank-payment', 'Merchandise::bankPayment');
-$routes->get('merchandise/card-payment', 'Merchandise::cardPayment');
+$routes->get('leaderboard/profileModal/(:num)', 'LeaderboardController::profileModal/$1');
+$routes->get('leaderboard/ajaxLeaderboard', 'LeaderboardController::ajaxLeaderboard');
 
-$routes->get('leaderboard', 'Leaderboard::index');
+// Merchandise Routes
+$routes->get('admin/merchandise', 'AdminController::manageMerchandise');
+$routes->get('admin/merchandise/create', 'AdminController::createMerchandise');
+$routes->post('admin/merchandise/store', 'AdminController::storeMerchandise');
+$routes->get('admin/merchandise/edit/(:num)', 'AdminController::editMerchandise/$1');
+$routes->post('admin/merchandise/update/(:num)', 'AdminController::updateMerchandise/$1');
+$routes->get('admin/merchandise/delete/(:num)', 'AdminController::deleteMerchandise/$1');
+$routes->get('admin/merchandise/toggle-availability/(:num)', 'AdminController::toggleMerchandiseAvailability/$1');
+$routes->post('admin/merchandise/update-stock/(:num)', 'AdminController::updateMerchandiseStock/$1');
 
-$routes->get('contact', 'Contact::index');
-$routes->post('contact/send', 'Contact::send');
-
-$routes->get('about', 'Pages::about');
-$routes->get('policy', 'Pages::policy');
-
-// Membership routes
-$routes->get('membership', 'Membership::index');
-$routes->get('membership/payment-upload', 'Membership::paymentUpload');
-$routes->post('membership/upload-payment', 'Membership::uploadPayment');
-
-// Error pages
-$routes->get('errors/404', 'Errors::error404');
-$routes->get('errors/403', 'Errors::error403');
-$routes->get('errors/500', 'Errors::error500');
-
-// API routes (if needed)
-$routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
-    $routes->get('events', 'Events::list');
-    $routes->get('leaderboard', 'Leaderboard::list');
-    $routes->get('merchandise', 'Merchandise::list');
-});
-
-// Catch-all route for 404
-$routes->set404Override('App\Controllers\Errors::error404');
-
-// Prevent access to sensitive files
-$routes->addRedirect('app/(:any)', 'errors/403');
-$routes->addRedirect('system/(:any)', 'errors/403');
-$routes->addRedirect('writable/(:any)', 'errors/403');
-$routes->addRedirect('vendor/(:any)', 'errors/403');
-$routes->addRedirect('tests/(:any)', 'errors/403');
-$routes->addRedirect('.env', 'errors/403');
-$routes->addRedirect('composer.json', 'errors/403');
-$routes->addRedirect('composer.lock', 'errors/403');
+$routes->post('membership/payment-upload', 'MembershipController::showPaymentUpload');
+$routes->post('membership/submitPaymentUpload', 'MembershipController::submitPaymentUpload');
+$routes->get('admin/payments', 'AdminController::managePayments');
+$routes->post('admin/payments/approve/(:num)', 'AdminController::approvePayment/$1');
+$routes->post('admin/payments/reject/(:num)', 'AdminController::rejectPayment/$1');
 
