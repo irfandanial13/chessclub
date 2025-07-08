@@ -1,195 +1,45 @@
 <?php
 
-/**
- * AdminController - Handles Administrative Operations
- * 
- * This controller manages all administrative functions including:
- * - User management (CRUD operations)
- * - Event management
- * - Leaderboard management
- * - Order management
- * - Merchandise management
- * - Payment processing
- * 
- * @author [Your Name]
- * @version 1.0
- * @since 2024
- * @package App\Controllers
- */
-
 namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\PaymentModel;
-use App\Models\EventModel;
-use App\Models\OrderModel;
-use App\Models\MerchandiseModel;
 
-/**
- * Class AdminController
- * 
- * Provides administrative functionality for the Chess Club application.
- * Handles all admin-only operations with proper access control and validation.
- * 
- * Features:
- * - User management (create, read, update, delete)
- * - Event management and scheduling
- * - Leaderboard management and analytics
- * - Order processing and status updates
- * - Merchandise inventory management
- * - Payment approval and rejection
- * 
- * Security Measures:
- * - Admin-only access control
- * - Input validation and sanitization
- * - Secure file uploads
- * - Audit logging for sensitive operations
- * - CSRF protection (handled by CodeIgniter)
- * 
- * Access Control:
- * - All methods require admin privileges
- * - Session-based authentication
- * - Role-based authorization
- */
 class AdminController extends BaseController
 {
-    /**
-     * UserModel instance for user operations
-     * @var UserModel
-     */
-    private $userModel;
-
-    /**
-     * EventModel instance for event operations
-     * @var EventModel
-     */
-    private $eventModel;
-
-    /**
-     * OrderModel instance for order operations
-     * @var OrderModel
-     */
-    private $orderModel;
-
-    /**
-     * MerchandiseModel instance for merchandise operations
-     * @var MerchandiseModel
-     */
-    private $merchandiseModel;
-
-    /**
-     * PaymentModel instance for payment operations
-     * @var PaymentModel
-     */
-    private $paymentModel;
-
-    /**
-     * Constructor - Initialize the controller and check admin access
-     */
-    public function __construct()
-    {
-        // Initialize all required models
-        $this->userModel = new UserModel();
-        $this->eventModel = new EventModel();
-        $this->orderModel = new OrderModel();
-        $this->merchandiseModel = new MerchandiseModel();
-        $this->paymentModel = new PaymentModel();
-
-        // Check admin access for all methods
-        $this->requireAdmin();
-    }
-
-    /**
-     * Check if current user has admin privileges
-     * 
-     * This method verifies that the logged-in user has admin-level access.
-     * If not, it redirects to login page with an error message.
-     * 
-     * Security Features:
-     * - Session-based authentication check
-     * - Role-based authorization
-     * - Secure redirect handling
-     * 
-     * @return \CodeIgniter\HTTP\RedirectResponse|null Redirect if not admin, null if admin
-     */
     private function requireAdmin()
     {
-        // Check if user is logged in and has admin privileges
         if (session()->get('membership_level') !== 'Admin') {
-            // Log unauthorized access attempt
-            log_message('warning', 'Unauthorized admin access attempt by user: ' . session()->get('user_email'));
-            
-            return redirect()->to('/login')->with('error', 'Administrator access required. Please login with admin credentials.');
+            return redirect()->to('/login')->with('error', 'Admin access required.');
         }
     }
 
-    /**
-     * Display admin dashboard
-     * 
-     * This method renders the main admin dashboard with overview statistics
-     * and quick access to administrative functions.
-     * 
-     * @return string Admin dashboard view
-     */
     public function dashboard()
     {
-        // Get dashboard statistics
-        $stats = $this->getDashboardStats();
-        
-        return view('admin/dashboard', [
-            'title' => 'Admin Dashboard',
-            'stats' => $stats
-        ]);
+        return view('admin/dashboard', ['title' => 'Admin Dashboard']);
     }
 
-    /**
-     * Display user management interface
-     * 
-     * This method shows a list of all registered users with options to
-     * edit, delete, or manage their accounts.
-     * 
-     * Features:
-     * - Paginated user list
-     * - Search and filter capabilities
-     * - Bulk operations
-     * 
-     * @return string User management view
-     */
     public function manageUsers()
     {
-        // Get all users with pagination
-        $users = $this->userModel->findAll();
-        
+        $userModel = new UserModel();
         $data = [
             'title' => 'Manage Users',
-            'users' => $users,
-            'total_users' => count($users)
+            'users' => $userModel->findAll()
         ];
-        
         return view('admin/manage_users', $data);
     }
 
-    /**
-     * Display user edit form
-     * 
-     * This method shows a form to edit an existing user's information.
-     * It validates the user ID and ensures the user exists before proceeding.
-     * 
-     * @param int|null $id The user ID to edit
-     * @return \CodeIgniter\HTTP\RedirectResponse|string Edit form or redirect
-     */
     public function editUser($id = null)
     {
-        // Validate user ID
-        if (!$this->isValidUserId($id)) {
-            return redirect()->to(base_url('admin/users'))->with('error', 'Invalid user ID provided.');
+        if (!$id || !is_numeric($id)) {
+            return redirect()->to(base_url('admin/users'))->with('error', 'Invalid user ID');
         }
 
-        // Find user by ID
-        $user = $this->userModel->find($id);
+        $userModel = new UserModel();
+        $user = $userModel->find($id);
 
         if (!$user) {
-            return redirect()->to(base_url('admin/users'))->with('error', 'User not found in database.');
+            return redirect()->to(base_url('admin/users'))->with('error', 'User not found');
         }
 
         return view('admin/edit_user', [
@@ -198,137 +48,38 @@ class AdminController extends BaseController
         ]);
     }
 
-    /**
-     * Update user information
-     * 
-     * This method processes the user edit form submission and updates
-     * the user's information in the database.
-     * 
-     * Security Features:
-     * - Input validation
-     * - Data sanitization
-     * - Audit logging
-     * 
-     * @param int $id The user ID to update
-     * @return \CodeIgniter\HTTP\RedirectResponse Redirect with success/error message
-     */
     public function updateUser($id)
     {
-        // Validate user ID
-        if (!$this->isValidUserId($id)) {
-            return redirect()->to(base_url('admin/users'))->with('error', 'Invalid user ID provided.');
-        }
-
-        // Validate input data
-        $validation = $this->validateUserUpdateData();
-        if (!$validation['isValid']) {
-            return redirect()->back()
-                ->withInput()
-                ->with('errors', $validation['errors']);
-        }
-
-        // Prepare user data for update
-        $userData = [
+        $userModel = new UserModel();
+        $data = [
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
             'membership_level' => $this->request->getPost('membership_level'),
             'status' => $this->request->getPost('status'),
-            'updated_at' => date('Y-m-d H:i:s'),
         ];
 
-        try {
-            // Update user in database
-            $this->userModel->update($id, $userData);
-            
-            // Log the update operation
-            log_message('info', 'User updated by admin. User ID: ' . $id . ', Admin: ' . session()->get('user_email'));
-            
-            return redirect()->to(base_url('admin/users'))->with('success', 'User information updated successfully.');
-        } catch (\Exception $e) {
-            log_message('error', 'Failed to update user. User ID: ' . $id . ', Error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to update user. Please try again.');
-        }
+        $userModel->update($id, $data);
+        return redirect()->to(base_url('admin/users'))->with('success', 'User updated successfully');
     }
 
-    /**
-     * Delete a user account
-     * 
-     * This method permanently deletes a user account from the database.
-     * This is a destructive operation and should be used with caution.
-     * 
-     * Security Features:
-     * - Confirmation required (handled in view)
-     * - Audit logging
-     * - Cascade deletion of related data
-     * 
-     * @param int $id The user ID to delete
-     * @return \CodeIgniter\HTTP\RedirectResponse Redirect with success/error message
-     */
     public function deleteUser($id)
     {
-        // Validate user ID
-        if (!$this->isValidUserId($id)) {
-            return redirect()->to(base_url('admin/users'))->with('error', 'Invalid user ID provided.');
-        }
-
-        // Prevent admin from deleting themselves
-        if ($id == session()->get('user_id')) {
-            return redirect()->to(base_url('admin/users'))->with('error', 'You cannot delete your own account.');
-        }
-
-        try {
-            // Delete user from database
-            $this->userModel->delete($id);
-            
-            // Log the deletion operation
-            log_message('warning', 'User deleted by admin. User ID: ' . $id . ', Admin: ' . session()->get('user_email'));
-            
-            return redirect()->to(base_url('admin/users'))->with('success', 'User account deleted successfully.');
-        } catch (\Exception $e) {
-            log_message('error', 'Failed to delete user. User ID: ' . $id . ', Error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete user. Please try again.');
-        }
+        $userModel = new UserModel();
+        $userModel->delete($id);
+        return redirect()->to(base_url('admin/users'))->with('success', 'User deleted successfully');
     }
 
-    /**
-     * Display user creation form
-     * 
-     * This method shows a form for administrators to create new user accounts.
-     * 
-     * @return string User creation form view
-     */
     public function createUser()
     {
         return view('admin/create_user', [
-            'title' => 'Create New User'
+            'title' => 'Create User'
         ]);
     }
 
-    /**
-     * Create a new user account
-     * 
-     * This method processes the user creation form and creates a new user account.
-     * 
-     * Security Features:
-     * - Strong password requirements
-     * - Email uniqueness validation
-     * - Secure password hashing
-     * - Input validation and sanitization
-     * 
-     * @return \CodeIgniter\HTTP\RedirectResponse Redirect with success/error message
-     */
     public function storeUser()
     {
-        // Validate input data
-        $validation = $this->validateUserCreationData();
-        if (!$validation['isValid']) {
-            return redirect()->back()
-                ->withInput()
-                ->with('errors', $validation['errors']);
-        }
-
-        // Prepare user data
-        $userData = [
+        $userModel = new UserModel();
+        $data = [
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
@@ -336,76 +87,32 @@ class AdminController extends BaseController
             'status' => $this->request->getPost('status'),
             'created_at' => date('Y-m-d H:i:s'),
         ];
-
-        try {
-            // Create user in database
-            $this->userModel->insert($userData);
-            
-            // Log the creation operation
-            log_message('info', 'New user created by admin. Email: ' . $userData['email'] . ', Admin: ' . session()->get('user_email'));
-            
-            return redirect()->to(base_url('admin/users'))->with('success', 'New user account created successfully.');
-        } catch (\Exception $e) {
-            log_message('error', 'Failed to create user. Error: ' . $e->getMessage());
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Failed to create user account. Please try again.');
-        }
+        $userModel->insert($data);
+        return redirect()->to(base_url('admin/users'))->with('success', 'User created successfully');
     }
 
-    /**
-     * Display event management interface
-     * 
-     * This method shows a list of all events with options to create,
-     * edit, or delete events.
-     * 
-     * @return string Event management view
-     */
     public function manageEvents()
     {
-        $events = $this->eventModel->findAll();
-        
+        $eventModel = new \App\Models\EventModel();
         $data = [
             'title' => 'Manage Events',
-            'events' => $events,
-            'total_events' => count($events)
+            'events' => $eventModel->findAll()
         ];
-        
         return view('admin/manage_events', $data);
     }
 
-    /**
-     * Display event creation form
-     * 
-     * This method shows a form for creating new events.
-     * 
-     * @return string Event creation form view
-     */
     public function createEvent()
     {
         return view('admin/create_event', [
-            'title' => 'Create New Event'
+            'title' => 'Create Event'
         ]);
     }
 
-    /**
-     * Create a new event
-     * 
-     * This method processes the event creation form and creates a new event.
-     * 
-     * Security Features:
-     * - Input validation
-     * - Date validation (future dates only)
-     * - Content sanitization
-     * 
-     * @return \CodeIgniter\HTTP\RedirectResponse Redirect with success/error message
-     */
     public function storeEvent()
     {
-        // Get validation service
         $validation = \Config\Services::validation();
         
-        // Define validation rules for event creation
+        // Set validation rules
         $validation->setRules([
             'title' => [
                 'rules' => 'required|min_length[3]|max_length[255]',
@@ -433,79 +140,50 @@ class AdminController extends BaseController
             ]
         ]);
 
-        // Run validation
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()
                 ->withInput()
                 ->with('errors', $validation->getErrors());
         }
 
-        // Prepare event data
-        $eventData = [
+        $eventModel = new \App\Models\EventModel();
+        $data = [
             'title' => $this->request->getPost('title'),
             'event_date' => $this->request->getPost('event_date'),
             'description' => $this->request->getPost('description'),
-            'created_by' => session()->get('user_id'),
-            'created_at' => date('Y-m-d H:i:s'),
         ];
         
         try {
-            // Create event in database
-            $this->eventModel->insert($eventData);
-            
-            // Log the event creation
-            log_message('info', 'New event created by admin. Title: ' . $eventData['title'] . ', Admin: ' . session()->get('user_email'));
-            
-            return redirect()->to(base_url('admin/event'))->with('success', 'Event created successfully.');
+        $eventModel->insert($data);
+        return redirect()->to(base_url('admin/event'))->with('success', 'Event created successfully');
         } catch (\Exception $e) {
-            log_message('error', 'Failed to create event. Error: ' . $e->getMessage());
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Failed to create event. Please try again.');
         }
     }
 
-    /**
-     * Display event edit form
-     * 
-     * This method shows a form to edit an existing event.
-     * 
-     * @param int|null $event_id The event ID to edit
-     * @return \CodeIgniter\HTTP\RedirectResponse|string Edit form or redirect
-     */
     public function editEvent($event_id = null)
     {
-        // Validate event ID
-        if (!$this->isValidEventId($event_id)) {
-            return redirect()->to(base_url('admin/event'))->with('error', 'Invalid event ID provided.');
+        if (!$event_id || !is_numeric($event_id)) {
+            return redirect()->to(base_url('admin/event'))->with('error', 'Invalid event ID');
         }
-        
-        // Find event by ID
-        $event = $this->eventModel->find($event_id);
+        $eventModel = new \App\Models\EventModel();
+        $event = $eventModel->find($event_id);
         if (!$event) {
-            return redirect()->to(base_url('admin/event'))->with('error', 'Event not found in database.');
+            return redirect()->to(base_url('admin/event'))->with('error', 'Event not found');
         }
-        
         return view('admin/edit_event', [
             'title' => 'Edit Event',
             'event' => $event
         ]);
     }
 
-    /**
-     * Update an existing event
-     * 
-     * This method processes the event edit form and updates the event.
-     * 
-     * @param int $event_id The event ID to update
-     * @return \CodeIgniter\HTTP\RedirectResponse Redirect with success/error message
-     */
     public function updateEvent($event_id)
     {
-        // Get validation service
         $validation = \Config\Services::validation();
         
-        // Define validation rules for event update
+        // Set validation rules
         $validation->setRules([
             'title' => [
                 'rules' => 'required|min_length[3]|max_length[255]',
@@ -533,62 +211,34 @@ class AdminController extends BaseController
             ]
         ]);
 
-        // Run validation
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()
                 ->withInput()
                 ->with('errors', $validation->getErrors());
         }
 
-        // Prepare event data for update
-        $eventData = [
+        $eventModel = new \App\Models\EventModel();
+        $data = [
             'title' => $this->request->getPost('title'),
             'event_date' => $this->request->getPost('event_date'),
             'description' => $this->request->getPost('description'),
-            'updated_at' => date('Y-m-d H:i:s'),
         ];
-
+        
         try {
-            // Update event in database
-            $this->eventModel->update($event_id, $eventData);
-            
-            // Log the event update
-            log_message('info', 'Event updated by admin. Event ID: ' . $event_id . ', Admin: ' . session()->get('user_email'));
-            
-            return redirect()->to(base_url('admin/event'))->with('success', 'Event updated successfully.');
+        $eventModel->update($event_id, $data);
+        return redirect()->to(base_url('admin/event'))->with('success', 'Event updated successfully');
         } catch (\Exception $e) {
-            log_message('error', 'Failed to update event. Event ID: ' . $event_id . ', Error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to update event. Please try again.');
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to update event. Please try again.');
         }
     }
 
-    /**
-     * Delete an event
-     * 
-     * This method permanently deletes an event from the database.
-     * 
-     * @param int $event_id The event ID to delete
-     * @return \CodeIgniter\HTTP\RedirectResponse Redirect with success/error message
-     */
     public function deleteEvent($event_id)
     {
-        // Validate event ID
-        if (!$this->isValidEventId($event_id)) {
-            return redirect()->to(base_url('admin/event'))->with('error', 'Invalid event ID provided.');
-        }
-
-        try {
-            // Delete event from database
-            $this->eventModel->delete($event_id);
-            
-            // Log the event deletion
-            log_message('warning', 'Event deleted by admin. Event ID: ' . $event_id . ', Admin: ' . session()->get('user_email'));
-            
-            return redirect()->to(base_url('admin/event'))->with('success', 'Event deleted successfully.');
-        } catch (\Exception $e) {
-            log_message('error', 'Failed to delete event. Event ID: ' . $event_id . ', Error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete event. Please try again.');
-        }
+        $eventModel = new \App\Models\EventModel();
+        $eventModel->delete($event_id);
+        return redirect()->to(base_url('admin/event'))->with('success', 'Event updated successfully');
     }
 
     // Leaderboard Management Methods
